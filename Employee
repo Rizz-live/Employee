@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StreamFlow — Agency Work Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --bg-base: #050a14;
+  --bg-card: rgba(255,255,255,0.04);
+  --bg-card-hover: rgba(255,255,255,0.07);
+  --bg-glass: rgba(10,20,40,0.7);
+  --sidebar-bg: rgba(5,10,20,0.95);
+  --border: rgba(255,255,255,0.07);
+  --border-bright: rgba(100,180,255,0.2);
+  --accent-blue: #2d8bff;
+  --accent-cyan: #00d4ff;
+  --accent-purple: #8b5cf6;
+  --accent-violet: #a78bfa;
+  --accent-emerald: #10b981;
+  --accent-rose: #f43f5e;
+  --accent-amber: #f59e0b;
+  --accent-pink: #ec4899;
+  --text-primary: #e8f0ff;
+  --text-secondary: #7a8aaa;
+  --text-muted: #3a4a6a;
+  --sidebar-w: 240px;
+  --topbar-h: 60px;
+  --right-w: 300px;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 8px 32px rgba(0,0,100,0.3);
+  --glow-blue: 0 0 20px rgba(45,139,255,0.3);
+  --glow-purple: 0 0 20px rgba(139,92,246,0.3);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 14px; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* BACKGROUND */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 800px 600px at 20% 10%, rgba(45,100,255,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 500px at 80% 80%, rgba(139,92,246,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 300px at 60% 30%, rgba(0,212,255,0.04) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(45,139,255,0.3); border-radius: 2px; }
+
+/* LAYOUT */
+.app { display: flex; height: 100vh; overflow: hidden; position: relative; z-index: 1; }
+
+/* SIDEBAR */
+.sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  backdrop-filter: blur(20px);
+  z-index: 100;
+}
+
+.sidebar::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+}
+
+.sidebar-logo {
+  display: flex; align-items: center; gap: 10px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo-icon {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  box-shadow: var(--glow-blue);
+  flex-shrink: 0;
+}
+
+.logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px; letter-spacing: -0.3px; }
+.logo-text span { color: var(--accent-cyan); }
+
+.sidebar-user {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px;
+  margin: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sidebar-user:hover { background: var(--bg-card-hover); }
+
+.user-avatar {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0;
+}
+
+.user-info .name { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+.user-info .role { font-size: 10px; color: var(--text-secondary); }
+
+.sidebar-status {
+  width: 7px; height: 7px;
+  background: var(--accent-emerald);
+  border-radius: 50%;
+  margin-left: auto;
+  box-shadow: 0 0 6px var(--accent-emerald);
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green { 0%,100% { opacity:1; box-shadow: 0 0 6px var(--accent-emerald); } 50% { opacity:0.7; box-shadow: 0 0 12px var(--accent-emerald); } }
+
+.sidebar-nav { flex: 1; overflow-y: auto; padding: 8px 0; }
+
+.nav-section-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+  color: var(--text-muted); text-transform: uppercase;
+  padding: 8px 20px 4px;
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 16px;
+  margin: 1px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.18s;
+  color: var(--text-secondary);
+  font-size: 13px; font-weight: 500;
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-item:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+
+.nav-item.active {
+  background: rgba(45,139,255,0.12);
+  color: var(--accent-blue);
+  border: 1px solid rgba(45,139,255,0.2);
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 60%;
+  background: var(--accent-blue);
+  border-radius: 0 2px 2px 0;
+}
+
+.nav-item i { width: 16px; font-size: 13px; }
+
+.nav-badge {
+  margin-left: auto;
+  background: var(--accent-rose);
+  color: #fff;
+  font-size: 9px; font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 20px;
+  min-width: 18px;
+  text-align: center;
+}
+
+.nav-badge.blue { background: var(--accent-blue); }
+.nav-badge.amber { background: var(--accent-amber); }
+
+.sidebar-bottom {
+  border-top: 1px solid var(--border);
+  padding: 12px;
+}
+
+.quick-actions { display: flex; gap: 6px; }
+
+.quick-btn {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  gap: 5px; padding: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.18s;
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+.quick-btn:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+.quick-btn.whatsapp:hover { color: #25d366; border-color: rgba(37,211,102,0.3); }
+.quick-btn.voice:hover { color: var(--accent-purple); border-color: rgba(139,92,246,0.3); }
+
+/* MAIN AREA */
+.main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* TOPBAR */
+.topbar {
+  height: var(--topbar-h);
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 20px;
+  background: rgba(5,10,20,0.8);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+.topbar-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 17px;
+  letter-spacing: -0.3px;
+}
+.topbar-title span { color: var(--text-secondary); font-weight: 400; font-size: 13px; margin-left: 8px; font-family: 'DM Sans', sans-serif; }
+
+.topbar-search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  width: 260px;
+  transition: all 0.2s;
+  margin-left: auto;
+}
+.topbar-search:focus-within { border-color: var(--accent-blue); box-shadow: var(--glow-blue); }
+.topbar-search i { color: var(--text-muted); font-size: 12px; }
+.topbar-search input { background: none; border: none; outline: none; color: var(--text-primary); font-family: 'DM Sans', sans-serif; font-size: 13px; width: 100%; }
+.topbar-search input::placeholder { color: var(--text-muted); }
+
+.topbar-actions { display: flex; align-items: center; gap: 8px; }
+
+.topbar-btn {
+  width: 34px; height: 34px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s;
+  color: var(--text-secondary);
+  font-size: 13px;
+  position: relative;
+}
+.topbar-btn:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+
+.topbar-btn .dot {
+  position: absolute; top: 6px; right: 6px;
+  width: 6px; height: 6px;
+  background: var(--accent-rose);
+  border-radius: 50%;
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot { 0%,100% { transform: scale(1); } 50% { transform: scale(1.3); } }
+
+.add-btn {
+  display: flex; align-items: center; gap: 7px;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--glow-blue);
+}
+.add-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(45,139,255,0.4); }
+
+/* CONTENT AREA */
+.content-wrapper {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* TABS */
+.section-tabs {
+  display: flex; gap: 4px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  margin-bottom: 20px;
+  width: fit-content;
+}
+
+.tab {
+  padding: 7px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px; font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.18s;
+}
+.tab.active { background: rgba(45,139,255,0.15); color: var(--accent-blue); }
+.tab:hover:not(.active) { color: var(--text-primary); }
+
+/* DASHBOARD SECTION */
+.dashboard-section { display: block; }
+
+/* STATS GRID */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.25s;
+  animation: fadeInUp 0.5s ease backwards;
+}
+
+.stat-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-bright);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 80% 20%, var(--card-glow, rgba(45,139,255,0.05)) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.stat-card:nth-child(1) { --card-glow: rgba(45,139,255,0.08); animation-delay: 0.05s; }
+.stat-card:nth-child(2) { --card-glow: rgba(16,185,129,0.08); animation-delay: 0.1s; }
+.stat-card:nth-child(3) { --card-glow: rgba(245,158,11,0.08); animation-delay: 0.15s; }
+.stat-card:nth-child(4) { --card-glow: rgba(244,63,94,0.08); animation-delay: 0.2s; }
+.stat-card:nth-child(5) { --card-glow: rgba(139,92,246,0.08); animation-delay: 0.25s; }
+.stat-card:nth-child(6) { --card-glow: rgba(0,212,255,0.08); animation-delay: 0.3s; }
+.stat-card:nth-child(7) { --card-glow: rgba(236,72,153,0.08); animation-delay: 0.35s; }
+.stat-card:nth-child(8) { --card-glow: rgba(45,139,255,0.08); animation-delay: 0.4s; }
+
+@keyframes fadeInUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+.stat-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+
+.stat-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.stat-trend {
+  display: flex; align-items: center; gap: 3px;
+  font-size: 10px; font-weight: 600;
+  padding: 3px 7px;
+  border-radius: 20px;
+}
+.stat-trend.up { background: rgba(16,185,129,0.12); color: var(--accent-emerald); }
+.stat-trend.down { background: rgba(244,63,94,0.12); color: var(--accent-rose); }
+
+.stat-value {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px; font-weight: 800;
+  line-height: 1; margin-bottom: 4px;
+  letter-spacing: -1px;
+}
+
+.stat-label { font-size: 11px; color: var(--text-secondary); font-weight: 500; margin-bottom: 10px; }
+
+.stat-bar { height: 3px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; }
+.stat-bar-fill { height: 100%; border-radius: 2px; transition: width 1.5s cubic-bezier(0.4,0,0.2,1); }
+
+/* DASHBOARD LOWER GRID */
+.dashboard-lower {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+/* CARD BASE */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px; font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.card-action {
+  font-size: 11px; color: var(--accent-blue);
+  cursor: pointer; transition: opacity 0.2s;
+}
+.card-action:hover { opacity: 0.7; }
+
+.card-body { padding: 14px 16px; }
+
+/* CHART AREA */
+.chart-area {
+  position: relative; height: 120px;
+  display: flex; align-items: flex-end; gap: 6px;
+}
+
+.chart-bar-group { flex: 1; display: flex; gap: 2px; align-items: flex-end; }
+.chart-bar {
+  flex: 1; border-radius: 3px 3px 0 0;
+  transition: height 1s cubic-bezier(0.4,0,0.2,1);
+  cursor: pointer; position: relative;
+}
+.chart-bar:hover::after {
+  content: attr(data-val);
+  position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+  background: rgba(10,20,40,0.9);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 10px; padding: 3px 6px;
+  border-radius: 4px; white-space: nowrap;
+  margin-bottom: 4px;
+}
+
+.chart-labels { display: flex; justify-content: space-between; padding-top: 6px; }
+.chart-label { font-size: 10px; color: var(--text-muted); flex: 1; text-align: center; }
+
+/* PROGRESS RING */
+.progress-rings { display: flex; justify-content: space-around; align-items: center; padding: 14px 0; }
+
+.ring-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+.ring-svg { transform: rotate(-90deg); }
+.ring-track { fill: none; stroke: rgba(255,255,255,0.06); }
+.ring-fill {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 188;
+  stroke-dashoffset: 188;
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+.ring-label { font-size: 10px; color: var(--text-secondary); text-align: center; }
+.ring-value { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; }
+
+/* ACTIVITY TIMELINE */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+
+.timeline-item {
+  display: flex; gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.timeline-item:last-child { border-bottom: none; }
+
+.timeline-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0; margin-top: 4px;
+}
+
+.timeline-content { flex: 1; min-width: 0; }
+.timeline-title { font-size: 12px; font-weight: 500; margin-bottom: 2px; }
+.timeline-meta { font-size: 10px; color: var(--text-secondary); }
+
+.timeline-time {
+  font-size: 10px; color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* AGENCIES SECTION */
+.agencies-section { display: none; }
+
+.table-toolbar {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px; flex-wrap: wrap;
+}
+
+.table-search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 7px 12px;
+  flex: 1; min-width: 200px;
+}
+.table-search input { background: none; border: none; outline: none; color: var(--text-primary); font-family: 'DM Sans', sans-serif; font-size: 12px; width: 100%; }
+.table-search i { color: var(--text-muted); font-size: 11px; }
+
+.filter-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 7px 12px;
+  color: var(--text-secondary);
+  font-size: 12px; cursor: pointer;
+  transition: all 0.18s;
+}
+.filter-btn:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+
+.data-table { width: 100%; border-collapse: collapse; }
+
+.data-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.data-table td {
+  padding: 12px 14px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+
+.data-table tbody tr {
+  transition: background 0.15s;
+}
+.data-table tbody tr:hover { background: var(--bg-card-hover); }
+
+.agency-name { font-weight: 600; font-size: 13px; }
+.agency-sub { font-size: 10px; color: var(--text-secondary); margin-top: 2px; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 10px; font-weight: 600;
+  white-space: nowrap;
+}
+.badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+.badge-active { background: rgba(16,185,129,0.12); color: #10b981; }
+.badge-pending { background: rgba(245,158,11,0.12); color: #f59e0b; }
+.badge-noresponse { background: rgba(244,63,94,0.12); color: #f43f5e; }
+.badge-approved { background: rgba(45,139,255,0.12); color: #2d8bff; }
+.badge-review { background: rgba(139,92,246,0.12); color: #8b5cf6; }
+.badge-followup { background: rgba(0,212,255,0.12); color: #00d4ff; }
+
+.priority-dot {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px;
+}
+.pdot { width: 7px; height: 7px; border-radius: 50%; }
+.p-high { background: var(--accent-rose); box-shadow: 0 0 6px var(--accent-rose); }
+.p-med { background: var(--accent-amber); }
+.p-low { background: var(--accent-emerald); }
+
+.action-btns { display: flex; gap: 5px; }
+.action-btn {
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.15s;
+  font-size: 11px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.action-btn:hover { background: rgba(45,139,255,0.15); color: var(--accent-blue); border-color: rgba(45,139,255,0.3); }
+.action-btn.danger:hover { background: rgba(244,63,94,0.15); color: var(--accent-rose); border-color: rgba(244,63,94,0.3); }
+
+/* MEETINGS */
+.meetings-section { display: none; }
+
+.meetings-layout { display: grid; grid-template-columns: 1fr 1.6fr; gap: 14px; }
+
+.mini-calendar { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+
+.cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.cal-month { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; }
+.cal-nav { width: 26px; height: 26px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 11px; color: var(--text-secondary); transition: all 0.15s; }
+.cal-nav:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.cal-day-name { text-align: center; font-size: 9px; color: var(--text-muted); font-weight: 600; padding: 4px 0; }
+.cal-day {
+  text-align: center; font-size: 11px;
+  padding: 6px 2px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--text-secondary);
+}
+.cal-day:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+.cal-day.today { background: var(--accent-blue); color: #fff; font-weight: 700; }
+.cal-day.has-meeting { position: relative; color: var(--text-primary); }
+.cal-day.has-meeting::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: var(--accent-purple); }
+.cal-day.other-month { color: var(--text-muted); opacity: 0.4; }
+
+.meeting-cards-area { display: flex; flex-direction: column; gap: 10px; }
+
+.meeting-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  display: flex; gap: 12px; align-items: flex-start;
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.meeting-card::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--meeting-color, var(--accent-blue));
+}
+
+.meeting-card:hover { background: var(--bg-card-hover); transform: translateX(3px); }
+
+.meeting-time-badge {
+  background: rgba(45,139,255,0.1);
+  border: 1px solid rgba(45,139,255,0.2);
+  border-radius: 8px;
+  padding: 8px 10px;
+  text-align: center;
+  flex-shrink: 0;
+  min-width: 52px;
+}
+.meeting-time-badge .time { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent-blue); }
+.meeting-time-badge .ampm { font-size: 9px; color: var(--text-secondary); }
+
+.meeting-info { flex: 1; }
+.meeting-agency { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.meeting-type { font-size: 11px; color: var(--text-secondary); margin-bottom: 6px; }
+.meeting-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+
+.mtag {
+  font-size: 10px; padding: 2px 7px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+/* TASKS / KANBAN */
+.tasks-section { display: none; }
+
+.kanban { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+.kanban-col {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.kanban-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.kanban-label { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; }
+.kanban-dot { width: 7px; height: 7px; border-radius: 50%; }
+.kanban-count {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 10px; color: var(--text-secondary);
+  padding: 1px 7px;
+}
+
+.kanban-body { padding: 10px; display: flex; flex-direction: column; gap: 8px; min-height: 300px; }
+
+.task-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  cursor: grab;
+  transition: all 0.2s;
+  position: relative;
+}
+.task-card:hover { background: var(--bg-card-hover); border-color: var(--border-bright); transform: translateY(-2px); box-shadow: var(--shadow); }
+.task-card:active { cursor: grabbing; }
+
+.task-priority {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px; border-radius: 8px 8px 0 0;
+}
+
+.task-title { font-size: 12px; font-weight: 600; margin-bottom: 6px; line-height: 1.4; }
+.task-agency { font-size: 10px; color: var(--text-secondary); margin-bottom: 8px; }
+
+.task-footer { display: flex; align-items: center; justify-content: space-between; }
+.task-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+.task-tag { font-size: 9px; padding: 2px 6px; border-radius: 20px; background: rgba(45,139,255,0.1); color: var(--accent-blue); border: 1px solid rgba(45,139,255,0.2); }
+
+.task-avatars { display: flex; }
+.task-avatar {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--bg-base);
+  margin-left: -6px;
+  font-size: 8px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.task-avatar:first-child { margin-left: 0; }
+
+.task-due { font-size: 10px; color: var(--text-muted); margin-top: 6px; display: flex; align-items: center; gap: 4px; }
+.task-due.overdue { color: var(--accent-rose); }
+
+/* FOLLOW-UPS */
+.followup-section { display: none; }
+
+.followup-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 14px; }
+
+.followup-list { display: flex; flex-direction: column; gap: 8px; }
+
+.followup-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex; align-items: center; gap: 12px;
+  transition: all 0.18s;
+  cursor: pointer;
+}
+.followup-item:hover { background: var(--bg-card-hover); border-color: var(--border-bright); }
+
+.followup-item.urgent { border-left: 3px solid var(--accent-rose); }
+.followup-item.warning { border-left: 3px solid var(--accent-amber); }
+.followup-item.normal { border-left: 3px solid var(--accent-blue); }
+
+.fu-icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.fu-info { flex: 1; min-width: 0; }
+.fu-name { font-size: 12px; font-weight: 600; }
+.fu-detail { font-size: 10px; color: var(--text-secondary); margin-top: 2px; }
+.fu-time { font-size: 10px; color: var(--text-muted); white-space: nowrap; }
+.fu-remind-btn { padding: 4px 10px; background: rgba(45,139,255,0.1); border: 1px solid rgba(45,139,255,0.2); border-radius: 6px; color: var(--accent-blue); font-size: 10px; cursor: pointer; transition: all 0.15s; flex-shrink: 0; }
+.fu-remind-btn:hover { background: rgba(45,139,255,0.2); }
+
+/* REPORT */
+.report-section { display: none; }
+
+.report-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.report-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 600px 400px at 50% -100px, rgba(45,139,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.report-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.report-date { font-size: 11px; color: var(--text-secondary); }
+.report-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+
+.copy-btn {
+  display: flex; align-items: center; gap: 7px;
+  background: rgba(45,139,255,0.1);
+  border: 1px solid rgba(45,139,255,0.3);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  color: var(--accent-blue);
+  font-size: 12px; font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.copy-btn:hover { background: rgba(45,139,255,0.2); }
+
+.report-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+
+.report-block {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+}
+
+.report-block-title {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-secondary); margin-bottom: 12px;
+}
+
+.report-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.report-item:last-child { border-bottom: none; }
+.report-item-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.report-item-text { flex: 1; }
+.report-item-check { color: var(--accent-emerald); font-size: 12px; }
+.report-item-x { color: var(--accent-rose); font-size: 12px; }
+
+/* RIGHT PANEL */
+.right-panel {
+  width: var(--right-w);
+  min-width: var(--right-w);
+  height: 100%;
+  background: var(--sidebar-bg);
+  border-left: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+}
+
+.rp-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.rp-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; }
+.rp-clear { font-size: 11px; color: var(--accent-blue); cursor: pointer; }
+
+.rp-body { flex: 1; overflow-y: auto; padding: 12px; }
+
+.notif-item {
+  display: flex; gap: 10px;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  transition: all 0.18s;
+  cursor: pointer;
+  animation: slideIn 0.3s ease backwards;
+}
+.notif-item:hover { background: var(--bg-card-hover); }
+
+@keyframes slideIn { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:translateX(0); } }
+
+.notif-icon { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+.notif-content { flex: 1; min-width: 0; }
+.notif-title { font-size: 11px; font-weight: 600; margin-bottom: 2px; }
+.notif-body { font-size: 10px; color: var(--text-secondary); line-height: 1.4; }
+.notif-time { font-size: 9px; color: var(--text-muted); margin-top: 4px; }
+.notif-unread { width: 6px; height: 6px; background: var(--accent-blue); border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+
+.rp-section-title {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--text-muted); padding: 8px 4px 4px;
+}
+
+/* HEATMAP */
+.heatmap { margin-top: 4px; }
+.heatmap-grid { display: grid; grid-template-columns: repeat(13, 1fr); gap: 3px; margin-top: 6px; }
+.hm-cell { aspect-ratio: 1; border-radius: 3px; transition: transform 0.15s; cursor: pointer; }
+.hm-cell:hover { transform: scale(1.3); }
+.hm-0 { background: rgba(255,255,255,0.05); }
+.hm-1 { background: rgba(45,139,255,0.2); }
+.hm-2 { background: rgba(45,139,255,0.4); }
+.hm-3 { background: rgba(45,139,255,0.65); }
+.hm-4 { background: var(--accent-blue); }
+
+/* FLOATING NOTIFICATION */
+.floating-notif {
+  position: fixed; bottom: 24px; right: 316px;
+  background: rgba(10,20,40,0.95);
+  border: 1px solid rgba(45,139,255,0.3);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  display: flex; align-items: center; gap: 10px;
+  min-width: 280px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), var(--glow-blue);
+  backdrop-filter: blur(20px);
+  z-index: 200;
+  animation: notifPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  transition: all 0.3s;
+}
+
+@keyframes notifPop { from { opacity:0; transform:translateY(20px) scale(0.9); } to { opacity:1; transform:translateY(0) scale(1); } }
+
+.fn-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.fn-content { flex: 1; }
+.fn-title { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
+.fn-body { font-size: 11px; color: var(--text-secondary); }
+.fn-close { font-size: 12px; color: var(--text-muted); cursor: pointer; }
+.fn-close:hover { color: var(--text-primary); }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  z-index: 300;
+  display: none; align-items: center; justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+
+.modal {
+  background: #0a1428;
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  width: 480px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.8);
+  animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes modalIn { from { opacity:0; transform:scale(0.85) translateY(-20px); } to { opacity:1; transform:scale(1) translateY(0); } }
+
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; }
+.modal-close { width: 28px; height: 28px; border-radius: 6px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-secondary); font-size: 12px; }
+.modal-close:hover { color: var(--text-primary); background: var(--bg-card-hover); }
+
+.modal-body { padding: 20px; overflow-y: auto; }
+
+.form-group { margin-bottom: 14px; }
+.form-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.05em; }
+.form-input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  outline: none;
+  transition: all 0.18s;
+}
+.form-input:focus { border-color: var(--accent-blue); box-shadow: var(--glow-blue); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.modal-footer { padding: 14px 20px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; }
+.btn-cancel { padding: 8px 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-secondary); font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer; transition: all 0.18s; }
+.btn-cancel:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+.btn-save { padding: 8px 18px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); border: none; border-radius: var(--radius-sm); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.btn-save:hover { transform: translateY(-1px); box-shadow: var(--glow-blue); }
+
+/* HEATMAP TOOLTIP */
+.productivity-section { margin-top: 14px; }
+
+/* LINE CHART SVG */
+.line-chart { width: 100%; overflow: visible; }
+
+/* RESPONSIVE */
+@media (max-width: 1400px) { :root { --right-w: 260px; } }
+@media (max-width: 1200px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 1100px) {
+  :root { --right-w: 0px; }
+  .right-panel { display: none; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  :root { --sidebar-w: 0px; }
+  .sidebar { display: none; }
+  .kanban { grid-template-columns: repeat(2, 1fr); }
+  .report-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><i class="fas fa-bolt"></i></div>
+      <div class="logo-text">Stream<span>Flow</span></div>
+    </div>
+
+    <div class="sidebar-user">
+      <div class="user-avatar">AK</div>
+      <div class="user-info">
+        <div class="name">Arjun Kapoor</div>
+        <div class="role">Agency Manager</div>
+      </div>
+      <div class="sidebar-status"></div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <div class="nav-item active" onclick="showSection('dashboard', this)">
+        <i class="fas fa-chart-line"></i> Dashboard
+      </div>
+      <div class="nav-item" onclick="showSection('agencies', this)">
+        <i class="fas fa-building"></i> Agencies
+        <span class="nav-badge">24</span>
+      </div>
+      <div class="nav-item" onclick="showSection('contacts', this)">
+        <i class="fas fa-address-book"></i> Contacts
+      </div>
+
+      <div class="nav-section-label">Work</div>
+      <div class="nav-item" onclick="showSection('meetings', this)">
+        <i class="fas fa-video"></i> Meetings
+        <span class="nav-badge blue">3</span>
+      </div>
+      <div class="nav-item" onclick="showSection('followups', this)">
+        <i class="fas fa-reply"></i> Follow-ups
+        <span class="nav-badge amber">7</span>
+      </div>
+      <div class="nav-item" onclick="showSection('tasks', this)">
+        <i class="fas fa-check-square"></i> Daily Tasks
+      </div>
+
+      <div class="nav-section-label">Insights</div>
+      <div class="nav-item" onclick="showSection('report', this)">
+        <i class="fas fa-file-alt"></i> Reports
+      </div>
+      <div class="nav-item">
+        <i class="fas fa-calendar-alt"></i> Calendar
+      </div>
+      <div class="nav-item">
+        <i class="fas fa-bell"></i> Notifications
+        <span class="nav-badge">2</span>
+      </div>
+      <div class="nav-item">
+        <i class="fas fa-cog"></i> Settings
+      </div>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="quick-actions">
+        <div class="quick-btn whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</div>
+        <div class="quick-btn voice"><i class="fas fa-microphone"></i> Voice</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <div class="main-area">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title">Dashboard <span>Good morning, Arjun 👋</span></div>
+      <div class="topbar-search">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search agencies, meetings, tasks...">
+      </div>
+      <div class="topbar-actions">
+        <div class="topbar-btn" title="Calendar"><i class="fas fa-calendar"></i></div>
+        <div class="topbar-btn" title="Notifications"><i class="fas fa-bell"></i><div class="dot"></div></div>
+        <div class="topbar-btn" title="Refresh"><i class="fas fa-sync-alt"></i></div>
+        <button class="add-btn" onclick="openModal()"><i class="fas fa-plus"></i> Add Agency</button>
+      </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+
+        <!-- SECTION TABS -->
+        <div class="section-tabs">
+          <div class="tab active" onclick="showSection('dashboard', null, this)">Dashboard</div>
+          <div class="tab" onclick="showSection('agencies', null, this)">Agencies</div>
+          <div class="tab" onclick="showSection('meetings', null, this)">Meetings</div>
+          <div class="tab" onclick="showSection('tasks', null, this)">Tasks</div>
+          <div class="tab" onclick="showSection('followups', null, this)">Follow-ups</div>
+          <div class="tab" onclick="showSection('report', null, this)">Report</div>
+        </div>
+
+        <!-- ======================== DASHBOARD ======================== -->
+        <div class="dashboard-section" id="sec-dashboard">
+
+          <!-- STATS -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon" style="background:rgba(45,139,255,0.12);color:var(--accent-blue)"><i class="fas fa-building"></i></div>
+                <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 12%</div>
+              </div>
+              <div class="stat-value">48</div>
+              <div class="stat-label">Total Agencies</div>
+              <div class="stat-bar"><div class="stat-bar-fill" style="width:80%;background:var(--accent-blue)"></div></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon" style="background:rgba(16,185,129,0.12);color:var(--accent-emerald)"><i class="fas fa-circle-check"></i></div>
+                <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 8%</div>
+              </div>
+              <div class="stat-value">32</div>
+              <div class="stat-label">Active Agencies</div>
+              <div class="stat-bar"><div class="stat-bar-fill" style="width:67%;background:var(--accent-emerald)"></div></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon" style="background:rgba(245,158,11,0.12);color:var(--accent-amber)"><i class="fas fa-clock"></i></div>
+                <div class="stat-trend down"><i class="fas fa-arrow-down"></i> 3%</div>
+              </div>
+              <div class="stat-value">14</div>
+              <div class="stat-label">Pending Follow-ups</div>
+              <div class="stat-bar"><div class="stat-bar-fill" style="width:45%;background:var(--accent-amber)"></div></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon" style="background:rgba(139,92,246,0.12);color:var(--accent-purple)"><i class="fas fa-video"></i></div>
+                <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 1</div>
+              </div>
+              <div class="stat-value">3</div>
+              <div class="stat-label">Today's Meetings</div>
+              <div class="stat-bar"><div class="stat-bar-fill" style="width:55%;background:var(--accent-purple)"></div></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon" style="background:rgba(0,212,255,0.12);color:var(--accent-cyan)"><i class="fas fa-list-check"></i></div>
+                <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 5%</div>
+              </div>
+              <div class="stat-value">21</div>
+              <div class="stat-label">Completed Tasks</div>
+              <div class="stat-bar"><div class="stat-bar-fill" style="width:72%;background:var(--accent-cyan)"></div></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon" style="background:rgba(244,63,94,0.12);color:var(--accent-rose)"><i class="fas fa-ban"></i></div>
+                <div class="stat-trend down"><i class="fas fa-arrow-up"></i> 2</div>
+              </div>
+              <div class="stat-value">7</div>
+              <div class="stat-label">No Response</div>
+              <div class="stat-bar"><div class="stat-bar-fill" style="width:28%;background:var(--accent-rose)"></div></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon" style="background:rgba(236,72,153,0.12);color:var(--accent-pink)"><i class="fas fa-indian-rupee-sign"></i></div>
+                <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 22%</div>
+              </div>
+              <div class="stat-value">₹4.2L</div>
+              <div class="stat-label">Revenue Progress</div>
+              <div class="stat-bar"><div class="stat-bar-fill" style="width:62%;background:linear-gradient(90deg,var(--accent-pink),var(--accent-purple))"></div></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon" style="background:rgba(45,139,255,0.12);color:var(--accent-blue)"><i class="fas fa-fire"></i></div>
+                <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 14%</div>
+              </div>
+              <div class="stat-value">87%</div>
+              <div class="stat-label">Weekly Productivity</div>
+              <div class="stat-bar"><div class="stat-bar-fill" style="width:87%;background:linear-gradient(90deg,var(--accent-blue),var(--accent-cyan))"></div></div>
+            </div>
+          </div>
+
+          <!-- LOWER ROW -->
+          <div class="dashboard-lower">
+
+            <!-- BAR CHART -->
+            <div class="card" style="animation:fadeInUp 0.5s 0.3s ease backwards">
+              <div class="card-header">
+                <div class="card-title">Weekly Agency Activity</div>
+                <div class="card-action">This Week ▾</div>
+              </div>
+              <div class="card-body">
+                <div class="chart-area" id="barChart">
+                  <!-- bars rendered by JS -->
+                </div>
+                <div class="chart-labels">
+                  <div class="chart-label">Mon</div><div class="chart-label">Tue</div>
+                  <div class="chart-label">Wed</div><div class="chart-label">Thu</div>
+                  <div class="chart-label">Fri</div><div class="chart-label">Sat</div>
+                  <div class="chart-label">Sun</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PROGRESS RINGS -->
+            <div class="card" style="animation:fadeInUp 0.5s 0.35s ease backwards">
+              <div class="card-header">
+                <div class="card-title">Performance Overview</div>
+                <div class="card-action">Details →</div>
+              </div>
+              <div class="card-body">
+                <div class="progress-rings">
+                  <div class="ring-item">
+                    <svg class="ring-svg" width="64" height="64" viewBox="0 0 64 64">
+                      <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
+                      <circle class="ring-fill" cx="32" cy="32" r="27" stroke="#2d8bff" stroke-width="5" id="ring1"/>
+                    </svg>
+                    <div class="ring-value">78%</div>
+                    <div class="ring-label">Calls Done</div>
+                  </div>
+                  <div class="ring-item">
+                    <svg class="ring-svg" width="64" height="64" viewBox="0 0 64 64">
+                      <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
+                      <circle class="ring-fill" cx="32" cy="32" r="27" stroke="#10b981" stroke-width="5" id="ring2"/>
+                    </svg>
+                    <div class="ring-value">92%</div>
+                    <div class="ring-label">Meetings</div>
+                  </div>
+                  <div class="ring-item">
+                    <svg class="ring-svg" width="64" height="64" viewBox="0 0 64 64">
+                      <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
+                      <circle class="ring-fill" cx="32" cy="32" r="27" stroke="#8b5cf6" stroke-width="5" id="ring3"/>
+                    </svg>
+                    <div class="ring-value">65%</div>
+                    <div class="ring-label">Follow-ups</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ACTIVITY TIMELINE -->
+            <div class="card" style="animation:fadeInUp 0.5s 0.4s ease backwards">
+              <div class="card-header">
+                <div class="card-title">Recent Activity</div>
+                <div class="card-action">View All →</div>
+              </div>
+              <div class="card-body">
+                <div class="timeline">
+                  <div class="timeline-item">
+                    <div class="timeline-dot" style="background:var(--accent-emerald)"></div>
+                    <div class="timeline-content">
+                      <div class="timeline-title">Deal closed — StarMedia Agency</div>
+                      <div class="timeline-meta"><i class="fas fa-tag" style="font-size:9px;margin-right:3px"></i>₹85,000 package signed</div>
+                    </div>
+                    <div class="timeline-time">2m ago</div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-dot" style="background:var(--accent-blue)"></div>
+                    <div class="timeline-content">
+                      <div class="timeline-title">Meeting scheduled — BrightStream</div>
+                      <div class="timeline-meta"><i class="fas fa-clock" style="font-size:9px;margin-right:3px"></i>Tomorrow 2:30 PM</div>
+                    </div>
+                    <div class="timeline-time">18m ago</div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-dot" style="background:var(--accent-amber)"></div>
+                    <div class="timeline-content">
+                      <div class="timeline-title">Follow-up reminder — Zync Pvt Ltd</div>
+                      <div class="timeline-meta"><i class="fas fa-bell" style="font-size:9px;margin-right:3px"></i>No response 3 days</div>
+                    </div>
+                    <div class="timeline-time">1h ago</div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-dot" style="background:var(--accent-purple)"></div>
+                    <div class="timeline-content">
+                      <div class="timeline-title">Proposal sent — NovaCast Agency</div>
+                      <div class="timeline-meta"><i class="fas fa-file" style="font-size:9px;margin-right:3px"></i>₹1.2L proposal shared</div>
+                    </div>
+                    <div class="timeline-time">3h ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- PRODUCTIVITY HEATMAP -->
+          <div class="card" style="animation:fadeInUp 0.5s 0.45s ease backwards; margin-bottom:14px">
+            <div class="card-header">
+              <div class="card-title">Productivity Heatmap — Last 13 Weeks</div>
+              <div style="display:flex;gap:6px;align-items:center;font-size:10px;color:var(--text-muted)">
+                Less <span class="hm-cell hm-0" style="width:10px;height:10px;display:inline-block"></span>
+                <span class="hm-cell hm-1" style="width:10px;height:10px;display:inline-block"></span>
+                <span class="hm-cell hm-2" style="width:10px;height:10px;display:inline-block"></span>
+                <span class="hm-cell hm-3" style="width:10px;height:10px;display:inline-block"></span>
+                <span class="hm-cell hm-4" style="width:10px;height:10px;display:inline-block"></span> More
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="heatmap-grid" id="heatmap"></div>
+            </div>
+          </div>
+
+        </div><!-- /dashboard -->
+
+        <!-- ======================== AGENCIES ======================== -->
+        <div class="agencies-section" id="sec-agencies">
+          <div class="table-toolbar">
+            <div class="table-search"><i class="fas fa-search"></i><input type="text" placeholder="Search agencies..."></div>
+            <div class="filter-btn"><i class="fas fa-filter"></i> Filter</div>
+            <div class="filter-btn"><i class="fas fa-sort"></i> Sort</div>
+            <div class="filter-btn"><i class="fas fa-download"></i> Export</div>
+            <button class="add-btn" onclick="openModal()"><i class="fas fa-plus"></i> Add Agency</button>
+          </div>
+          <div class="card">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>#</th><th>Agency</th><th>Contact Person</th><th>Phone</th>
+                  <th>Status</th><th>Priority</th><th>Last Contact</th>
+                  <th>Next Follow-up</th><th>Feedback</th><th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="agencyTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ======================== MEETINGS ======================== -->
+        <div class="meetings-section" id="sec-meetings">
+          <div class="meetings-layout">
+            <div>
+              <div class="mini-calendar">
+                <div class="cal-header">
+                  <div class="cal-nav"><i class="fas fa-chevron-left"></i></div>
+                  <div class="cal-month">May 2025</div>
+                  <div class="cal-nav"><i class="fas fa-chevron-right"></i></div>
+                </div>
+                <div class="cal-grid" id="calGrid"></div>
+              </div>
+              <div style="margin-top:14px" class="card">
+                <div class="card-header"><div class="card-title">Upcoming This Week</div></div>
+                <div class="card-body">
+                  <div class="timeline">
+                    <div class="timeline-item"><div class="timeline-dot" style="background:var(--accent-blue)"></div><div class="timeline-content"><div class="timeline-title">BrightStream — Strategy Call</div><div class="timeline-meta">Mon 10:00 AM · Zoom</div></div></div>
+                    <div class="timeline-item"><div class="timeline-dot" style="background:var(--accent-purple)"></div><div class="timeline-content"><div class="timeline-title">NovaCast — Proposal Review</div><div class="timeline-meta">Wed 2:30 PM · Google Meet</div></div></div>
+                    <div class="timeline-item"><div class="timeline-dot" style="background:var(--accent-emerald)"></div><div class="timeline-content"><div class="timeline-title">StarMedia — Contract Sign</div><div class="timeline-meta">Fri 11:00 AM · In-person</div></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="meeting-cards-area" id="meetingCards"></div>
+          </div>
+        </div>
+
+        <!-- ======================== TASKS ======================== -->
+        <div class="tasks-section" id="sec-tasks">
+          <div class="kanban" id="kanbanBoard"></div>
+        </div>
+
+        <!-- ======================== FOLLOW-UPS ======================== -->
+        <div class="followup-section" id="sec-followups">
+          <div class="followup-grid">
+            <div class="card">
+              <div class="card-header"><div class="card-title">Pending Follow-ups</div><div class="card-action">14 total</div></div>
+              <div class="card-body" id="followupList"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">Communication Log</div></div>
+              <div class="card-body">
+                <div class="timeline" id="commLog"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================== REPORT ======================== -->
+        <div class="report-section" id="sec-report">
+          <div class="report-card">
+            <div class="report-header">
+              <div>
+                <div class="report-date" id="reportDate"></div>
+                <div class="report-title">Daily Work Report</div>
+              </div>
+              <button class="copy-btn" onclick="copyReport()"><i class="fas fa-copy"></i> Copy Report</button>
+            </div>
+            <div class="report-grid">
+              <div class="report-block">
+                <div class="report-block-title"><span style="color:var(--accent-emerald)">●</span> Completed Work</div>
+                <div id="reportCompleted"></div>
+              </div>
+              <div class="report-block">
+                <div class="report-block-title"><span style="color:var(--accent-amber)">●</span> Pending Work</div>
+                <div id="reportPending"></div>
+              </div>
+              <div class="report-block">
+                <div class="report-block-title"><span style="color:var(--accent-blue)">●</span> Meetings Summary</div>
+                <div id="reportMeetings"></div>
+              </div>
+            </div>
+            <div class="card-body" style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;font-family:monospace;font-size:12px;line-height:1.8;color:var(--text-secondary)" id="reportPreview"></div>
+          </div>
+        </div>
+
+      </div><!-- /content -->
+
+      <!-- RIGHT PANEL -->
+      <div class="right-panel">
+        <div class="rp-header">
+          <div class="rp-title"><i class="fas fa-bell" style="color:var(--accent-blue);margin-right:6px"></i>Notifications</div>
+          <div class="rp-clear">Clear all</div>
+        </div>
+        <div class="rp-body">
+          <div class="rp-section-title">New</div>
+          <div id="notifList"></div>
+          <div class="rp-section-title" style="margin-top:12px">Team Performance</div>
+          <div class="card" style="margin-top:6px">
+            <div class="card-body">
+              <div class="progress-rings" style="justify-content:space-evenly">
+                <div class="ring-item">
+                  <svg class="ring-svg" width="50" height="50" viewBox="0 0 64 64">
+                    <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
+                    <circle class="ring-fill" cx="32" cy="32" r="27" stroke="#2d8bff" stroke-width="5" id="ring-sm1"/>
+                  </svg>
+                  <div class="ring-value" style="font-size:12px">87%</div>
+                  <div class="ring-label">You</div>
+                </div>
+                <div class="ring-item">
+                  <svg class="ring-svg" width="50" height="50" viewBox="0 0 64 64">
+                    <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
+                    <circle class="ring-fill" cx="32" cy="32" r="27" stroke="#8b5cf6" stroke-width="5" id="ring-sm2"/>
+                  </svg>
+                  <div class="ring-value" style="font-size:12px">72%</div>
+                  <div class="ring-label">Team</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="rp-section-title" style="margin-top:12px">Activity This Week</div>
+          <div class="heatmap" style="margin-top:6px">
+            <div class="heatmap-grid" id="miniHeatmap" style="grid-template-columns:repeat(7,1fr)"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content-wrapper -->
+  </div><!-- /main-area -->
+</div><!-- /app -->
+
+<!-- FLOATING NOTIFICATION -->
+<div class="floating-notif" id="floatingNotif">
+  <div class="fn-icon"><i class="fas fa-calendar-check"></i></div>
+  <div class="fn-content">
+    <div class="fn-title">Meeting in 30 minutes</div>
+    <div class="fn-body">BrightStream — Strategy Call · Zoom</div>
+  </div>
+  <div class="fn-close" onclick="closeFloating()"><i class="fas fa-times"></i></div>
+</div>
+
+<!-- ADD AGENCY MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add New Agency</div>
+      <div class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></div>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Agency Name</label><input class="form-input" placeholder="e.g. BrightStream Media"></div>
+        <div class="form-group"><label class="form-label">Contact Person</label><input class="form-input" placeholder="Full name"></div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Phone</label><input class="form-input" placeholder="+91 XXXXX XXXXX"></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" placeholder="email@agency.com"></div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-input"><option>Active</option><option>Pending</option><option>No Response</option><option>Follow-up Needed</option><option>Approved</option></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Priority</label>
+          <select class="form-input"><option>High</option><option>Medium</option><option>Low</option></select>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Next Follow-up Date</label><input class="form-input" type="date"></div>
+      <div class="form-group"><label class="form-label">Notes</label><textarea class="form-input" rows="3" placeholder="Any notes or feedback..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save"><i class="fas fa-save"></i> Save Agency</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- DATA ----
+const agencies = [
+  { name:'BrightStream Media', sub:'Digital Agency', contact:'Rahul Mehta', phone:'+91 98765 43210', status:'active', priority:'high', last:'Today, 10:30 AM', next:'Tomorrow', feedback:'Interested in package' },
+  { name:'NovaCast Agency', sub:'Live Streaming', contact:'Priya Singh', phone:'+91 87654 32109', status:'review', priority:'high', last:'Yesterday', next:'May 15', feedback:'Proposal under review' },
+  { name:'StarMedia Pvt Ltd', sub:'Media House', contact:'Karan Joshi', phone:'+91 76543 21098', status:'approved', priority:'med', last:'2 days ago', next:'May 20', feedback:'Contract signed' },
+  { name:'Zync Digital', sub:'Content Agency', contact:'Anita Rao', phone:'+91 65432 10987', status:'noresponse', priority:'high', last:'5 days ago', next:'Today', feedback:'No reply to proposal' },
+  { name:'FlowCast Studios', sub:'Streaming Co.', contact:'Vijay Kumar', phone:'+91 54321 09876', status:'pending', priority:'med', last:'3 days ago', next:'May 16', feedback:'Needs pricing info' },
+  { name:'PixelWave Agency', sub:'Creative Agency', contact:'Sneha Patel', phone:'+91 43210 98765', status:'followup', priority:'low', last:'1 week ago', next:'May 18', feedback:'Sent brochure' },
+  { name:'StreamForce Ltd', sub:'Production House', contact:'Dev Sharma', phone:'+91 32109 87654', status:'active', priority:'med', last:'Today, 9:00 AM', next:'May 22', feedback:'Active negotiation' },
+  { name:'CastPro Network', sub:'Network Agency', contact:'Meera Nair', phone:'+91 21098 76543', status:'pending', priority:'low', last:'4 days ago', next:'May 25', feedback:'Awaiting decision' },
+];
+
+const statusMap = { active:'badge-active', pending:'badge-pending', noresponse:'badge-noresponse', approved:'badge-approved', review:'badge-review', followup:'badge-followup' };
+const statusLabel = { active:'Active', pending:'Pending', noresponse:'No Response', approved:'Approved', review:'Review Pending', followup:'Follow-up' };
+
+function buildAgencyTable() {
+  const tbody = document.getElementById('agencyTable');
+  tbody.innerHTML = agencies.map((a,i) => `
+    <tr>
+      <td style="color:var(--text-muted)">${String(i+1).padStart(2,'0')}</td>
+      <td><div class="agency-name">${a.name}</div><div class="agency-sub">${a.sub}</div></td>
+      <td>${a.contact}</td>
+      <td style="color:var(--text-secondary)">${a.phone}</td>
+      <td><span class="badge ${statusMap[a.status]}">${statusLabel[a.status]}</span></td>
+      <td>
+        <div class="priority-dot">
+          <div class="pdot ${a.priority==='high'?'p-high':a.priority==='med'?'p-med':'p-low'}"></div>
+          ${a.priority==='high'?'High':a.priority==='med'?'Medium':'Low'}
+        </div>
+      </td>
+      <td style="color:var(--text-secondary);font-size:11px">${a.last}</td>
+      <td style="color:var(--accent-blue);font-size:11px">${a.next}</td>
+      <td style="color:var(--text-secondary);font-size:11px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${a.feedback}</td>
+      <td>
+        <div class="action-btns">
+          <div class="action-btn" title="Call"><i class="fas fa-phone"></i></div>
+          <div class="action-btn" title="WhatsApp"><i class="fab fa-whatsapp"></i></div>
+          <div class="action-btn" title="Edit"><i class="fas fa-pen"></i></div>
+          <div class="action-btn danger" title="Delete"><i class="fas fa-trash"></i></div>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ---- MEETINGS ----
+const meetings = [
+  { agency:'BrightStream Media', time:'10:00', ampm:'AM', type:'Strategy Call · Zoom', color:'#2d8bff', status:'active', tags:['Zoom','High Priority'] },
+  { agency:'NovaCast Agency', time:'02:30', ampm:'PM', type:'Proposal Review · Google Meet', color:'#8b5cf6', status:'pending', tags:['Meet','Review'] },
+  { agency:'StarMedia Ltd', time:'04:00', ampm:'PM', type:'Contract Discussion · Phone', color:'#10b981', status:'completed', tags:['Phone','Contract'] },
+  { agency:'Zync Digital', time:'11:00', ampm:'AM', type:'Discovery Call · Zoom', color:'#f59e0b', status:'upcoming', tags:['Zoom','New'] },
+];
+
+function buildMeetings() {
+  const area = document.getElementById('meetingCards');
+  area.innerHTML = meetings.map(m => `
+    <div class="meeting-card" style="--meeting-color:${m.color}">
+      <div class="meeting-time-badge">
+        <div class="time">${m.time}</div>
+        <div class="ampm">${m.ampm}</div>
+      </div>
+      <div class="meeting-info">
+        <div class="meeting-agency">${m.agency}</div>
+        <div class="meeting-type">${m.type}</div>
+        <div class="meeting-tags">
+          ${m.tags.map(t=>`<span class="mtag">${t}</span>`).join('')}
+          <span class="badge ${m.status==='completed'?'badge-approved':m.status==='active'?'badge-active':'badge-pending'}" style="font-size:9px">${m.status}</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end">
+        <div class="action-btn" title="Join"><i class="fas fa-video"></i></div>
+        <div class="action-btn" title="Notes"><i class="fas fa-sticky-note"></i></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ---- CALENDAR ----
+function buildCalendar() {
+  const grid = document.getElementById('calGrid');
+  const days = ['S','M','T','W','T','F','S'];
+  const hasMeeting = [3,8,12,15,19,22,26];
+  const today = 12;
+  let html = days.map(d=>`<div class="cal-day-name">${d}</div>`).join('');
+  const startDay = 4; // May 2025 starts Thursday
+  for(let i=0;i<startDay;i++) html += `<div class="cal-day other-month">${26+i}</div>`;
+  for(let d=1;d<=31;d++) {
+    const cls = d===today?'today':hasMeeting.includes(d)?'has-meeting':'';
+    html += `<div class="cal-day ${cls}">${d}</div>`;
+  }
+  grid.innerHTML = html;
+}
+
+// ---- KANBAN ----
+const kanbanData = [
+  { col:'Pending', color:'#f59e0b', tasks:[
+    { title:'Send proposal to BrightStream', agency:'BrightStream Media', tags:['Proposal'], priority:'high', due:'Today', overdue:false },
+    { title:'Prepare rate card document', agency:'Internal', tags:['Document'], priority:'med', due:'May 15', overdue:false },
+    { title:'Follow up Zync Digital call', agency:'Zync Digital', tags:['Follow-up'], priority:'high', due:'May 12', overdue:true },
+  ]},
+  { col:'In Progress', color:'#2d8bff', tasks:[
+    { title:'Draft NovaCast contract terms', agency:'NovaCast Agency', tags:['Legal'], priority:'high', due:'May 14', overdue:false },
+    { title:'Update CRM with call notes', agency:'All Agencies', tags:['CRM'], priority:'low', due:'Today', overdue:false },
+  ]},
+  { col:'Completed', color:'#10b981', tasks:[
+    { title:'StarMedia onboarding meeting', agency:'StarMedia Ltd', tags:['Meeting'], priority:'med', due:'May 10', overdue:false },
+    { title:'Monthly report compilation', agency:'Internal', tags:['Report'], priority:'med', due:'May 10', overdue:false },
+    { title:'FlowCast pricing email', agency:'FlowCast Studios', tags:['Email'], priority:'low', due:'May 11', overdue:false },
+  ]},
+  { col:'Waiting Response', color:'#8b5cf6', tasks:[
+    { title:'Package approval from StarMedia', agency:'StarMedia Ltd', tags:['Approval'], priority:'high', due:'May 16', overdue:false },
+    { title:'Contract sign from NovaCast', agency:'NovaCast Agency', tags:['Contract'], priority:'high', due:'May 18', overdue:false },
+  ]},
+];
+
+const avatarColors = ['#2d8bff','#8b5cf6','#10b981','#f59e0b','#ec4899','#00d4ff'];
+function randomAvatar(i) {
+  const initials = ['AK','RK','PS','DS','MN'];
+  return `<div class="task-avatar" style="background:${avatarColors[i%6]}">${initials[i%5]}</div>`;
+}
+
+function buildKanban() {
+  const board = document.getElementById('kanbanBoard');
+  board.innerHTML = kanbanData.map(col => `
+    <div class="kanban-col">
+      <div class="kanban-header">
+        <div class="kanban-label"><div class="kanban-dot" style="background:${col.color}"></div>${col.col}</div>
+        <div class="kanban-count">${col.tasks.length}</div>
+      </div>
+      <div class="kanban-body">
+        ${col.tasks.map((t,i)=>`
+          <div class="task-card" draggable="true">
+            <div class="task-priority" style="background:${t.priority==='high'?'var(--accent-rose)':t.priority==='med'?'var(--accent-amber)':'var(--accent-emerald)'}"></div>
+            <div class="task-title">${t.title}</div>
+            <div class="task-agency"><i class="fas fa-building" style="font-size:9px;margin-right:4px;color:var(--text-muted)"></i>${t.agency}</div>
+            <div class="task-footer">
+              <div class="task-tags">${t.tags.map(tag=>`<span class="task-tag">${tag}</span>`).join('')}</div>
+              <div class="task-avatars">${randomAvatar(i)}${i<2?randomAvatar(i+1):''}</div>
+            </div>
+            <div class="task-due ${t.overdue?'overdue':''}">
+              <i class="fas fa-clock" style="font-size:9px"></i> ${t.overdue?'Overdue · ':''}${t.due}
+            </div>
+          </div>
+        `).join('')}
+        <div style="padding:10px;text-align:center;color:var(--text-muted);font-size:11px;cursor:pointer;border:1px dashed var(--border);border-radius:6px;margin-top:4px" onclick="">
+          <i class="fas fa-plus" style="margin-right:4px"></i>Add task
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ---- FOLLOW-UPS ----
+const followups = [
+  { name:'Zync Digital', detail:'No response for 5 days', time:'5 days', urgency:'urgent', icon:'fas fa-exclamation-triangle', iconBg:'rgba(244,63,94,0.12)', iconColor:'var(--accent-rose)' },
+  { name:'FlowCast Studios', detail:'Awaiting pricing reply', time:'3 days', urgency:'warning', icon:'fas fa-clock', iconBg:'rgba(245,158,11,0.12)', iconColor:'var(--accent-amber)' },
+  { name:'CastPro Network', detail:'Sent brochure last week', time:'7 days', urgency:'urgent', icon:'fas fa-reply', iconBg:'rgba(244,63,94,0.12)', iconColor:'var(--accent-rose)' },
+  { name:'PixelWave Agency', detail:'Proposal follow-up needed', time:'2 days', urgency:'normal', icon:'fas fa-paper-plane', iconBg:'rgba(45,139,255,0.12)', iconColor:'var(--accent-blue)' },
+  { name:'BrightStream Media', detail:'Checking interest level', time:'1 day', urgency:'normal', icon:'fas fa-phone', iconBg:'rgba(45,139,255,0.12)', iconColor:'var(--accent-blue)' },
+];
+
+function buildFollowups() {
+  const list = document.getElementById('followupList');
+  list.innerHTML = followups.map(f=>`
+    <div class="followup-item ${f.urgency}">
+      <div class="fu-icon" style="background:${f.iconBg};color:${f.iconColor}"><i class="${f.icon}"></i></div>
+      <div class="fu-info">
+        <div class="fu-name">${f.name}</div>
+        <div class="fu-detail">${f.detail}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+        <div class="fu-time">${f.time} ago</div>
+        <div class="fu-remind-btn">Remind</div>
+      </div>
+    </div>
+  `).join('');
+
+  const log = document.getElementById('commLog');
+  log.innerHTML = `
+    <div class="timeline-item"><div class="timeline-dot" style="background:var(--accent-blue)"></div><div class="timeline-content"><div class="timeline-title">Called BrightStream — No Answer</div><div class="timeline-meta">Tried 3 times, left voicemail</div></div><div class="timeline-time">10:30 AM</div></div>
+    <div class="timeline-item"><div class="timeline-dot" style="background:var(--accent-emerald)"></div><div class="timeline-content"><div class="timeline-title">WhatsApp — NovaCast responded</div><div class="timeline-meta">Interested in premium package</div></div><div class="timeline-time">9:15 AM</div></div>
+    <div class="timeline-item"><div class="timeline-dot" style="background:var(--accent-amber)"></div><div class="timeline-content"><div class="timeline-title">Email sent — Zync Digital</div><div class="timeline-meta">Pricing proposal attached</div></div><div class="timeline-time">Yesterday</div></div>
+    <div class="timeline-item"><div class="timeline-dot" style="background:var(--accent-rose)"></div><div class="timeline-content"><div class="timeline-title">Follow-up overdue — CastPro</div><div class="timeline-meta">7 days no response</div></div><div class="timeline-time">3 days ago</div></div>
+  `;
+}
+
+// ---- REPORT ----
+function buildReport() {
+  const now = new Date();
+  document.getElementById('reportDate').textContent = now.toLocaleDateString('en-IN', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+  const completed = [
+    'StarMedia onboarding meeting completed',
+    'NovaCast proposal draft finalized',
+    'Monthly CRM data updated',
+    'BrightStream intro call done',
+  ];
+  const pending = [
+    'Zync Digital follow-up call pending',
+    'FlowCast pricing reply awaited',
+    'CastPro contract review due',
+    'PixelWave brochure follow-up',
+  ];
+  const mtgs = [
+    'BrightStream — 10:00 AM Strategy Call (Zoom)',
+    'NovaCast — 2:30 PM Proposal Review (Meet)',
+    'StarMedia — 4:00 PM Contract Discussion',
+  ];
+
+  document.getElementById('reportCompleted').innerHTML = completed.map(c=>`
+    <div class="report-item"><div class="report-item-dot" style="background:var(--accent-emerald)"></div><div class="report-item-text">${c}</div><i class="fas fa-check report-item-check"></i></div>
+  `).join('');
+  document.getElementById('reportPending').innerHTML = pending.map(p=>`
+    <div class="report-item"><div class="report-item-dot" style="background:var(--accent-amber)"></div><div class="report-item-text">${p}</div><i class="fas fa-hourglass-half" style="color:var(--accent-amber);font-size:11px"></i></div>
+  `).join('');
+  document.getElementById('reportMeetings').innerHTML = mtgs.map(m=>`
+    <div class="report-item"><div class="report-item-dot" style="background:var(--accent-blue)"></div><div class="report-item-text">${m}</div></div>
+  `).join('');
+
+  document.getElementById('reportPreview').innerHTML = `📋 DAILY WORK REPORT — ${now.toLocaleDateString('en-IN')}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n✅ COMPLETED:\n${completed.map(c=>`  • ${c}`).join('\n')}\n\n⏳ PENDING:\n${pending.map(p=>`  • ${p}`).join('\n')}\n\n📅 MEETINGS TODAY:\n${mtgs.map(m=>`  • ${m}`).join('\n')}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nGenerated by StreamFlow Dashboard`;
+}
+
+function copyReport() {
+  const text = document.getElementById('reportPreview').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+    setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i> Copy Report', 2000);
+  });
+}
+
+// ---- NOTIFICATIONS ----
+const notifs = [
+  { icon:'fas fa-calendar-check', iconBg:'rgba(45,139,255,0.15)', iconColor:'var(--accent-blue)', title:'Meeting in 30 min', body:'BrightStream Strategy Call · Zoom', time:'30 min', unread:true, delay:0.05 },
+  { icon:'fas fa-exclamation-triangle', iconBg:'rgba(244,63,94,0.15)', iconColor:'var(--accent-rose)', title:'Urgent Follow-up', body:'Zync Digital — 5 days no response', time:'1h', unread:true, delay:0.1 },
+  { icon:'fas fa-handshake', iconBg:'rgba(16,185,129,0.15)', iconColor:'var(--accent-emerald)', title:'Deal Update', body:'StarMedia contract signed ✓', time:'2h', unread:false, delay:0.15 },
+  { icon:'fas fa-file-invoice', iconBg:'rgba(139,92,246,0.15)', iconColor:'var(--accent-purple)', title:'Proposal Viewed', body:'NovaCast opened your proposal', time:'3h', unread:false, delay:0.2 },
+];
+
+function buildNotifs() {
+  const list = document.getElementById('notifList');
+  list.innerHTML = notifs.map((n,i)=>`
+    <div class="notif-item" style="animation-delay:${n.delay}s">
+      <div class="notif-icon" style="background:${n.iconBg};color:${n.iconColor}"><i class="${n.icon}"></i></div>
+      <div class="notif-content">
+        <div class="notif-title">${n.title}</div>
+        <div class="notif-body">${n.body}</div>
+        <div class="notif-time">${n.time} ago</div>
+      </div>
+      ${n.unread?'<div class="notif-unread"></div>':''}
+    </div>
+  `).join('');
+}
+
+// ---- BAR CHART ----
+function buildBarChart() {
+  const data = [
+    { calls:8, meetings:3, followups:5 },
+    { calls:12, meetings:5, followups:8 },
+    { calls:6, meetings:2, followups:4 },
+    { calls:15, meetings:6, followups:10 },
+    { calls:10, meetings:4, followups:7 },
+    { calls:4, meetings:1, followups:2 },
+    { calls:7, meetings:3, followups:5 },
+  ];
+  const max = 15;
+  const area = document.getElementById('barChart');
+  area.innerHTML = data.map(d=>`
+    <div class="chart-bar-group">
+      <div class="chart-bar" style="height:${(d.calls/max*100)}%;background:var(--accent-blue);opacity:0.8" data-val="${d.calls} calls"></div>
+      <div class="chart-bar" style="height:${(d.meetings/max*100)}%;background:var(--accent-purple);opacity:0.8" data-val="${d.meetings} meetings"></div>
+      <div class="chart-bar" style="height:${(d.followups/max*100)}%;background:var(--accent-cyan);opacity:0.6" data-val="${d.followups} follow-ups"></div>
+    </div>
+  `).join('');
+}
+
+// ---- RINGS ----
+function animateRing(id, pct) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  const circumference = 2 * Math.PI * 27;
+  const offset = circumference - (pct/100 * circumference);
+  setTimeout(() => { el.style.strokeDasharray = circumference; el.style.strokeDashoffset = offset; }, 400);
+}
+
+// ---- HEATMAP ----
+function buildHeatmap(id, cols) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  const levels = [0,1,2,3,4];
+  let html = '';
+  const count = cols === 13 ? 91 : 7;
+  for(let i=0;i<count;i++) {
+    const l = Math.random() < 0.3 ? 0 : levels[Math.floor(Math.random()*5)];
+    html += `<div class="hm-cell hm-${l}" title="Activity level ${l}"></div>`;
+  }
+  el.innerHTML = html;
+}
+
+// ---- NAVIGATION ----
+const sections = ['dashboard','agencies','meetings','tasks','followups','report'];
+
+function showSection(name, navEl, tabEl) {
+  sections.forEach(s => {
+    const el = document.getElementById('sec-'+s);
+    if(el) el.style.display = 'none';
+  });
+  const target = document.getElementById('sec-'+name);
+  if(target) target.style.display = 'block';
+
+  // nav highlight
+  if(navEl) {
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    navEl.classList.add('active');
+  }
+  // tab highlight
+  const tabs = document.querySelectorAll('.section-tabs .tab');
+  const sectionIndex = sections.indexOf(name);
+  tabs.forEach((t,i)=>t.classList.toggle('active', i===sectionIndex));
+}
+
+// MODAL
+function openModal() { document.getElementById('modalOverlay').classList.add('show'); }
+function closeModal() { document.getElementById('modalOverlay').classList.remove('show'); }
+function closeFloating() {
+  const n = document.getElementById('floatingNotif');
+  n.style.transform = 'translateY(20px)'; n.style.opacity = '0';
+  setTimeout(()=>n.style.display='none', 300);
+}
+
+// ---- INIT ----
+document.addEventListener('DOMContentLoaded', () => {
+  buildAgencyTable();
+  buildMeetings();
+  buildCalendar();
+  buildKanban();
+  buildFollowups();
+  buildReport();
+  buildNotifs();
+  buildBarChart();
+  buildHeatmap('heatmap', 13);
+  buildHeatmap('miniHeatmap', 7);
+
+  // animate rings after short delay
+  setTimeout(()=>{
+    animateRing('ring1', 78);
+    animateRing('ring2', 92);
+    animateRing('ring3', 65);
+    animateRing('ring-sm1', 87);
+    animateRing('ring-sm2', 72);
+  }, 600);
+
+  // show dashboard by default
+  showSection('dashboard');
+
+  // auto-dismiss floating notification
+  setTimeout(closeFloating, 7000);
+});
+</script>
+</body>
+</html>
