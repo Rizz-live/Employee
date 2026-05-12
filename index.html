@@ -3,45 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StreamFlow — Agency Work Management</title>
+<title>StreamFlow — Agency Manager</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-:root {
-  --bg: #060b17;
-  --bg2: #0a1020;
-  --bg3: rgba(255,255,255,0.035);
-  --bg4: rgba(255,255,255,0.065);
-  --glass: rgba(8,16,32,0.92);
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(80,160,255,0.2);
-  --blue: #3b91ff;
-  --blue2: #1a6fd4;
-  --cyan: #00d4ff;
-  --purple: #8b5cf6;
-  --violet: #a78bfa;
-  --emerald: #10b981;
-  --rose: #f43f5e;
-  --amber: #f59e0b;
-  --pink: #ec4899;
-  --text: #dce8ff;
-  --text2: #6b7fa0;
-  --text3: #2e3d5a;
-  --sidebar: 240px;
-  --topbar: 58px;
-  --rpanel: 288px;
-  --r: 12px;
-  --r2: 8px;
-  --r3: 6px;
+:root{
+  --bg:#060b17;--bg2:#0a1020;--bg3:rgba(255,255,255,0.035);--bg4:rgba(255,255,255,0.065);
+  --glass:rgba(8,16,32,0.92);--border:rgba(255,255,255,0.07);--border2:rgba(80,160,255,0.2);
+  --blue:#3b91ff;--cyan:#00d4ff;--purple:#8b5cf6;--emerald:#10b981;--rose:#f43f5e;--amber:#f59e0b;--pink:#ec4899;
+  --text:#dce8ff;--text2:#6b7fa0;--text3:#2e3d5a;
+  --sidebar:240px;--topbar:58px;--r:12px;--r2:8px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:14px}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow:hidden}
 body::before{content:'';position:fixed;inset:0;background:
   radial-gradient(ellipse 900px 700px at 15% 5%,rgba(30,80,200,0.10) 0%,transparent 65%),
-  radial-gradient(ellipse 700px 600px at 85% 85%,rgba(120,60,220,0.09) 0%,transparent 65%),
-  radial-gradient(ellipse 500px 400px at 55% 25%,rgba(0,200,255,0.05) 0%,transparent 55%),
-  radial-gradient(ellipse 400px 300px at 40% 70%,rgba(16,185,129,0.03) 0%,transparent 60%);
+  radial-gradient(ellipse 700px 600px at 85% 85%,rgba(120,60,220,0.09) 0%,transparent 65%);
   pointer-events:none;z-index:0}
 ::-webkit-scrollbar{width:3px;height:3px}
 ::-webkit-scrollbar-track{background:transparent}
@@ -49,19 +27,17 @@ body::before{content:'';position:fixed;inset:0;background:
 .app{display:flex;height:100vh;overflow:hidden;position:relative;z-index:1}
 
 /* SIDEBAR */
-.sidebar{width:var(--sidebar);min-width:var(--sidebar);height:100vh;background:var(--glass);border-right:1px solid var(--border);display:flex;flex-direction:column;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);position:relative;z-index:50}
-.sidebar::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(59,145,255,0.5),transparent)}
+.sidebar{width:var(--sidebar);min-width:var(--sidebar);height:100vh;background:var(--glass);border-right:1px solid var(--border);display:flex;flex-direction:column;backdrop-filter:blur(24px);position:relative;z-index:50}
 .s-logo{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--border)}
 .s-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;box-shadow:0 0 18px rgba(59,145,255,0.3)}
-.s-logo-txt{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;letter-spacing:-0.2px}
+.s-logo-txt{font-family:'Syne',sans-serif;font-weight:800;font-size:15px}
 .s-logo-txt span{color:var(--cyan)}
-.s-user{display:flex;align-items:center;gap:9px;padding:11px 14px;margin:10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:.2s}
-.s-user:hover{background:var(--bg4)}
+.s-user{display:flex;align-items:center;gap:9px;padding:11px 14px;margin:10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2)}
 .s-avatar{width:30px;height:30px;background:linear-gradient(135deg,var(--purple),var(--pink));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
-.s-name{font-size:11.5px;font-weight:600;color:var(--text)}
+.s-name{font-size:11.5px;font-weight:600}
 .s-role{font-size:10px;color:var(--text2)}
 .s-online{width:7px;height:7px;background:var(--emerald);border-radius:50%;margin-left:auto;box-shadow:0 0 7px var(--emerald);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 7px var(--emerald)}50%{opacity:.7;box-shadow:0 0 14px var(--emerald)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 .s-nav{flex:1;overflow-y:auto;padding:6px 0}
 .s-sec{font-size:9.5px;font-weight:600;letter-spacing:.1em;color:var(--text3);text-transform:uppercase;padding:10px 18px 3px}
 .nav-item{display:flex;align-items:center;gap:9px;padding:8px 14px;margin:1px 8px;border-radius:var(--r2);cursor:pointer;transition:.15s;color:var(--text2);font-size:12.5px;font-weight:500;position:relative;user-select:none}
@@ -73,136 +49,61 @@ body::before{content:'';position:fixed;inset:0;background:
 .nbadge.red{background:rgba(244,63,94,.18);color:var(--rose)}
 .nbadge.blue{background:rgba(59,145,255,.18);color:var(--blue)}
 .nbadge.amber{background:rgba(245,158,11,.18);color:var(--amber)}
-.nbadge.green{background:rgba(16,185,129,.18);color:var(--emerald)}
-.s-bottom{border-top:1px solid var(--border);padding:10px}
-.quick-row{display:flex;gap:6px;margin-bottom:8px}
-.qbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:7px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:.15s;color:var(--text2);font-size:11px}
-.qbtn:hover{background:var(--bg4);color:var(--text)}
-.qbtn.wa:hover{color:#25d366;border-color:rgba(37,211,102,.25)}
-.qbtn.mic:hover{color:var(--purple);border-color:rgba(139,92,246,.25)}
-.qbtn.call:hover{color:var(--cyan);border-color:rgba(0,212,255,.25)}
-.s-storage{padding:2px 0 0}
-.s-stor-lbl{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:5px}
-.s-stor-bar{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
-.s-stor-fill{height:100%;width:68%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:2px}
 
 /* MAIN */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .topbar{height:var(--topbar);display:flex;align-items:center;gap:10px;padding:0 18px;background:rgba(6,11,23,.85);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);flex-shrink:0;z-index:30}
-.tb-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;letter-spacing:-.3px;white-space:nowrap}
-.tb-sub{font-family:'DM Sans',sans-serif;font-weight:400;font-size:12.5px;color:var(--text2);margin-left:7px}
+.tb-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px}
+.tb-sub{font-family:'DM Sans';font-weight:400;font-size:12.5px;color:var(--text2);margin-left:7px}
 .tb-search{display:flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:6px 12px;width:260px;transition:.2s;margin-left:auto}
-.tb-search:focus-within{border-color:var(--blue);box-shadow:0 0 0 2px rgba(59,145,255,.1)}
+.tb-search:focus-within{border-color:var(--blue)}
 .tb-search input{background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12.5px;width:100%}
 .tb-search input::placeholder{color:var(--text3)}
 .tb-actions{display:flex;align-items:center;gap:7px}
-.tb-btn{width:32px;height:32px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;color:var(--text2);font-size:12px;position:relative}
+.tb-btn{width:32px;height:32px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;color:var(--text2);font-size:12px}
 .tb-btn:hover{background:var(--bg4);color:var(--text)}
-.tb-btn .dot{position:absolute;top:5px;right:5px;width:6px;height:6px;background:var(--rose);border-radius:50%;animation:pdot 2s infinite;border:1.5px solid var(--bg)}
-@keyframes pdot{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
 .add-btn{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:var(--r2);padding:7px 15px;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap;box-shadow:0 2px 12px rgba(59,145,255,.25)}
 .add-btn:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(59,145,255,.4)}
 
-/* CONTENT WRAP */
-.cwrap{display:flex;flex:1;overflow:hidden}
+/* CONTENT */
 .content{flex:1;overflow-y:auto;padding:18px}
 
 /* TABS */
 .tabs{display:flex;gap:3px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:3px;margin-bottom:18px;width:fit-content;flex-wrap:wrap}
 .tab{padding:6px 15px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);transition:.15s;white-space:nowrap}
 .tab.active{background:rgba(59,145,255,.14);color:var(--blue)}
-.tab:hover:not(.active){color:var(--text)}
 
-/* CARDS */
+/* SECTION */
+.section{display:none}
+.section.active{display:block}
+
+/* CARD */
 .card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
 .card-hd{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid var(--border)}
 .card-title{font-family:'Syne',sans-serif;font-size:12.5px;font-weight:700}
-.card-act{font-size:11px;color:var(--blue);cursor:pointer;transition:.15s}
-.card-act:hover{color:var(--cyan)}
 .card-body{padding:13px 15px}
 
-/* STATS GRID */
+/* STATS */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
-.stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px;position:relative;overflow:hidden;cursor:pointer;transition:.2s}
-.stat:hover{background:var(--bg4);border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,80,.3)}
-.stat::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,var(--cg,rgba(59,145,255,.06)) 0%,transparent 60%);pointer-events:none}
-.stat:nth-child(1){--cg:rgba(59,145,255,.09)}
-.stat:nth-child(2){--cg:rgba(16,185,129,.09)}
-.stat:nth-child(3){--cg:rgba(245,158,11,.09)}
-.stat:nth-child(4){--cg:rgba(139,92,246,.09)}
-.stat:nth-child(5){--cg:rgba(0,212,255,.09)}
-.stat:nth-child(6){--cg:rgba(244,63,94,.09)}
-.stat:nth-child(7){--cg:rgba(236,72,153,.09)}
-.stat:nth-child(8){--cg:rgba(59,145,255,.09)}
-@keyframes fiu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.stat-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
-.stat-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-.stat-trend{display:flex;align-items:center;gap:3px;font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:20px}
-.trend-up{background:rgba(16,185,129,.12);color:var(--emerald)}
-.trend-dn{background:rgba(244,63,94,.12);color:var(--rose)}
+.stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer;transition:.2s}
+.stat:hover{background:var(--bg4);transform:translateY(-2px)}
+.stat-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:12px}
 .stat-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;line-height:1;margin-bottom:4px;letter-spacing:-1px}
-.stat-lbl{font-size:10.5px;color:var(--text2);font-weight:500;margin-bottom:9px}
-.stat-bar{height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden}
-.stat-fill{height:100%;border-radius:2px;transition:width 1.5s cubic-bezier(.4,0,.2,1);width:0}
+.stat-lbl{font-size:10.5px;color:var(--text2);font-weight:500}
 
-/* LOWER GRID */
-.lower{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px}
-
-/* BAR CHART */
-.chart-wrap{height:110px;display:flex;align-items:flex-end;gap:5px}
-.bar-group{flex:1;display:flex;gap:2px;align-items:flex-end}
-.bar{flex:1;border-radius:3px 3px 0 0;cursor:pointer;position:relative;min-height:3px;transition:height 1.2s cubic-bezier(.4,0,.2,1)}
-.bar:hover{filter:brightness(1.3)}
-.bar:hover::after{content:attr(data-v);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:rgba(8,18,36,.97);border:1px solid var(--border2);color:var(--text);font-size:10px;padding:3px 6px;border-radius:4px;white-space:nowrap;margin-bottom:4px;z-index:10}
-.chart-lbls{display:flex;padding-top:5px}
-.chart-lbl{flex:1;text-align:center;font-size:9.5px;color:var(--text3)}
-.chart-legend{display:flex;gap:12px;margin-top:8px}
-.cl-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text2)}
-.cl-dot{width:8px;height:8px;border-radius:2px}
-
-/* RINGS */
-.rings-row{display:flex;justify-content:space-around;align-items:center;padding:12px 0}
-.ring-item{display:flex;flex-direction:column;align-items:center;gap:7px;position:relative}
-.ring-svg{transform:rotate(-90deg)}
-.ring-track{fill:none;stroke:rgba(255,255,255,.06)}
-.ring-fill{fill:none;stroke-linecap:round;stroke-dasharray:169.6;stroke-dashoffset:169.6;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)}
-.ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
-.ring-val{font-family:'Syne',sans-serif;font-size:13px;font-weight:700}
-.ring-lbl{font-size:10px;color:var(--text2)}
-
-/* TIMELINE */
-.tl-item{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid var(--border);transition:.15s}
-.tl-item:last-child{border-bottom:none}
-.tl-item:hover{padding-left:3px}
-.tl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px}
-.tl-title{font-size:11.5px;font-weight:500;margin-bottom:2px}
-.tl-meta{font-size:10px;color:var(--text2)}
-.tl-time{font-size:10px;color:var(--text3);white-space:nowrap}
-
-/* HEATMAP */
-.hm-grid{display:grid;grid-template-columns:repeat(13,1fr);gap:3px}
-.hm-cell{aspect-ratio:1;border-radius:3px;cursor:pointer;transition:transform .15s,opacity .15s}
-.hm-cell:hover{transform:scale(1.35);opacity:.85}
-.hm0{background:rgba(255,255,255,.04)}
-.hm1{background:rgba(59,145,255,.18)}
-.hm2{background:rgba(59,145,255,.38)}
-.hm3{background:rgba(59,145,255,.62)}
-.hm4{background:var(--blue);box-shadow:0 0 4px rgba(59,145,255,.4)}
-
-/* AGENCIES TABLE */
+/* TABLE */
 .t-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:13px;flex-wrap:wrap}
 .t-search{display:flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:6px 11px;flex:1;min-width:180px;transition:.2s}
-.t-search:focus-within{border-color:var(--blue);box-shadow:0 0 0 2px rgba(59,145,255,.1)}
+.t-search:focus-within{border-color:var(--blue)}
 .t-search input{background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;width:100%}
 .t-btn{display:flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:6px 11px;color:var(--text2);font-size:11.5px;cursor:pointer;transition:.15s;white-space:nowrap}
 .t-btn:hover{background:var(--bg4);color:var(--text)}
-.t-btn.active-filter{color:var(--blue);border-color:rgba(59,145,255,.3);background:rgba(59,145,255,.08)}
-.t-stats{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-.t-stat-pill{padding:4px 11px;border-radius:20px;font-size:10.5px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);transition:.15s}
-.t-stat-pill:hover{background:var(--bg4);color:var(--text)}
-.t-stat-pill.sel{color:var(--blue);border-color:rgba(59,145,255,.3);background:rgba(59,145,255,.1)}
+.status-pills{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.spill{padding:4px 12px;border-radius:20px;font-size:10.5px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);transition:.15s;user-select:none}
+.spill:hover{background:var(--bg4)}
+.spill.sel{color:var(--blue);border-color:rgba(59,145,255,.3);background:rgba(59,145,255,.1)}
 .dtable{width:100%;border-collapse:collapse}
-.dtable th{text-align:left;padding:9px 13px;font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none}
+.dtable th{text-align:left;padding:9px 13px;font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer}
 .dtable th:hover{color:var(--text2)}
 .dtable td{padding:11px 13px;font-size:12px;border-bottom:1px solid var(--border);vertical-align:middle}
 .dtable tr:last-child td{border-bottom:none}
@@ -214,59 +115,45 @@ body::before{content:'';position:fixed;inset:0;background:
 .badge::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
 .b-active{background:rgba(16,185,129,.12);color:#10b981}
 .b-pending{background:rgba(245,158,11,.12);color:#f59e0b}
-.b-noresp{background:rgba(244,63,94,.12);color:#f43f5e}
+.b-noresponse{background:rgba(244,63,94,.12);color:#f43f5e}
 .b-approved{background:rgba(59,145,255,.12);color:#3b91ff}
 .b-review{background:rgba(139,92,246,.12);color:#8b5cf6}
 .b-followup{background:rgba(0,212,255,.12);color:#00d4ff}
 .pdot-row{display:inline-flex;align-items:center;gap:4px;font-size:11px}
 .pdot{width:7px;height:7px;border-radius:50%}
-.ph{background:var(--rose);box-shadow:0 0 6px rgba(244,63,94,.5)}
+.ph{background:var(--rose)}
 .pm{background:var(--amber)}
 .pl{background:var(--emerald)}
 .act-btns{display:flex;gap:4px}
-.act-btn{width:26px;height:26px;border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.13s;font-size:10px;background:var(--bg3);border:1px solid var(--border);color:var(--text2)}
+.act-btn{width:28px;height:28px;border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.13s;font-size:10px;background:var(--bg3);border:1px solid var(--border);color:var(--text2)}
 .act-btn:hover{background:rgba(59,145,255,.13);color:var(--blue);border-color:rgba(59,145,255,.28)}
 .act-btn.del:hover{background:rgba(244,63,94,.13);color:var(--rose);border-color:rgba(244,63,94,.28)}
 .act-btn.wa:hover{background:rgba(37,211,102,.12);color:#25d366;border-color:rgba(37,211,102,.25)}
+.act-btn.call-btn:hover{background:rgba(16,185,129,.12);color:var(--emerald);border-color:rgba(16,185,129,.25)}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:60px 20px;color:var(--text3)}
+.empty-state i{font-size:42px;margin-bottom:14px;display:block;opacity:.4}
+.empty-state h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text2);margin-bottom:6px}
+.empty-state p{font-size:12px;margin-bottom:18px;line-height:1.6}
 
 /* MEETINGS */
-.mtg-layout{display:grid;grid-template-columns:1fr 1.7fr;gap:13px}
-.mini-cal{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:15px}
-.cal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
-.cal-month{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700}
-.cal-nav{width:25px;height:25px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;color:var(--text2);transition:.13s}
-.cal-nav:hover{background:var(--bg4);color:var(--text)}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.cal-dn{text-align:center;font-size:9px;color:var(--text3);font-weight:600;padding:3px 0}
-.cal-d{text-align:center;font-size:10.5px;padding:5px 2px;border-radius:5px;cursor:pointer;transition:.12s;color:var(--text2);position:relative}
-.cal-d:hover{background:var(--bg4);color:var(--text)}
-.cal-d.today{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-weight:700;box-shadow:0 2px 10px rgba(59,145,255,.3)}
-.cal-d.has-mtg{color:var(--text)}
-.cal-d.has-mtg::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--purple)}
-.cal-d.other{color:var(--text3);opacity:.35}
-.mtg-list-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.mtg-list-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700}
-.mtg-filter{display:flex;gap:5px}
-.mf-btn{padding:4px 9px;border-radius:20px;font-size:10px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);transition:.13s}
-.mf-btn.active{color:var(--blue);border-color:rgba(59,145,255,.3);background:rgba(59,145,255,.1)}
-.mtg-cards{display:flex;flex-direction:column;gap:9px;max-height:420px;overflow-y:auto}
-.mtg-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:13px;display:flex;gap:11px;align-items:flex-start;transition:.18s;cursor:pointer;position:relative;overflow:hidden}
+.mtg-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:13px;display:flex;gap:11px;align-items:flex-start;transition:.18s;cursor:pointer;position:relative;overflow:hidden;margin-bottom:9px}
 .mtg-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--mc,var(--blue))}
-.mtg-card:hover{background:var(--bg4);transform:translateX(3px)}
+.mtg-card:hover{background:var(--bg4)}
 .mtg-time-blk{background:rgba(59,145,255,.08);border:1px solid rgba(59,145,255,.15);border-radius:8px;padding:7px 9px;text-align:center;flex-shrink:0;min-width:52px}
 .mtg-t{font-family:'Syne',sans-serif;font-size:12.5px;font-weight:700;color:var(--blue)}
 .mtg-ap{font-size:9px;color:var(--text2)}
 .mtg-info{flex:1;min-width:0}
 .mtg-agency{font-size:12.5px;font-weight:600;margin-bottom:3px}
-.mtg-type{font-size:11px;color:var(--text2);margin-bottom:6px}
-.mtg-tags{display:flex;gap:4px;flex-wrap:wrap}
-.mtag{font-size:10px;padding:2px 7px;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text2)}
-.mtg-actions{display:flex;flex-direction:column;gap:5px;flex-shrink:0}
-.mtg-join-btn{padding:5px 10px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:5px;color:#fff;font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap;transition:.15s}
-.mtg-join-btn:hover{transform:translateY(-1px);box-shadow:0 3px 12px rgba(59,145,255,.3)}
-.mtg-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:12px}
-.mtg-stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:11px;text-align:center}
-.mtg-stat-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:2px}
+.mtg-type{font-size:11px;color:var(--text2);margin-bottom:4px}
+.mtg-join-btn{padding:6px 13px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:5px;color:#fff;font-size:11px;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap;flex-shrink:0}
+.mtg-join-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(59,145,255,.35)}
+.mtg-del-btn{padding:5px 9px;background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.2);border-radius:5px;color:var(--rose);font-size:10px;cursor:pointer;transition:.15s;white-space:nowrap;flex-shrink:0;margin-top:4px}
+.mtg-del-btn:hover{background:rgba(244,63,94,.2)}
+.mtg-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.mtg-stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:14px;text-align:center}
+.mtg-stat-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:2px}
 .mtg-stat-lbl{font-size:10px;color:var(--text2)}
 
 /* KANBAN */
@@ -276,121 +163,73 @@ body::before{content:'';position:fixed;inset:0;background:
 .kb-lbl{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600}
 .kb-dot{width:7px;height:7px;border-radius:50%}
 .kb-cnt{background:var(--bg3);border:1px solid var(--border);border-radius:20px;font-size:10px;color:var(--text2);padding:1px 7px}
-.kb-body{padding:9px;display:flex;flex-direction:column;gap:7px;min-height:260px;max-height:450px;overflow-y:auto}
-.task-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:11px;cursor:grab;transition:.18s;position:relative}
-.task-card:hover{background:var(--bg4);border-color:var(--border2);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,60,.25)}
-.task-card:active{cursor:grabbing;opacity:.8}
+.kb-body{padding:9px;display:flex;flex-direction:column;gap:7px;min-height:200px;max-height:500px;overflow-y:auto}
+.task-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:11px;cursor:pointer;transition:.18s;position:relative}
+.task-card:hover{background:var(--bg4);border-color:var(--border2);transform:translateY(-2px)}
 .task-pbar{position:absolute;top:0;left:0;right:0;height:2px;border-radius:8px 8px 0 0}
-.task-title{font-size:12px;font-weight:600;margin-bottom:5px;line-height:1.4}
-.task-ag{font-size:10px;color:var(--text2);margin-bottom:7px;display:flex;align-items:center;gap:3px}
-.task-ft{display:flex;align-items:center;justify-content:space-between}
-.task-tags{display:flex;gap:3px;flex-wrap:wrap}
-.ttag{font-size:9px;padding:2px 6px;border-radius:20px;background:rgba(59,145,255,.1);color:var(--blue);border:1px solid rgba(59,145,255,.18)}
-.ttag.green{background:rgba(16,185,129,.1);color:var(--emerald);border-color:rgba(16,185,129,.18)}
-.ttag.amber{background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.18)}
-.ttag.purple{background:rgba(139,92,246,.1);color:var(--purple);border-color:rgba(139,92,246,.18)}
-.task-avs{display:flex}
-.task-av{width:20px;height:20px;border-radius:50%;border:2px solid var(--bg);margin-left:-5px;font-size:7.5px;font-weight:700;display:flex;align-items:center;justify-content:center}
-.task-av:first-child{margin-left:0}
-.task-due{font-size:10px;color:var(--text3);margin-top:6px;display:flex;align-items:center;gap:4px}
-.task-due.ov{color:var(--rose)}
-.task-due.soon{color:var(--amber)}
-.task-progress{margin-top:6px}
-.task-progress-bar{height:2px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-top:3px}
-.task-progress-fill{height:100%;border-radius:2px;transition:width .8s ease}
-.task-progress-lbl{font-size:9px;color:var(--text3)}
-.kb-add{padding:9px;text-align:center;color:var(--text3);font-size:11px;cursor:pointer;border:1px dashed rgba(255,255,255,.08);border-radius:6px;transition:.13s}
+.task-title{font-size:12px;font-weight:600;margin-bottom:4px;line-height:1.4}
+.task-ag{font-size:10px;color:var(--text2);margin-bottom:6px}
+.task-ft{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.task-due{font-size:10px;color:var(--text3)}
+.task-del{font-size:10px;color:var(--text3);cursor:pointer;padding:2px 4px;border-radius:3px;transition:.1s}
+.task-del:hover{color:var(--rose)}
+.kb-add{padding:8px;text-align:center;color:var(--text3);font-size:11px;cursor:pointer;border:1px dashed rgba(255,255,255,.08);border-radius:6px;transition:.13s}
 .kb-add:hover{color:var(--blue);border-color:rgba(59,145,255,.3);background:rgba(59,145,255,.04)}
 
 /* FOLLOW-UPS */
 .fu-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:13px}
 .fu-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:11px 13px;display:flex;align-items:center;gap:11px;transition:.16s;cursor:pointer;margin-bottom:7px;position:relative;overflow:hidden}
-.fu-item:hover{background:var(--bg4);border-color:var(--border2)}
+.fu-item:hover{background:var(--bg4)}
 .fu-item.urg{border-left:3px solid var(--rose)}
 .fu-item.warn{border-left:3px solid var(--amber)}
 .fu-item.norm{border-left:3px solid var(--blue)}
 .fu-ico{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.fu-name{font-size:12px;font-weight:600}
-.fu-detail{font-size:10px;color:var(--text2);margin-top:2px}
+.fu-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
 .fu-time{font-size:10px;color:var(--text3);white-space:nowrap}
-.fu-rem{padding:3px 9px;background:rgba(59,145,255,.1);border:1px solid rgba(59,145,255,.18);border-radius:5px;color:var(--blue);font-size:10px;cursor:pointer;transition:.13s;flex-shrink:0;margin-top:4px}
+.fu-rem{padding:3px 9px;background:rgba(59,145,255,.1);border:1px solid rgba(59,145,255,.18);border-radius:5px;color:var(--blue);font-size:10px;cursor:pointer;transition:.13s}
 .fu-rem:hover{background:rgba(59,145,255,.2)}
-.fu-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.fu-wa{padding:3px 9px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.2);border-radius:5px;color:#25d366;font-size:10px;cursor:pointer;transition:.13s}
+.fu-wa:hover{background:rgba(37,211,102,.2)}
 .fu-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:13px}
 .fu-sum-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:11px;text-align:center}
 .fu-sum-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:2px}
 .fu-sum-lbl{font-size:10px;color:var(--text2)}
 
 /* REPORT */
-.rpt-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:22px;position:relative;overflow:hidden}
-.rpt-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 700px 400px at 50% -50px,rgba(59,145,255,.05) 0%,transparent 65%);pointer-events:none}
+.rpt-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:22px}
 .rpt-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.rpt-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800}
 .rpt-date{font-size:11px;color:var(--text2);margin-bottom:3px}
-.rpt-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;letter-spacing:-.4px}
 .rpt-btns{display:flex;gap:8px;flex-wrap:wrap}
 .copy-btn{display:flex;align-items:center;gap:7px;background:rgba(59,145,255,.1);border:1px solid rgba(59,145,255,.28);border-radius:var(--r2);padding:7px 15px;color:var(--blue);font-size:12px;font-weight:600;cursor:pointer;transition:.18s}
 .copy-btn:hover{background:rgba(59,145,255,.18)}
-.share-btn{display:flex;align-items:center;gap:7px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.28);border-radius:var(--r2);padding:7px 15px;color:var(--emerald);font-size:12px;font-weight:600;cursor:pointer;transition:.18s}
-.share-btn:hover{background:rgba(16,185,129,.18)}
-.rpt-score{display:flex;align-items:center;gap:18px;padding:14px;background:rgba(59,145,255,.05);border:1px solid rgba(59,145,255,.12);border-radius:var(--r2);margin-bottom:18px;flex-wrap:wrap}
-.rpt-score-val{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--blue);line-height:1}
-.rpt-score-lbl{font-size:11px;color:var(--text2);margin-bottom:4px}
-.rpt-score-sub{font-size:10px;color:var(--text3)}
-.rpt-score-bar{flex:1;min-width:150px}
-.rpt-score-bar-track{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-top:6px}
-.rpt-score-bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:3px;transition:width 1.5s ease}
-.rpt-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;margin-bottom:18px}
-.rpt-blk{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:var(--r2);padding:13px}
-.rpt-blk-title{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:11px}
-.rpt-item{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid var(--border);font-size:11.5px}
-.rpt-item:last-child{border-bottom:none}
-.rpt-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
-.rpt-txt{flex:1;line-height:1.4}
-.rpt-preview{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:var(--r2);padding:13px;font-family:'Courier New',monospace;font-size:11.5px;line-height:1.85;color:var(--text2);white-space:pre-wrap;max-height:220px;overflow-y:auto}
+.share-btn{display:flex;align-items:center;gap:7px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.28);border-radius:var(--r2);padding:7px 15px;color:#25d366;font-size:12px;font-weight:600;cursor:pointer;transition:.18s}
+.share-btn:hover{background:rgba(37,211,102,.18)}
+.rpt-preview{background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:var(--r2);padding:16px;font-family:'Courier New',monospace;font-size:12px;line-height:1.9;color:var(--text2);white-space:pre-wrap;max-height:300px;overflow-y:auto}
 
 /* CONTACTS */
-.contacts-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
 .contacts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .contact-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:18px;text-align:center;transition:.2s;cursor:pointer;position:relative;overflow:hidden}
-.contact-card:hover{background:var(--bg4);border-color:var(--border2);transform:translateY(-3px);box-shadow:0 10px 32px rgba(0,0,80,.25)}
-.contact-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,var(--cc,rgba(59,145,255,.06)) 0%,transparent 60%);pointer-events:none}
-.cc-avatar{width:52px;height:52px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;border:2px solid;position:relative}
-.cc-avatar::after{content:'';position:absolute;bottom:1px;right:1px;width:10px;height:10px;border-radius:50%;background:var(--emerald);border:2px solid var(--bg);box-shadow:0 0 5px var(--emerald)}
+.contact-card:hover{background:var(--bg4);border-color:var(--border2);transform:translateY(-3px)}
+.cc-avatar{width:52px;height:52px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;border:2px solid}
 .cc-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:2px}
-.cc-role{font-size:11px;color:var(--text2);margin-bottom:5px}
-.cc-agency{font-size:10px;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:4px}
-.cc-stats{display:flex;gap:10px;justify-content:center;margin-bottom:11px}
-.cc-stat{text-align:center}
-.cc-stat-val{font-family:'Syne',sans-serif;font-size:13px;font-weight:700}
-.cc-stat-lbl{font-size:9px;color:var(--text3)}
-.cc-btns{display:flex;gap:5px;justify-content:center}
+.cc-role{font-size:11px;color:var(--text2);margin-bottom:3px}
+.cc-agency{font-size:10px;color:var(--text3);margin-bottom:10px}
+.cc-btns{display:flex;gap:5px;justify-content:center;flex-wrap:wrap}
 .cc-btn{padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;transition:.13s;border:1px solid var(--border);background:var(--bg3);color:var(--text2);display:flex;align-items:center;gap:4px}
 .cc-btn:hover{background:var(--bg4);color:var(--text)}
-.cc-btn.primary{background:rgba(59,145,255,.12);border-color:rgba(59,145,255,.22);color:var(--blue)}
 .cc-btn.wa{background:rgba(37,211,102,.1);border-color:rgba(37,211,102,.2);color:#25d366}
-
-/* FULL CALENDAR */
-.cal-full-layout{display:grid;grid-template-columns:1fr 280px;gap:14px}
-.cal-full-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:10px}
-.cal-full-day-name{text-align:center;font-size:10px;color:var(--text3);font-weight:600;padding:6px 0;border-bottom:1px solid var(--border)}
-.cal-full-cell{min-height:80px;border-radius:5px;padding:6px;cursor:pointer;transition:.13s;border:1px solid transparent;position:relative}
-.cal-full-cell:hover{background:var(--bg4);border-color:var(--border)}
-.cal-full-cell.today-cell{background:rgba(59,145,255,.07);border-color:rgba(59,145,255,.2)}
-.cal-full-num{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:4px}
-.cal-full-num.today-num{color:var(--blue)}
-.cal-event{font-size:9px;padding:2px 5px;border-radius:3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.cc-btn.call{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.2);color:var(--emerald)}
+.cc-btn.del{background:rgba(244,63,94,.1);border-color:rgba(244,63,94,.2);color:var(--rose)}
 
 /* SETTINGS */
 .settings-layout{display:grid;grid-template-columns:200px 1fr;gap:14px}
-.settings-nav{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:10px;height:fit-content}
-.sn-item{padding:9px 12px;border-radius:var(--r2);cursor:pointer;font-size:12.5px;font-weight:500;color:var(--text2);transition:.13s;display:flex;align-items:center;gap:8px}
+.settings-nav{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:10px}
+.sn-item{padding:9px 12px;border-radius:var(--r2);cursor:pointer;font-size:12.5px;color:var(--text2);transition:.13s;display:flex;align-items:center;gap:8px;font-weight:500}
 .sn-item:hover{background:var(--bg4);color:var(--text)}
 .sn-item.active{background:rgba(59,145,255,.1);color:var(--blue)}
-.sn-item i{width:14px;font-size:12px;text-align:center}
 .settings-content{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:22px}
-.settings-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px}
-.settings-sub{font-size:11.5px;color:var(--text2);margin-bottom:22px}
-.settings-divider{height:1px;background:var(--border);margin:18px 0}
+.settings-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:16px}
 .setting-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)}
 .setting-row:last-child{border-bottom:none}
 .setting-lbl{font-size:12.5px;font-weight:600;margin-bottom:2px}
@@ -398,117 +237,65 @@ body::before{content:'';position:fixed;inset:0;background:
 .toggle{width:38px;height:20px;background:var(--bg4);border-radius:10px;position:relative;cursor:pointer;transition:.2s;flex-shrink:0;border:1px solid var(--border)}
 .toggle.on{background:rgba(59,145,255,.25);border-color:rgba(59,145,255,.4)}
 .toggle::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:var(--text3);top:2px;left:2px;transition:.2s}
-.toggle.on::after{background:var(--blue);left:20px;box-shadow:0 0 8px rgba(59,145,255,.5)}
-.settings-profile{display:flex;align-items:center;gap:14px;padding:16px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:18px}
-.sp-avatar{width:54px;height:54px;background:linear-gradient(135deg,var(--purple),var(--pink));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0}
-.sp-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700}
-.sp-role{font-size:11.5px;color:var(--text2);margin-top:2px}
-.sp-edit{margin-left:auto;padding:6px 14px;background:rgba(59,145,255,.1);border:1px solid rgba(59,145,255,.25);border-radius:var(--r2);color:var(--blue);font-size:11.5px;cursor:pointer;transition:.15s}
-.sp-edit:hover{background:rgba(59,145,255,.2)}
-
-/* NOTIFICATIONS PAGE */
-.notif-page-layout{display:grid;grid-template-columns:1fr 320px;gap:14px}
-.notif-filters{display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap}
-.nf-btn{padding:5px 13px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);transition:.13s}
-.nf-btn.active{color:var(--blue);border-color:rgba(59,145,255,.3);background:rgba(59,145,255,.08)}
-.notif-page-item{display:flex;gap:12px;padding:13px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:8px;transition:.15s;cursor:pointer}
-.notif-page-item:hover{background:var(--bg4)}
-.notif-page-item.unread{border-left:3px solid var(--blue)}
-.npi-ico{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.npi-content{flex:1;min-width:0}
-.npi-ttl{font-size:12.5px;font-weight:600;margin-bottom:3px}
-.npi-body{font-size:11.5px;color:var(--text2);margin-bottom:4px;line-height:1.4}
-.npi-time{font-size:10.5px;color:var(--text3)}
-.npi-actions{display:flex;gap:6px;margin-top:6px}
-.npi-act{padding:3px 9px;border-radius:5px;font-size:10.5px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);transition:.13s}
-.npi-act:hover{background:var(--bg4);color:var(--text)}
-.npi-act.primary{color:var(--blue);border-color:rgba(59,145,255,.25);background:rgba(59,145,255,.08)}
-
-/* RIGHT PANEL */
-.rpanel{width:var(--rpanel);min-width:var(--rpanel);height:100%;background:var(--glass);border-left:1px solid var(--border);display:flex;flex-direction:column;backdrop-filter:blur(20px)}
-.rp-hd{padding:13px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.rp-title{font-family:'Syne',sans-serif;font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:6px}
-.rp-clear{font-size:11px;color:var(--blue);cursor:pointer;transition:.13s}
-.rp-clear:hover{color:var(--cyan)}
-.rp-body{flex:1;overflow-y:auto;padding:11px}
-.rp-sec{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);padding:7px 3px 3px}
-.notif-item{display:flex;gap:9px;padding:9px;border-radius:var(--r2);margin-bottom:5px;border:1px solid var(--border);background:var(--bg3);transition:.16s;cursor:pointer}
-.notif-item:hover{background:var(--bg4)}
-.notif-ico{width:29px;height:29px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
-.notif-content{flex:1;min-width:0}
-.notif-ttl{font-size:11px;font-weight:600;margin-bottom:2px}
-.notif-body{font-size:10px;color:var(--text2);line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.notif-time{font-size:9.5px;color:var(--text3);margin-top:3px}
-.notif-unread{width:6px;height:6px;background:var(--blue);border-radius:50%;flex-shrink:0;margin-top:3px;animation:pulse 2s infinite}
-.mini-hm-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.rp-quick-actions{display:flex;flex-direction:column;gap:6px;margin-top:4px}
-.rp-qa{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:.15s;font-size:11.5px;color:var(--text2)}
-.rp-qa:hover{background:var(--bg4);color:var(--text)}
-.rp-qa i{font-size:12px;width:14px;text-align:center;color:var(--blue)}
-.rp-qa-badge{margin-left:auto;font-size:9px;font-weight:700;padding:1px 5px;border-radius:20px;background:rgba(244,63,94,.18);color:var(--rose)}
-
-/* FLOATING NOTIF */
-.float-notif{position:fixed;bottom:22px;right:calc(var(--rpanel) + 14px);background:rgba(8,16,32,.97);border:1px solid rgba(59,145,255,.3);border-radius:var(--r2);padding:11px 15px;display:flex;align-items:center;gap:9px;min-width:290px;box-shadow:0 8px 32px rgba(0,0,0,.55);backdrop-filter:blur(20px);z-index:200;animation:fpop .45s cubic-bezier(.34,1.56,.64,1)}
-@keyframes fpop{from{opacity:0;transform:translateY(20px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
-.fn-ico{width:33px;height:33px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.fn-ttl{font-size:12px;font-weight:600;margin-bottom:2px}
-.fn-body{font-size:11px;color:var(--text2)}
-.fn-close{font-size:12px;color:var(--text3);cursor:pointer;transition:.13s;padding:3px}
-.fn-close:hover{color:var(--text)}
-.fn-actions{display:flex;gap:5px;margin-top:4px}
-.fn-act{padding:3px 9px;border-radius:5px;font-size:10px;cursor:pointer;border:1px solid;transition:.13s}
-.fn-act.join{background:rgba(59,145,255,.15);border-color:rgba(59,145,255,.3);color:var(--blue)}
-.fn-act.dismiss{background:rgba(255,255,255,.05);border-color:var(--border);color:var(--text2)}
-
-/* VOICE MODAL */
-.voice-modal{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(8,16,32,.97);border:1px solid var(--border2);border-radius:var(--r);padding:18px 24px;display:none;align-items:center;gap:14px;z-index:200;backdrop-filter:blur(20px);box-shadow:0 10px 40px rgba(0,0,0,.6)}
-.voice-modal.show{display:flex}
-.voice-wave{display:flex;align-items:center;gap:3px;height:30px}
-.voice-wave span{width:3px;background:var(--blue);border-radius:2px;animation:wave 1s ease infinite}
-.voice-wave span:nth-child(2){animation-delay:.1s}
-.voice-wave span:nth-child(3){animation-delay:.2s}
-.voice-wave span:nth-child(4){animation-delay:.3s}
-.voice-wave span:nth-child(5){animation-delay:.4s}
-.voice-wave span:nth-child(6){animation-delay:.3s}
-.voice-wave span:nth-child(7){animation-delay:.2s}
-@keyframes wave{0%,100%{height:20%}50%{height:100%}}
-.voice-timer{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--blue)}
-.voice-stop{padding:7px 16px;background:rgba(244,63,94,.15);border:1px solid rgba(244,63,94,.3);border-radius:var(--r2);color:var(--rose);font-size:12px;cursor:pointer;transition:.15s;font-weight:600}
-.voice-stop:hover{background:rgba(244,63,94,.25)}
+.toggle.on::after{background:var(--blue);left:20px}
 
 /* MODAL */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:300;display:none;align-items:center;justify-content:center}
 .modal-bg.show{display:flex}
-.modal{background:#08121e;border:1px solid var(--border2);border-radius:var(--r);width:500px;max-width:95vw;max-height:90vh;overflow:hidden;box-shadow:0 28px 80px rgba(0,0,0,.85);animation:min .32s cubic-bezier(.34,1.56,.64,1)}
-@keyframes min{from{opacity:0;transform:scale(.87) translateY(-20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal{background:#08121e;border:1px solid var(--border2);border-radius:var(--r);width:520px;max-width:95vw;max-height:90vh;overflow:hidden;box-shadow:0 28px 80px rgba(0,0,0,.85);animation:min .32s cubic-bezier(.34,1.56,.64,1)}
+@keyframes min{from{opacity:0;transform:scale(.87)}to{opacity:1;transform:scale(1)}}
 .modal-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);background:rgba(59,145,255,.04)}
 .modal-ttl{font-family:'Syne',sans-serif;font-size:14.5px;font-weight:700;display:flex;align-items:center;gap:8px}
 .modal-ttl i{color:var(--blue)}
 .modal-x{width:27px;height:27px;border-radius:5px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:11px;transition:.13s}
-.modal-x:hover{color:var(--text);background:var(--bg4)}
-.modal-body{padding:18px;overflow-y:auto;max-height:58vh}
+.modal-x:hover{color:var(--text)}
+.modal-body{padding:18px;overflow-y:auto;max-height:62vh}
 .fgrp{margin-bottom:13px}
 .flbl{font-size:10.5px;font-weight:600;color:var(--text2);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.05em}
-.finput{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:8px 11px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12.5px;outline:none;transition:.16s;-webkit-appearance:none}
+.finput{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--r2);padding:9px 11px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12.5px;outline:none;transition:.16s}
 .finput:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(59,145,255,.1)}
 .finput::placeholder{color:var(--text3)}
 select.finput option{background:#08121e;color:var(--text)}
 .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.modal-ft{padding:13px 18px;border-top:1px solid var(--border);display:flex;gap:7px;justify-content:flex-end;background:rgba(255,255,255,.01)}
-.btn-cancel{padding:7px 17px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:.15s}
+.modal-ft{padding:13px 18px;border-top:1px solid var(--border);display:flex;gap:7px;justify-content:flex-end}
+.btn-cancel{padding:8px 18px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:.15s}
 .btn-cancel:hover{background:var(--bg4);color:var(--text)}
-.btn-save{padding:7px 17px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:var(--r2);color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.btn-save{padding:8px 18px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:var(--r2);color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
 .btn-save:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(59,145,255,.35)}
 
-/* SECTION VISIBILITY - FIX: all sections hidden by default */
-.section{display:none}
-.section.active{display:block}
+/* CONFIRM DIALOG */
+.confirm-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);z-index:400;display:none;align-items:center;justify-content:center}
+.confirm-bg.show{display:flex}
+.confirm-box{background:#08121e;border:1px solid rgba(244,63,94,.3);border-radius:var(--r);padding:24px;width:360px;max-width:95vw;text-align:center;animation:min .25s ease}
+.confirm-icon{font-size:32px;color:var(--rose);margin-bottom:12px}
+.confirm-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px}
+.confirm-msg{font-size:12px;color:var(--text2);margin-bottom:18px;line-height:1.5}
+.confirm-btns{display:flex;gap:8px;justify-content:center}
+.confirm-del{padding:8px 20px;background:var(--rose);border:none;border-radius:var(--r2);color:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
+.confirm-del:hover{background:#e0304d}
+.confirm-cancel{padding:8px 20px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);color:var(--text2);font-size:12px;cursor:pointer;transition:.15s}
+.confirm-cancel:hover{background:var(--bg4);color:var(--text)}
 
-/* RESPONSIVE */
-@media(max-width:1400px){:root{--rpanel:260px}}
-@media(max-width:1150px){.rpanel{display:none}:root{--rpanel:0px}}
-@media(max-width:1000px){.stats-grid{grid-template-columns:repeat(2,1fr)}.lower{grid-template-columns:1fr 1fr}.contacts-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:768px){.sidebar{display:none}.kanban{grid-template-columns:repeat(2,1fr)}.rpt-grid{grid-template-columns:1fr}.fu-grid{grid-template-columns:1fr}.mtg-layout{grid-template-columns:1fr}.cal-full-layout{grid-template-columns:1fr}}
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);padding:10px 22px;border-radius:8px;font-size:12.5px;font-weight:600;z-index:500;backdrop-filter:blur(10px);transition:opacity .3s;pointer-events:none}
+.toast.success{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);color:var(--emerald)}
+.toast.error{background:rgba(244,63,94,.15);border:1px solid rgba(244,63,94,.35);color:var(--rose)}
+.toast.info{background:rgba(59,145,255,.15);border:1px solid rgba(59,145,255,.35);color:var(--blue)}
+
+/* TIMELINE */
+.tl-item{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid var(--border)}
+.tl-item:last-child{border-bottom:none}
+.tl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.tl-title{font-size:11.5px;font-weight:500;margin-bottom:2px}
+.tl-meta{font-size:10px;color:var(--text2)}
+.tl-time{font-size:10px;color:var(--text3);white-space:nowrap}
+
+/* SIDEBAR BOTTOM */
+.s-bottom{border-top:1px solid var(--border);padding:10px}
+.quick-row{display:flex;gap:6px;margin-bottom:6px}
+.qbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:7px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:.15s;color:var(--text2);font-size:11px}
+.qbtn:hover{background:var(--bg4);color:var(--text)}
+.qbtn.wa:hover{color:#25d366;border-color:rgba(37,211,102,.25)}
 </style>
 </head>
 <body>
@@ -521,36 +308,26 @@ select.finput option{background:#08121e;color:var(--text)}
     <div class="s-logo-txt">Stream<span>Flow</span></div>
   </div>
   <div class="s-user">
-    <div class="s-avatar">AK</div>
-    <div><div class="s-name">Arjun Kapoor</div><div class="s-role">Agency Manager</div></div>
+    <div class="s-avatar" id="userInitials">AK</div>
+    <div><div class="s-name" id="userName">Arjun Kapoor</div><div class="s-role">Agency Manager</div></div>
     <div class="s-online"></div>
   </div>
   <nav class="s-nav">
     <div class="s-sec">Overview</div>
-    <div class="nav-item" data-sec="dashboard"><i class="fas fa-chart-line"></i>Dashboard</div>
-    <div class="nav-item" data-sec="agencies"><i class="fas fa-building"></i>Agencies<span class="nbadge red">24</span></div>
+    <div class="nav-item active" data-sec="dashboard"><i class="fas fa-chart-line"></i>Dashboard</div>
+    <div class="nav-item" data-sec="agencies"><i class="fas fa-building"></i>Agencies<span class="nbadge red" id="agencyCount">0</span></div>
     <div class="nav-item" data-sec="contacts"><i class="fas fa-address-book"></i>Contacts</div>
     <div class="s-sec">Work</div>
-    <div class="nav-item" data-sec="meetings"><i class="fas fa-video"></i>Meetings<span class="nbadge blue">3</span></div>
-    <div class="nav-item" data-sec="followups"><i class="fas fa-reply"></i>Follow-ups<span class="nbadge amber">7</span></div>
+    <div class="nav-item" data-sec="meetings"><i class="fas fa-video"></i>Meetings<span class="nbadge blue" id="meetingCount">0</span></div>
+    <div class="nav-item" data-sec="followups"><i class="fas fa-reply"></i>Follow-ups<span class="nbadge amber" id="followupCount">0</span></div>
     <div class="nav-item" data-sec="tasks"><i class="fas fa-check-square"></i>Daily Tasks</div>
     <div class="s-sec">Insights</div>
     <div class="nav-item" data-sec="report"><i class="fas fa-file-alt"></i>Reports</div>
-    <div class="nav-item" data-sec="calendar"><i class="fas fa-calendar-alt"></i>Calendar</div>
-    <div class="nav-item" data-sec="notifications"><i class="fas fa-bell"></i>Notifications<span class="nbadge red">2</span></div>
     <div class="nav-item" data-sec="settings"><i class="fas fa-cog"></i>Settings</div>
   </nav>
   <div class="s-bottom">
     <div class="quick-row">
-      <div class="qbtn wa" onclick="alert('Opening WhatsApp...')"><i class="fab fa-whatsapp"></i>WhatsApp</div>
-      <div class="qbtn mic" onclick="toggleVoice()"><i class="fas fa-microphone"></i>Voice</div>
-    </div>
-    <div class="quick-row">
-      <div class="qbtn call" onclick="alert('Calling...')"><i class="fas fa-phone"></i>Quick Call</div>
-    </div>
-    <div class="s-storage">
-      <div class="s-stor-lbl"><span>Storage</span><span>6.8 / 10 GB</span></div>
-      <div class="s-stor-bar"><div class="s-stor-fill"></div></div>
+      <div class="qbtn wa" id="waQuickBtn"><i class="fab fa-whatsapp"></i>WhatsApp</div>
     </div>
   </div>
 </aside>
@@ -558,25 +335,23 @@ select.finput option{background:#08121e;color:var(--text)}
 <!-- MAIN -->
 <div class="main">
   <div class="topbar">
-    <div class="tb-title" id="pageTitle">Dashboard<span class="tb-sub">Good morning, Arjun 👋</span></div>
+    <div class="tb-title" id="pageTitle">Dashboard<span class="tb-sub" id="pageSub">Good morning 👋</span></div>
     <div class="tb-search">
       <i class="fas fa-search" style="color:var(--text3);font-size:11px"></i>
-      <input type="text" placeholder="Search agencies, meetings, tasks…" oninput="globalSearch(this.value)" id="globalSearchInput">
+      <input type="text" placeholder="Search agencies, meetings…" id="globalSearchInput" oninput="globalSearch(this.value)">
     </div>
     <div class="tb-actions">
-      <div class="tb-btn" title="Calendar" onclick="showSec('calendar')"><i class="fas fa-calendar"></i></div>
-      <div class="tb-btn" title="Notifications" onclick="showSec('notifications')"><i class="fas fa-bell"></i><div class="dot"></div></div>
-      <div class="tb-btn" title="Refresh" onclick="location.reload()"><i class="fas fa-sync-alt"></i></div>
+      <div class="tb-btn" title="Add Agency" onclick="openModal('agency')"><i class="fas fa-plus"></i></div>
       <button class="add-btn" onclick="openModal('agency')"><i class="fas fa-plus"></i>Add Agency</button>
     </div>
   </div>
 
-  <div class="cwrap">
-    <div class="content">
+  <div style="flex:1;overflow:hidden;display:flex">
+    <div class="content" style="flex:1;overflow-y:auto">
 
-      <!-- TABS (only show for these sections) -->
+      <!-- TABS -->
       <div class="tabs" id="mainTabs">
-        <div class="tab" data-sec="dashboard">Dashboard</div>
+        <div class="tab active" data-sec="dashboard">Dashboard</div>
         <div class="tab" data-sec="agencies">Agencies</div>
         <div class="tab" data-sec="contacts">Contacts</div>
         <div class="tab" data-sec="meetings">Meetings</div>
@@ -585,136 +360,71 @@ select.finput option{background:#08121e;color:var(--text)}
         <div class="tab" data-sec="report">Report</div>
       </div>
 
-      <!-- ══ DASHBOARD ══ -->
-      <div id="sec-dashboard" class="section">
+      <!-- DASHBOARD -->
+      <div id="sec-dashboard" class="section active">
         <div class="stats-grid">
-          <div class="stat">
-            <div class="stat-top"><div class="stat-icon" style="background:rgba(59,145,255,.12);color:var(--blue)"><i class="fas fa-building"></i></div><div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 12%</div></div>
-            <div class="stat-val">48</div><div class="stat-lbl">Total Agencies</div>
-            <div class="stat-bar"><div class="stat-fill" data-w="80" style="background:var(--blue)"></div></div>
+          <div class="stat" onclick="showSec('agencies')">
+            <div class="stat-icon" style="background:rgba(59,145,255,.12);color:var(--blue)"><i class="fas fa-building"></i></div>
+            <div class="stat-val" id="statTotal">0</div><div class="stat-lbl">Total Agencies</div>
           </div>
-          <div class="stat">
-            <div class="stat-top"><div class="stat-icon" style="background:rgba(16,185,129,.12);color:var(--emerald)"><i class="fas fa-circle-check"></i></div><div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 8%</div></div>
-            <div class="stat-val">32</div><div class="stat-lbl">Active Agencies</div>
-            <div class="stat-bar"><div class="stat-fill" data-w="67" style="background:var(--emerald)"></div></div>
+          <div class="stat" onclick="showSec('agencies')">
+            <div class="stat-icon" style="background:rgba(16,185,129,.12);color:var(--emerald)"><i class="fas fa-circle-check"></i></div>
+            <div class="stat-val" id="statActive">0</div><div class="stat-lbl">Active</div>
           </div>
-          <div class="stat">
-            <div class="stat-top"><div class="stat-icon" style="background:rgba(245,158,11,.12);color:var(--amber)"><i class="fas fa-clock"></i></div><div class="stat-trend trend-dn"><i class="fas fa-arrow-down"></i> 3%</div></div>
-            <div class="stat-val">14</div><div class="stat-lbl">Pending Follow-ups</div>
-            <div class="stat-bar"><div class="stat-fill" data-w="45" style="background:var(--amber)"></div></div>
+          <div class="stat" onclick="showSec('followups')">
+            <div class="stat-icon" style="background:rgba(245,158,11,.12);color:var(--amber)"><i class="fas fa-clock"></i></div>
+            <div class="stat-val" id="statFollowup">0</div><div class="stat-lbl">Follow-ups Pending</div>
           </div>
-          <div class="stat">
-            <div class="stat-top"><div class="stat-icon" style="background:rgba(139,92,246,.12);color:var(--purple)"><i class="fas fa-video"></i></div><div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> +1</div></div>
-            <div class="stat-val">3</div><div class="stat-lbl">Today's Meetings</div>
-            <div class="stat-bar"><div class="stat-fill" data-w="55" style="background:var(--purple)"></div></div>
-          </div>
-          <div class="stat">
-            <div class="stat-top"><div class="stat-icon" style="background:rgba(0,212,255,.12);color:var(--cyan)"><i class="fas fa-list-check"></i></div><div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 5%</div></div>
-            <div class="stat-val">21</div><div class="stat-lbl">Completed Tasks</div>
-            <div class="stat-bar"><div class="stat-fill" data-w="72" style="background:var(--cyan)"></div></div>
-          </div>
-          <div class="stat">
-            <div class="stat-top"><div class="stat-icon" style="background:rgba(244,63,94,.12);color:var(--rose)"><i class="fas fa-ban"></i></div><div class="stat-trend trend-dn"><i class="fas fa-arrow-up"></i> +2</div></div>
-            <div class="stat-val">7</div><div class="stat-lbl">No Response</div>
-            <div class="stat-bar"><div class="stat-fill" data-w="28" style="background:var(--rose)"></div></div>
-          </div>
-          <div class="stat">
-            <div class="stat-top"><div class="stat-icon" style="background:rgba(236,72,153,.12);color:var(--pink)"><i class="fas fa-indian-rupee-sign"></i></div><div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 22%</div></div>
-            <div class="stat-val">₹4.2L</div><div class="stat-lbl">Revenue Progress</div>
-            <div class="stat-bar"><div class="stat-fill" data-w="62" style="background:linear-gradient(90deg,var(--pink),var(--purple))"></div></div>
-          </div>
-          <div class="stat">
-            <div class="stat-top"><div class="stat-icon" style="background:rgba(59,145,255,.12);color:var(--blue)"><i class="fas fa-fire"></i></div><div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 14%</div></div>
-            <div class="stat-val">87%</div><div class="stat-lbl">Weekly Productivity</div>
-            <div class="stat-bar"><div class="stat-fill" data-w="87" style="background:linear-gradient(90deg,var(--blue),var(--cyan))"></div></div>
+          <div class="stat" onclick="showSec('meetings')">
+            <div class="stat-icon" style="background:rgba(139,92,246,.12);color:var(--purple)"><i class="fas fa-video"></i></div>
+            <div class="stat-val" id="statMeetings">0</div><div class="stat-lbl">Meetings Scheduled</div>
           </div>
         </div>
 
-        <div class="lower">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px">
           <div class="card">
-            <div class="card-hd"><div class="card-title"><i class="fas fa-chart-bar" style="color:var(--blue);margin-right:6px;font-size:11px"></i>Weekly Agency Activity</div><div class="card-act">This Week ▾</div></div>
-            <div class="card-body">
-              <div class="chart-wrap" id="barChart"></div>
-              <div class="chart-lbls"><div class="chart-lbl">Mon</div><div class="chart-lbl">Tue</div><div class="chart-lbl">Wed</div><div class="chart-lbl">Thu</div><div class="chart-lbl">Fri</div><div class="chart-lbl">Sat</div><div class="chart-lbl">Sun</div></div>
-              <div class="chart-legend">
-                <div class="cl-item"><div class="cl-dot" style="background:rgba(59,145,255,.75)"></div>Calls</div>
-                <div class="cl-item"><div class="cl-dot" style="background:rgba(139,92,246,.75)"></div>Meetings</div>
-                <div class="cl-item"><div class="cl-dot" style="background:rgba(0,212,255,.55)"></div>Follow-ups</div>
+            <div class="card-hd"><div class="card-title"><i class="fas fa-timeline" style="color:var(--emerald);margin-right:6px;font-size:11px"></i>Recent Activity</div></div>
+            <div class="card-body" id="dashActivity">
+              <div class="empty-state" style="padding:30px 20px">
+                <i class="fas fa-stream"></i>
+                <p>No activity yet. Start by adding an agency!</p>
               </div>
             </div>
           </div>
           <div class="card">
-            <div class="card-hd"><div class="card-title"><i class="fas fa-bullseye" style="color:var(--purple);margin-right:6px;font-size:11px"></i>Performance Overview</div><div class="card-act">Details →</div></div>
-            <div class="card-body">
-              <div class="rings-row">
-                <div class="ring-item">
-                  <svg class="ring-svg" width="70" height="70" viewBox="0 0 64 64">
-                    <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
-                    <circle class="ring-fill" id="r1" cx="32" cy="32" r="27" stroke="#3b91ff" stroke-width="5"/>
-                  </svg>
-                  <div style="margin-top:-5px;text-align:center"><div class="ring-val">78%</div><div class="ring-lbl">Calls Done</div></div>
-                </div>
-                <div class="ring-item">
-                  <svg class="ring-svg" width="70" height="70" viewBox="0 0 64 64">
-                    <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
-                    <circle class="ring-fill" id="r2" cx="32" cy="32" r="27" stroke="#10b981" stroke-width="5"/>
-                  </svg>
-                  <div style="margin-top:-5px;text-align:center"><div class="ring-val">92%</div><div class="ring-lbl">Meetings</div></div>
-                </div>
-                <div class="ring-item">
-                  <svg class="ring-svg" width="70" height="70" viewBox="0 0 64 64">
-                    <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
-                    <circle class="ring-fill" id="r3" cx="32" cy="32" r="27" stroke="#8b5cf6" stroke-width="5"/>
-                  </svg>
-                  <div style="margin-top:-5px;text-align:center"><div class="ring-val">65%</div><div class="ring-lbl">Follow-ups</div></div>
-                </div>
+            <div class="card-hd"><div class="card-title"><i class="fas fa-fire" style="color:var(--rose);margin-right:6px;font-size:11px"></i>Urgent Follow-ups</div><div style="font-size:11px;color:var(--blue);cursor:pointer" onclick="showSec('followups')">View All →</div></div>
+            <div class="card-body" id="dashFollowups">
+              <div class="empty-state" style="padding:30px 20px">
+                <i class="fas fa-inbox"></i>
+                <p>No pending follow-ups. You're all caught up!</p>
               </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-hd"><div class="card-title"><i class="fas fa-timeline" style="color:var(--emerald);margin-right:6px;font-size:11px"></i>Recent Activity</div><div class="card-act" onclick="showSec('agencies')">View All →</div></div>
-            <div class="card-body">
-              <div class="tl-item"><div class="tl-dot" style="background:var(--emerald)"></div><div style="flex:1"><div class="tl-title">Deal closed — StarMedia Agency</div><div class="tl-meta">₹85,000 package signed ✓</div></div><div class="tl-time">2m</div></div>
-              <div class="tl-item"><div class="tl-dot" style="background:var(--blue)"></div><div style="flex:1"><div class="tl-title">Meeting scheduled — BrightStream</div><div class="tl-meta">Tomorrow 2:30 PM · Zoom</div></div><div class="tl-time">18m</div></div>
-              <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div style="flex:1"><div class="tl-title">Follow-up reminder — Zync</div><div class="tl-meta">No response 3 days</div></div><div class="tl-time">1h</div></div>
-              <div class="tl-item"><div class="tl-dot" style="background:var(--purple)"></div><div style="flex:1"><div class="tl-title">Proposal sent — NovaCast</div><div class="tl-meta">₹1.2L proposal shared</div></div><div class="tl-time">3h</div></div>
-              <div class="tl-item"><div class="tl-dot" style="background:var(--cyan)"></div><div style="flex:1"><div class="tl-title">ViralEdge — Intro call done</div><div class="tl-meta">Sending pitch deck today</div></div><div class="tl-time">5h</div></div>
             </div>
           </div>
         </div>
 
-        <div class="card" style="margin-bottom:14px">
-          <div class="card-hd">
-            <div class="card-title"><i class="fas fa-fire" style="color:var(--amber);margin-right:6px;font-size:11px"></i>Productivity Heatmap — Last 13 Weeks</div>
-            <div style="display:flex;gap:5px;align-items:center;font-size:10px;color:var(--text3)">
-              Less
-              <span class="hm-cell hm0" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span>
-              <span class="hm-cell hm1" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span>
-              <span class="hm-cell hm2" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span>
-              <span class="hm-cell hm3" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span>
-              <span class="hm-cell hm4" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span>
-              More
+        <div class="card">
+          <div class="card-hd"><div class="card-title"><i class="fas fa-video" style="color:var(--purple);margin-right:6px;font-size:11px"></i>Today's Meetings</div><div style="font-size:11px;color:var(--blue);cursor:pointer" onclick="showSec('meetings')">View All →</div></div>
+          <div class="card-body" id="dashMeetings">
+            <div class="empty-state" style="padding:25px 20px">
+              <i class="fas fa-calendar-xmark"></i>
+              <p>No meetings today. <span style="color:var(--blue);cursor:pointer" onclick="openModal('meeting')">Schedule one?</span></p>
             </div>
           </div>
-          <div class="card-body"><div class="hm-grid" id="heatmap"></div></div>
         </div>
       </div>
 
-      <!-- ══ AGENCIES ══ -->
+      <!-- AGENCIES -->
       <div id="sec-agencies" class="section">
-        <div class="t-stats">
-          <div class="t-stat-pill sel" onclick="filterByStatus('all',this)">All (10)</div>
-          <div class="t-stat-pill" onclick="filterByStatus('active',this)">Active (3)</div>
-          <div class="t-stat-pill" onclick="filterByStatus('pending',this)">Pending (2)</div>
-          <div class="t-stat-pill" onclick="filterByStatus('noresponse',this)">No Response (1)</div>
-          <div class="t-stat-pill" onclick="filterByStatus('approved',this)">Approved (1)</div>
-          <div class="t-stat-pill" onclick="filterByStatus('review',this)">Review (1)</div>
-          <div class="t-stat-pill" onclick="filterByStatus('followup',this)">Follow-up (2)</div>
+        <div class="status-pills" id="statusPills">
+          <div class="spill sel" data-filter="all" onclick="filterByStatus('all',this)">All</div>
+          <div class="spill" data-filter="active" onclick="filterByStatus('active',this)">Active</div>
+          <div class="spill" data-filter="pending" onclick="filterByStatus('pending',this)">Pending</div>
+          <div class="spill" data-filter="noresponse" onclick="filterByStatus('noresponse',this)">No Response</div>
+          <div class="spill" data-filter="approved" onclick="filterByStatus('approved',this)">Approved</div>
+          <div class="spill" data-filter="followup" onclick="filterByStatus('followup',this)">Follow-up</div>
         </div>
         <div class="t-toolbar">
-          <div class="t-search"><i class="fas fa-search" style="color:var(--text3);font-size:10.5px"></i><input type="text" placeholder="Search by name, contact, feedback…" oninput="filterAgencies(this.value)"></div>
-          <div class="t-btn" onclick="this.classList.toggle('active-filter')"><i class="fas fa-filter"></i>Filter</div>
-          <div class="t-btn"><i class="fas fa-sort"></i>Sort by Priority</div>
+          <div class="t-search"><i class="fas fa-search" style="color:var(--text3);font-size:10.5px"></i><input type="text" placeholder="Search by name, contact, notes…" oninput="renderAgencies()" id="agSearch"></div>
           <div class="t-btn" onclick="exportCSV()"><i class="fas fa-download"></i>Export CSV</div>
           <button class="add-btn" onclick="openModal('agency')"><i class="fas fa-plus"></i>Add Agency</button>
         </div>
@@ -723,15 +433,14 @@ select.finput option{background:#08121e;color:var(--text)}
             <table class="dtable">
               <thead>
                 <tr>
-                  <th onclick="sortTable('idx')"># ↕</th>
-                  <th onclick="sortTable('name')">Agency ↕</th>
+                  <th>#</th>
+                  <th>Agency</th>
                   <th>Contact</th>
                   <th>Phone</th>
-                  <th onclick="sortTable('status')">Status ↕</th>
-                  <th onclick="sortTable('priority')">Priority ↕</th>
-                  <th>Last Contact</th>
+                  <th>Status</th>
+                  <th>Priority</th>
                   <th>Next Follow-up</th>
-                  <th>Feedback</th>
+                  <th>Notes</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -741,90 +450,58 @@ select.finput option{background:#08121e;color:var(--text)}
         </div>
       </div>
 
-      <!-- ══ CONTACTS ══ -->
+      <!-- CONTACTS -->
       <div id="sec-contacts" class="section">
-        <div class="contacts-toolbar">
-          <div class="t-search" style="max-width:280px"><i class="fas fa-search" style="color:var(--text3);font-size:10.5px"></i><input type="text" placeholder="Search contacts…" oninput="filterContacts(this.value)"></div>
-          <div class="t-btn"><i class="fas fa-filter"></i>Filter</div>
-          <div class="t-btn"><i class="fas fa-sort"></i>Sort</div>
-          <div class="t-btn"><i class="fas fa-download"></i>Export</div>
-          <button class="add-btn" onclick="openModal('contact')" style="margin-left:auto"><i class="fas fa-user-plus"></i>Add Contact</button>
+        <div class="t-toolbar" style="margin-bottom:16px">
+          <div class="t-search" style="max-width:280px"><i class="fas fa-search" style="color:var(--text3);font-size:10.5px"></i><input type="text" placeholder="Search contacts…" oninput="renderContacts(this.value)" id="contactSearch"></div>
+          <button class="add-btn" onclick="openModal('agency')" style="margin-left:auto"><i class="fas fa-user-plus"></i>Add Contact</button>
         </div>
         <div class="contacts-grid" id="contactsGrid"></div>
       </div>
 
-      <!-- ══ MEETINGS ══ -->
+      <!-- MEETINGS -->
       <div id="sec-meetings" class="section">
-        <div class="mtg-stats-row">
-          <div class="mtg-stat"><div class="mtg-stat-val" style="color:var(--blue)">5</div><div class="mtg-stat-lbl">Today's Meetings</div></div>
-          <div class="mtg-stat"><div class="mtg-stat-val" style="color:var(--emerald)">1</div><div class="mtg-stat-lbl">Completed</div></div>
-          <div class="mtg-stat"><div class="mtg-stat-val" style="color:var(--amber)">4</div><div class="mtg-stat-lbl">Upcoming</div></div>
+        <div class="mtg-stats">
+          <div class="mtg-stat"><div class="mtg-stat-val" id="mtgTotal" style="color:var(--blue)">0</div><div class="mtg-stat-lbl">Total Meetings</div></div>
+          <div class="mtg-stat"><div class="mtg-stat-val" id="mtgUpcoming" style="color:var(--amber)">0</div><div class="mtg-stat-lbl">Upcoming</div></div>
+          <div class="mtg-stat"><div class="mtg-stat-val" id="mtgDone" style="color:var(--emerald)">0</div><div class="mtg-stat-lbl">Completed</div></div>
         </div>
-        <div class="mtg-layout">
-          <div>
-            <div class="mini-cal">
-              <div class="cal-hd">
-                <div class="cal-nav" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></div>
-                <div class="cal-month" id="calMonthTitle"></div>
-                <div class="cal-nav" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></div>
-              </div>
-              <div class="cal-grid" id="calGrid"></div>
-            </div>
-            <div style="margin-top:12px" class="card">
-              <div class="card-hd"><div class="card-title">Upcoming This Week</div><div class="card-act" onclick="openModal('meeting')">+ Add Meeting</div></div>
-              <div class="card-body">
-                <div class="tl-item"><div class="tl-dot" style="background:var(--blue)"></div><div><div class="tl-title">BrightStream — Strategy Call</div><div class="tl-meta">Mon 10:00 AM · Zoom</div></div></div>
-                <div class="tl-item"><div class="tl-dot" style="background:var(--purple)"></div><div><div class="tl-title">NovaCast — Proposal Review</div><div class="tl-meta">Wed 2:30 PM · Google Meet</div></div></div>
-                <div class="tl-item"><div class="tl-dot" style="background:var(--emerald)"></div><div><div class="tl-title">StarMedia — Contract Sign</div><div class="tl-meta">Fri 11:00 AM · In-person</div></div></div>
-                <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div><div class="tl-title">Zync Digital — Discovery Call</div><div class="tl-meta">Thu 4:00 PM · Zoom</div></div></div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="mtg-list-header">
-              <div class="mtg-list-title">Today's Schedule</div>
-              <div class="mtg-filter">
-                <div class="mf-btn active" onclick="filterMeetings('all',this)">All</div>
-                <div class="mf-btn" onclick="filterMeetings('pending',this)">Pending</div>
-                <div class="mf-btn" onclick="filterMeetings('completed',this)">Done</div>
-              </div>
-            </div>
-            <div class="mtg-cards" id="mtgCards"></div>
-          </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700">All Meetings</div>
+          <button class="add-btn" onclick="openModal('meeting')"><i class="fas fa-plus"></i>Schedule Meeting</button>
         </div>
+        <div id="mtgList"></div>
       </div>
 
-      <!-- ══ TASKS ══ -->
+      <!-- TASKS -->
       <div id="sec-tasks" class="section">
         <div class="t-toolbar" style="margin-bottom:14px">
-          <div class="t-search" style="max-width:250px"><i class="fas fa-search" style="color:var(--text3);font-size:10.5px"></i><input type="text" placeholder="Search tasks…"></div>
-          <div class="t-btn"><i class="fas fa-filter"></i>Priority</div>
-          <div class="t-btn"><i class="fas fa-user"></i>Assignee</div>
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700">Kanban Board</div>
           <button class="add-btn" onclick="openModal('task')" style="margin-left:auto"><i class="fas fa-plus"></i>Add Task</button>
         </div>
         <div class="kanban" id="kanban"></div>
       </div>
 
-      <!-- ══ FOLLOW-UPS ══ -->
+      <!-- FOLLOW-UPS -->
       <div id="sec-followups" class="section">
         <div class="fu-summary">
-          <div class="fu-sum-card"><div class="fu-sum-val" style="color:var(--rose)">3</div><div class="fu-sum-lbl">Urgent (5+ days)</div></div>
-          <div class="fu-sum-card"><div class="fu-sum-val" style="color:var(--amber)">4</div><div class="fu-sum-lbl">Due Today</div></div>
-          <div class="fu-sum-card"><div class="fu-sum-val" style="color:var(--emerald)">7</div><div class="fu-sum-lbl">This Week</div></div>
+          <div class="fu-sum-card"><div class="fu-sum-val" id="fuUrgent" style="color:var(--rose)">0</div><div class="fu-sum-lbl">Urgent (5+ days)</div></div>
+          <div class="fu-sum-card"><div class="fu-sum-val" id="fuTotal" style="color:var(--amber)">0</div><div class="fu-sum-lbl">Total Pending</div></div>
+          <div class="fu-sum-card"><div class="fu-sum-val" id="fuActive" style="color:var(--emerald)">0</div><div class="fu-sum-lbl">Active Agencies</div></div>
         </div>
         <div class="fu-grid">
           <div class="card">
-            <div class="card-hd"><div class="card-title"><i class="fas fa-reply" style="color:var(--amber);margin-right:6px;font-size:11px"></i>Pending Follow-ups</div><div class="card-act">14 total</div></div>
+            <div class="card-hd"><div class="card-title"><i class="fas fa-reply" style="color:var(--amber);margin-right:6px;font-size:11px"></i>Pending Follow-ups</div></div>
             <div class="card-body" id="fuList"></div>
           </div>
           <div class="card">
-            <div class="card-hd"><div class="card-title"><i class="fas fa-comments" style="color:var(--blue);margin-right:6px;font-size:11px"></i>Communication Log</div><div class="card-act">Filter ▾</div></div>
+            <div class="card-hd"><div class="card-title"><i class="fas fa-comments" style="color:var(--blue);margin-right:6px;font-size:11px"></i>Communication Log</div></div>
             <div class="card-body" id="commLog"></div>
           </div>
         </div>
       </div>
 
-      <!-- ══ REPORT ══ -->
+      <!-- REPORT -->
       <div id="sec-report" class="section">
         <div class="rpt-card">
           <div class="rpt-hd">
@@ -834,1028 +511,920 @@ select.finput option{background:#08121e;color:var(--text)}
               <button class="copy-btn" onclick="copyReport()"><i class="fas fa-copy"></i>Copy Report</button>
             </div>
           </div>
-          <div class="rpt-score">
-            <div>
-              <div style="font-size:10px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em">Overall Score</div>
-              <div class="rpt-score-val">87</div>
-              <div style="font-size:10px;color:var(--emerald);margin-top:3px">↑ +12 from yesterday</div>
-            </div>
-            <div class="rpt-score-bar">
-              <div class="rpt-score-lbl">Productivity Target: 100 pts</div>
-              <div class="rpt-score-sub">Calls · Meetings · Follow-ups · Tasks</div>
-              <div class="rpt-score-bar-track"><div class="rpt-score-bar-fill" id="rptScoreFill"></div></div>
-            </div>
-            <div style="text-align:center">
-              <div style="font-size:10px;color:var(--text2);margin-bottom:5px">Today's Progress</div>
-              <svg width="60" height="60" viewBox="0 0 64 64" style="transform:rotate(-90deg)">
-                <circle fill="none" stroke="rgba(255,255,255,.06)" cx="32" cy="32" r="27" stroke-width="5"/>
-                <circle fill="none" stroke="#3b91ff" cx="32" cy="32" r="27" stroke-width="5" stroke-linecap="round" stroke-dasharray="169.6" stroke-dashoffset="21.6"/>
-              </svg>
-            </div>
-          </div>
-          <div class="rpt-grid">
-            <div class="rpt-blk">
-              <div class="rpt-blk-title"><span style="color:var(--emerald)">●</span> Completed Work</div>
-              <div id="rptDone"></div>
-            </div>
-            <div class="rpt-blk">
-              <div class="rpt-blk-title"><span style="color:var(--amber)">●</span> Pending Work</div>
-              <div id="rptPend"></div>
-            </div>
-            <div class="rpt-blk">
-              <div class="rpt-blk-title"><span style="color:var(--blue)">●</span> Meetings Summary</div>
-              <div id="rptMtg"></div>
-            </div>
-          </div>
           <div class="rpt-preview" id="rptPreview"></div>
         </div>
       </div>
 
-      <!-- ══ CALENDAR ══ -->
-      <div id="sec-calendar" class="section">
-        <div class="t-toolbar" style="margin-bottom:14px">
-          <div class="tb-btn" style="width:auto;padding:6px 12px;font-size:12px" onclick="changeFullMonth(-1)"><i class="fas fa-chevron-left"></i></div>
-          <div id="fullCalTitle" style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700">May 2025</div>
-          <div class="tb-btn" style="width:auto;padding:6px 12px;font-size:12px" onclick="changeFullMonth(1)"><i class="fas fa-chevron-right"></i></div>
-          <button class="add-btn" onclick="openModal('meeting')" style="margin-left:auto"><i class="fas fa-plus"></i>New Event</button>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="cal-full-layout">
-              <div>
-                <div class="cal-full-grid" id="calFullGrid"></div>
-              </div>
-              <div>
-                <div class="card-hd" style="margin-bottom:10px"><div class="card-title">Today's Schedule</div></div>
-                <div id="todaySchedule"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ══ NOTIFICATIONS ══ -->
-      <div id="sec-notifications" class="section">
-        <div class="notif-page-layout">
-          <div>
-            <div class="notif-filters">
-              <div class="nf-btn active">All</div>
-              <div class="nf-btn">Unread (2)</div>
-              <div class="nf-btn">Meetings</div>
-              <div class="nf-btn">Follow-ups</div>
-              <div class="nf-btn">Deals</div>
-              <div class="nf-btn">System</div>
-            </div>
-            <div id="notifPageList"></div>
-          </div>
-          <div>
-            <div class="card">
-              <div class="card-hd"><div class="card-title">Notification Settings</div></div>
-              <div class="card-body">
-                <div class="setting-row">
-                  <div><div class="setting-lbl">Meeting Reminders</div><div class="setting-desc">30 min before</div></div>
-                  <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-                </div>
-                <div class="setting-row">
-                  <div><div class="setting-lbl">Follow-up Alerts</div><div class="setting-desc">Daily at 9 AM</div></div>
-                  <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-                </div>
-                <div class="setting-row">
-                  <div><div class="setting-lbl">Deal Updates</div><div class="setting-desc">Instant</div></div>
-                  <div class="toggle" onclick="this.classList.toggle('on')"></div>
-                </div>
-                <div class="setting-row">
-                  <div><div class="setting-lbl">WhatsApp Alerts</div><div class="setting-desc">Critical only</div></div>
-                  <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ══ SETTINGS ══ -->
+      <!-- SETTINGS -->
       <div id="sec-settings" class="section">
         <div class="settings-layout">
           <div class="settings-nav">
-            <div class="sn-item active" onclick="settingsNav(this)"><i class="fas fa-user"></i>Profile</div>
-            <div class="sn-item" onclick="settingsNav(this)"><i class="fas fa-bell"></i>Notifications</div>
-            <div class="sn-item" onclick="settingsNav(this)"><i class="fas fa-palette"></i>Appearance</div>
-            <div class="sn-item" onclick="settingsNav(this)"><i class="fas fa-shield-alt"></i>Privacy</div>
-            <div class="sn-item" onclick="settingsNav(this)"><i class="fas fa-database"></i>Data &amp; Sync</div>
-            <div class="sn-item" onclick="settingsNav(this)"><i class="fas fa-plug"></i>Integrations</div>
-            <div class="sn-item" onclick="settingsNav(this)"><i class="fas fa-keyboard"></i>Shortcuts</div>
+            <div class="sn-item active"><i class="fas fa-user"></i>Profile</div>
+            <div class="sn-item"><i class="fas fa-bell"></i>Notifications</div>
+            <div class="sn-item"><i class="fas fa-shield-alt"></i>Privacy</div>
           </div>
           <div class="settings-content">
             <div class="settings-title">Profile Settings</div>
-            <div class="settings-sub">Manage your personal information and preferences</div>
-            <div class="settings-profile">
-              <div class="sp-avatar">AK</div>
-              <div><div class="sp-name">Arjun Kapoor</div><div class="sp-role">Agency Manager · StreamFlow India</div></div>
-              <div class="sp-edit">Edit Profile</div>
-            </div>
             <div class="fgrid" style="margin-bottom:14px">
-              <div class="fgrp"><label class="flbl">Full Name</label><input class="finput" value="Arjun Kapoor"></div>
-              <div class="fgrp"><label class="flbl">Email</label><input class="finput" value="arjun@streamflow.in"></div>
+              <div class="fgrp"><label class="flbl">Your Name</label><input class="finput" id="settingName" placeholder="Your full name"></div>
+              <div class="fgrp"><label class="flbl">WhatsApp Number</label><input class="finput" id="settingWA" placeholder="+91 XXXXX XXXXX"></div>
             </div>
-            <div class="fgrid" style="margin-bottom:14px">
-              <div class="fgrp"><label class="flbl">Phone</label><input class="finput" value="+91 98765 43210"></div>
-              <div class="fgrp"><label class="flbl">Role</label><input class="finput" value="Agency Manager"></div>
+            <div class="fgrid" style="margin-bottom:18px">
+              <div class="fgrp"><label class="flbl">Email</label><input class="finput" id="settingEmail" placeholder="you@email.com"></div>
+              <div class="fgrp"><label class="flbl">Role</label><input class="finput" id="settingRole" placeholder="Agency Manager"></div>
             </div>
-            <div class="settings-divider"></div>
-            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:13px">Preferences</div>
+            <div class="settings-title" style="margin-bottom:12px">Preferences</div>
             <div class="setting-row">
-              <div><div class="setting-lbl">Dark Mode</div><div class="setting-desc">Always on — premium dark theme</div></div>
-              <div class="toggle on"></div>
-            </div>
-            <div class="setting-row">
-              <div><div class="setting-lbl">Auto Follow-up Reminders</div><div class="setting-desc">Set reminders automatically for no response agencies</div></div>
+              <div><div class="setting-lbl">Auto Follow-up Reminders</div><div class="setting-desc">Mark agencies as follow-up when no next date set</div></div>
               <div class="toggle on" onclick="this.classList.toggle('on')"></div>
             </div>
             <div class="setting-row">
-              <div><div class="setting-lbl">Daily Report Auto-Generate</div><div class="setting-desc">Generate report at 6 PM daily</div></div>
+              <div><div class="setting-lbl">WhatsApp Integration</div><div class="setting-desc">Open WhatsApp when clicking contact buttons</div></div>
               <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-            </div>
-            <div class="setting-row">
-              <div><div class="setting-lbl">WhatsApp Integration</div><div class="setting-desc">Quick send from dashboard</div></div>
-              <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-            </div>
-            <div class="setting-row">
-              <div><div class="setting-lbl">Sound Notifications</div><div class="setting-desc">Play sound for meeting alerts</div></div>
-              <div class="toggle" onclick="this.classList.toggle('on')"></div>
             </div>
             <div style="margin-top:18px;display:flex;gap:8px">
-              <button class="btn-save" onclick="showToast('✓ Settings saved!')"><i class="fas fa-save"></i>Save Changes</button>
-              <button class="btn-cancel">Reset to Default</button>
+              <button class="btn-save" onclick="saveSettings()"><i class="fas fa-save"></i>Save Changes</button>
+              <button class="btn-cancel">Cancel</button>
             </div>
           </div>
         </div>
       </div>
 
-    </div><!-- /content -->
-
-    <!-- RIGHT PANEL -->
-    <div class="rpanel">
-      <div class="rp-hd">
-        <div class="rp-title"><i class="fas fa-bell" style="color:var(--blue)"></i>Activity</div>
-        <div class="rp-clear" onclick="document.getElementById('notifList').innerHTML=''">Clear all</div>
-      </div>
-      <div class="rp-body">
-        <div class="rp-sec">Notifications</div>
-        <div id="notifList"></div>
-        <div class="rp-sec" style="margin-top:10px">Quick Actions</div>
-        <div class="rp-quick-actions">
-          <div class="rp-qa" onclick="openModal('agency')"><i class="fas fa-plus-circle"></i>Add New Agency<span class="rp-qa-badge" style="background:rgba(59,145,255,.15);color:var(--blue)">Quick</span></div>
-          <div class="rp-qa" onclick="openModal('meeting')"><i class="fas fa-calendar-plus"></i>Schedule Meeting</div>
-          <div class="rp-qa" onclick="showSec('followups')"><i class="fas fa-reply"></i>Follow-ups <span class="rp-qa-badge">7</span></div>
-          <div class="rp-qa" onclick="copyReport()"><i class="fas fa-copy"></i>Copy Today's Report</div>
-        </div>
-        <div class="rp-sec" style="margin-top:12px">Team Performance</div>
-        <div class="card" style="margin-top:6px">
-          <div class="card-body">
-            <div class="rings-row" style="justify-content:space-evenly">
-              <div class="ring-item">
-                <svg class="ring-svg" width="54" height="54" viewBox="0 0 64 64">
-                  <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
-                  <circle class="ring-fill" id="rs1" cx="32" cy="32" r="27" stroke="#3b91ff" stroke-width="5"/>
-                </svg>
-                <div style="margin-top:-4px;text-align:center"><div class="ring-val" style="font-size:12px">87%</div><div class="ring-lbl">You</div></div>
-              </div>
-              <div class="ring-item">
-                <svg class="ring-svg" width="54" height="54" viewBox="0 0 64 64">
-                  <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
-                  <circle class="ring-fill" id="rs2" cx="32" cy="32" r="27" stroke="#8b5cf6" stroke-width="5"/>
-                </svg>
-                <div style="margin-top:-4px;text-align:center"><div class="ring-val" style="font-size:12px">72%</div><div class="ring-lbl">Team</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="rp-sec" style="margin-top:12px">Activity This Week</div>
-        <div style="margin-top:6px"><div class="mini-hm-grid" id="miniHm"></div></div>
-        <div class="rp-sec" style="margin-top:12px">Today's Agenda</div>
-        <div style="margin-top:6px" id="rpAgenda"></div>
-      </div>
     </div>
   </div>
 </div>
-</div>
-
-<!-- FLOATING NOTIF -->
-<div class="float-notif" id="floatNotif">
-  <div class="fn-ico"><i class="fas fa-calendar-check"></i></div>
-  <div style="flex:1">
-    <div class="fn-ttl">Meeting in 30 minutes</div>
-    <div class="fn-body">BrightStream — Strategy Call · Zoom</div>
-    <div class="fn-actions">
-      <div class="fn-act join" onclick="alert('Joining meeting...')">Join Now</div>
-      <div class="fn-act dismiss" onclick="closeFloat()">Dismiss</div>
-    </div>
-  </div>
-  <div class="fn-close" onclick="closeFloat()"><i class="fas fa-times"></i></div>
-</div>
-
-<!-- VOICE MODAL -->
-<div class="voice-modal" id="voiceModal">
-  <div class="fn-ico" style="background:linear-gradient(135deg,#8b5cf6,#ec4899)"><i class="fas fa-microphone"></i></div>
-  <div class="voice-wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-  <div class="voice-timer" id="voiceTimer">0:00</div>
-  <div class="voice-stop" onclick="stopVoice()"><i class="fas fa-stop"></i> Stop</div>
 </div>
 
 <!-- MODAL -->
 <div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="modal-hd">
-      <div class="modal-ttl" id="modalTitle"><i class="fas fa-building"></i>Add New Agency</div>
+      <div class="modal-ttl" id="modalTitle"></div>
       <div class="modal-x" onclick="closeModal()"><i class="fas fa-times"></i></div>
     </div>
     <div class="modal-body" id="modalBody"></div>
     <div class="modal-ft">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save" onclick="saveItem()"><i class="fas fa-save"></i>Save</button>
+      <button class="btn-save" id="modalSaveBtn"><i class="fas fa-save"></i><span id="modalSaveLbl">Save</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DIALOG -->
+<div class="confirm-bg" id="confirmBg">
+  <div class="confirm-box">
+    <div class="confirm-icon"><i class="fas fa-trash"></i></div>
+    <div class="confirm-title" id="confirmTitle">Delete?</div>
+    <div class="confirm-msg" id="confirmMsg">Are you sure?</div>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="confirm-del" id="confirmOkBtn">Delete</button>
     </div>
   </div>
 </div>
 
 <script>
-// ─── DATA ───
-const agencyData = [
-  {name:'BrightStream Media',sub:'Digital Agency',contact:'Rahul Mehta',phone:'+91 98765 43210',email:'rahul@brightstream.com',status:'active',priority:'high',last:'Today, 10:30 AM',next:'Tomorrow',feedback:'Interested in annual package',value:'₹2.4L',deal:75},
-  {name:'NovaCast Agency',sub:'Live Streaming',contact:'Priya Singh',phone:'+91 87654 32109',email:'priya@novacast.in',status:'review',priority:'high',last:'Yesterday',next:'May 15',feedback:'Proposal under review',value:'₹1.2L',deal:55},
-  {name:'StarMedia Pvt Ltd',sub:'Media House',contact:'Karan Joshi',phone:'+91 76543 21098',email:'karan@starmedia.in',status:'approved',priority:'med',last:'2 days ago',next:'May 20',feedback:'Contract signed ✓',value:'₹85K',deal:100},
-  {name:'Zync Digital',sub:'Content Agency',contact:'Anita Rao',phone:'+91 65432 10987',email:'anita@zync.io',status:'noresponse',priority:'high',last:'5 days ago',next:'Today',feedback:'No reply to proposal',value:'₹60K',deal:20},
-  {name:'FlowCast Studios',sub:'Streaming Co.',contact:'Vijay Kumar',phone:'+91 54321 09876',email:'vijay@flowcast.in',status:'pending',priority:'med',last:'3 days ago',next:'May 16',feedback:'Needs pricing info',value:'₹95K',deal:40},
-  {name:'PixelWave Agency',sub:'Creative Agency',contact:'Sneha Patel',phone:'+91 43210 98765',email:'sneha@pixelwave.in',status:'followup',priority:'low',last:'1 week ago',next:'May 18',feedback:'Sent brochure',value:'₹45K',deal:30},
-  {name:'StreamForce Ltd',sub:'Production House',contact:'Dev Sharma',phone:'+91 32109 87654',email:'dev@streamforce.com',status:'active',priority:'med',last:'Today, 9:00 AM',next:'May 22',feedback:'Active negotiation',value:'₹1.8L',deal:65},
-  {name:'CastPro Network',sub:'Network Agency',contact:'Meera Nair',phone:'+91 21098 76543',email:'meera@castpro.in',status:'pending',priority:'low',last:'4 days ago',next:'May 25',feedback:'Awaiting decision',value:'₹55K',deal:35},
-  {name:'ViralEdge Studios',sub:'Content Studio',contact:'Rohan Verma',phone:'+91 99887 76655',email:'rohan@viraledge.in',status:'active',priority:'high',last:'Today, 2:00 PM',next:'May 14',feedback:'Hot lead - close soon!',value:'₹3.1L',deal:85},
-  {name:'MediaSpark India',sub:'Ad Agency',contact:'Sunita Gupta',phone:'+91 88776 65544',email:'sunita@mediaspark.in',status:'followup',priority:'med',last:'2 days ago',next:'May 17',feedback:'Interested in annual plan',value:'₹70K',deal:50},
-];
+// ═══════════════════════════════════════════════
+// DATA STORE - all stored in localStorage
+// ═══════════════════════════════════════════════
 
-const statusMap={active:'b-active',pending:'b-pending',noresponse:'b-noresp',approved:'b-approved',review:'b-review',followup:'b-followup'};
-const statusLbl={active:'Active',pending:'Pending',noresponse:'No Response',approved:'Approved',review:'Review Pending',followup:'Follow-up'};
+function load(key, def) {
+  try { const d = localStorage.getItem(key); return d ? JSON.parse(d) : def; } 
+  catch(e) { return def; }
+}
+function save(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {}
+}
 
-// ─── SECTION NAVIGATION ───
-const allSecs=['dashboard','agencies','contacts','meetings','tasks','followups','report','calendar','notifications','settings'];
-const tabSecs=['dashboard','agencies','contacts','meetings','tasks','followups','report'];
-const pageTitles={dashboard:'Dashboard',agencies:'Agencies',contacts:'Contacts',meetings:'Meetings',tasks:'Daily Tasks',followups:'Follow-ups',report:'Reports',calendar:'Calendar',notifications:'Notifications',settings:'Settings'};
-const pageSubs={dashboard:'Good morning, Arjun 👋',agencies:'Manage your agency network',contacts:'All contacts & relationships',meetings:'Schedule & track meetings',tasks:'Your kanban board',followups:'Pending follow-ups',report:'Auto-generated daily report',calendar:'Full calendar view',notifications:'Alerts & reminders',settings:'Preferences & configuration'};
+let agencies = load('sf_agencies', []);
+let meetings = load('sf_meetings', []);
+let tasks    = load('sf_tasks', { 'Pending': [], 'In Progress': [], 'Completed': [], 'Waiting': [] });
+let activity = load('sf_activity', []);
+let settings = load('sf_settings', { name: 'Arjun Kapoor', wa: '', email: '', role: 'Agency Manager' });
+
+// Status config
+const statusMap = { active:'b-active', pending:'b-pending', noresponse:'b-noresponse', approved:'b-approved', review:'b-review', followup:'b-followup' };
+const statusLbl = { active:'Active', pending:'Pending', noresponse:'No Response', approved:'Approved', review:'Review', followup:'Follow-up' };
+const statusColors = { active:'var(--emerald)', pending:'var(--amber)', noresponse:'var(--rose)', approved:'var(--blue)', review:'var(--purple)', followup:'var(--cyan)' };
+
+// ═══════════════════════════════════════════════
+// SECTION NAVIGATION
+// ═══════════════════════════════════════════════
+
+const tabSecs = ['dashboard','agencies','contacts','meetings','tasks','followups','report'];
+const pageTitles = { dashboard:'Dashboard', agencies:'Agencies', contacts:'Contacts', meetings:'Meetings', tasks:'Daily Tasks', followups:'Follow-ups', report:'Reports', settings:'Settings' };
+let currentSection = 'dashboard';
+let currentFilter = 'all';
 
 function showSec(name) {
-  // Hide all sections
   document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-  // Show target
-  const target = document.getElementById('sec-' + name);
-  if (target) target.classList.add('active');
-  // Update page title
-  const sub = pageSubs[name] ? '<span class="tb-sub">' + pageSubs[name] + '</span>' : '';
-  document.getElementById('pageTitle').innerHTML = (pageTitles[name] || name) + sub;
-  // Update sidebar active
+  const t = document.getElementById('sec-' + name);
+  if (t) t.classList.add('active');
+  document.getElementById('pageTitle').innerHTML = (pageTitles[name] || name) + '<span class="tb-sub" id="pageSub"></span>';
   document.querySelectorAll('.nav-item[data-sec]').forEach(n => n.classList.toggle('active', n.dataset.sec === name));
-  // Update tabs
-  document.querySelectorAll('#mainTabs .tab[data-sec]').forEach(t => t.classList.toggle('active', t.dataset.sec === name));
-  // Show/hide tabs bar (only for tab sections)
+  document.querySelectorAll('#mainTabs .tab[data-sec]').forEach(tab => tab.classList.toggle('active', tab.dataset.sec === name));
   document.getElementById('mainTabs').style.display = tabSecs.includes(name) ? '' : 'none';
-  // Trigger animations for this section
-  triggerSectionAnimations(name);
+  currentSection = name;
+  refreshSection(name);
 }
 
-function triggerSectionAnimations(name) {
-  if (name === 'dashboard') {
-    setTimeout(() => {
-      document.querySelectorAll('#sec-dashboard .stat-fill').forEach(el => {
-        const w = el.getAttribute('data-w');
-        if (w) el.style.width = w + '%';
-      });
-      animRing('r1', 78);
-      animRing('r2', 92);
-      animRing('r3', 65);
-      animRing('rs1', 87);
-      animRing('rs2', 72);
-      animBars();
-    }, 100);
+function refreshSection(name) {
+  if (name === 'dashboard') renderDashboard();
+  if (name === 'agencies')  renderAgencies();
+  if (name === 'contacts')  renderContacts();
+  if (name === 'meetings')  renderMeetings();
+  if (name === 'tasks')     renderKanban();
+  if (name === 'followups') renderFollowups();
+  if (name === 'report')    renderReport();
+  updateBadges();
+}
+
+// ═══════════════════════════════════════════════
+// BADGES & COUNTS
+// ═══════════════════════════════════════════════
+
+function updateBadges() {
+  document.getElementById('agencyCount').textContent  = agencies.length;
+  document.getElementById('meetingCount').textContent = meetings.length;
+  const fu = agencies.filter(a => a.status === 'noresponse' || a.status === 'followup').length;
+  document.getElementById('followupCount').textContent = fu;
+  // Settings profile
+  document.getElementById('userName').textContent = settings.name || 'You';
+  const initials = (settings.name || 'U').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('userInitials').textContent = initials;
+  // WA quick btn
+  document.getElementById('waQuickBtn').onclick = () => {
+    if (settings.wa) window.open('https://wa.me/' + settings.wa.replace(/\D/g,''), '_blank');
+    else { openModal('agency'); toast('Set your WhatsApp in Settings first', 'info'); }
+  };
+}
+
+// ═══════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════
+
+function renderDashboard() {
+  document.getElementById('statTotal').textContent    = agencies.length;
+  document.getElementById('statActive').textContent   = agencies.filter(a=>a.status==='active').length;
+  document.getElementById('statFollowup').textContent = agencies.filter(a=>a.status==='noresponse'||a.status==='followup').length;
+  document.getElementById('statMeetings').textContent = meetings.length;
+
+  // Activity
+  const actEl = document.getElementById('dashActivity');
+  if (activity.length === 0) {
+    actEl.innerHTML = '<div class="empty-state" style="padding:30px 20px"><i class="fas fa-stream"></i><p>No activity yet. Start by adding an agency!</p></div>';
+  } else {
+    actEl.innerHTML = activity.slice(0, 7).map(a => `
+      <div class="tl-item">
+        <div class="tl-dot" style="background:${a.color || 'var(--blue)'}"></div>
+        <div style="flex:1"><div class="tl-title">${a.title}</div><div class="tl-meta">${a.meta}</div></div>
+        <div class="tl-time">${a.time}</div>
+      </div>`).join('');
   }
-  if (name === 'report') {
-    setTimeout(() => {
-      const fill = document.getElementById('rptScoreFill');
-      if (fill) fill.style.width = '87%';
-    }, 200);
+
+  // Urgent followups on dash
+  const fuEl = document.getElementById('dashFollowups');
+  const urgent = agencies.filter(a => a.status === 'noresponse' || a.status === 'followup');
+  if (urgent.length === 0) {
+    fuEl.innerHTML = '<div class="empty-state" style="padding:25px 20px"><i class="fas fa-inbox"></i><p>No pending follow-ups!</p></div>';
+  } else {
+    fuEl.innerHTML = urgent.slice(0,5).map(a => `
+      <div class="fu-item ${a.status==='noresponse'?'urg':'norm'}" style="margin-bottom:7px">
+        <div class="fu-ico" style="background:rgba(59,145,255,.1);color:var(--blue)"><i class="fas fa-reply"></i></div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:600">${a.name}</div>
+          <div style="font-size:10px;color:var(--text2)">${a.contact} · ${statusLbl[a.status]}</div>
+        </div>
+        ${a.phone ? `<div class="fu-wa" onclick="openWA('${a.phone}')"><i class="fab fa-whatsapp"></i> WA</div>` : ''}
+      </div>`).join('');
+  }
+
+  // Today's meetings on dash
+  const mtgEl = document.getElementById('dashMeetings');
+  const today = new Date().toISOString().split('T')[0];
+  const todayMtg = meetings.filter(m => m.date === today);
+  if (todayMtg.length === 0) {
+    mtgEl.innerHTML = '<div class="empty-state" style="padding:20px"><i class="fas fa-calendar-xmark"></i><p>No meetings today. <span style="color:var(--blue);cursor:pointer" onclick="openModal(\'meeting\')">Schedule one?</span></p></div>';
+  } else {
+    mtgEl.innerHTML = todayMtg.map(m => `
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--purple)"></div>
+        <div style="flex:1"><div class="tl-title">${m.time} — ${m.agency}</div><div class="tl-meta">${m.type} · ${m.platform}${m.link?' · <a href="'+m.link+'" target="_blank" style="color:var(--blue)">Join</a>':''}</div></div>
+      </div>`).join('');
   }
 }
 
-// ─── INIT ───
+// ═══════════════════════════════════════════════
+// AGENCIES
+// ═══════════════════════════════════════════════
+
+function renderAgencies() {
+  const q = (document.getElementById('agSearch')?.value || '').toLowerCase();
+  let list = agencies;
+  if (currentFilter !== 'all') list = list.filter(a => a.status === currentFilter);
+  if (q) list = list.filter(a =>
+    a.name.toLowerCase().includes(q) ||
+    (a.contact||'').toLowerCase().includes(q) ||
+    (a.notes||'').toLowerCase().includes(q)
+  );
+
+  // Update pills counts
+  document.querySelector('[data-filter="all"]').textContent = `All (${agencies.length})`;
+  document.querySelector('[data-filter="active"]').textContent = `Active (${agencies.filter(a=>a.status==='active').length})`;
+  document.querySelector('[data-filter="pending"]').textContent = `Pending (${agencies.filter(a=>a.status==='pending').length})`;
+  document.querySelector('[data-filter="noresponse"]').textContent = `No Response (${agencies.filter(a=>a.status==='noresponse').length})`;
+  document.querySelector('[data-filter="approved"]').textContent = `Approved (${agencies.filter(a=>a.status==='approved').length})`;
+  document.querySelector('[data-filter="followup"]').textContent = `Follow-up (${agencies.filter(a=>a.status==='followup').length})`;
+
+  const tbody = document.getElementById('agTable');
+  if (!tbody) return;
+
+  if (list.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="9">
+      <div class="empty-state">
+        <i class="fas fa-building"></i>
+        <h3>No agencies yet</h3>
+        <p>Add your first agency to get started tracking your work.</p>
+        <button class="add-btn" onclick="openModal('agency')" style="margin:0 auto"><i class="fas fa-plus"></i>Add Agency</button>
+      </div>
+    </td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map((a, i) => {
+    const idx = agencies.indexOf(a);
+    const prioClass = a.priority==='high'?'ph':a.priority==='medium'?'pm':'pl';
+    const prioLbl   = a.priority==='high'?'High':a.priority==='medium'?'Medium':'Low';
+    return `
+    <tr>
+      <td style="color:var(--text3);font-size:11px">${String(i+1).padStart(2,'0')}</td>
+      <td>
+        <div class="ag-name">${a.name}</div>
+        <div class="ag-sub">${a.type||'Agency'}</div>
+      </td>
+      <td>
+        <div style="font-size:11.5px;font-weight:500">${a.contact||'—'}</div>
+        <div style="font-size:10px;color:var(--text3)">${a.email||''}</div>
+      </td>
+      <td style="color:var(--text2);font-size:11px">${a.phone||'—'}</td>
+      <td><span class="badge ${statusMap[a.status]||'b-pending'}">${statusLbl[a.status]||a.status}</span></td>
+      <td><div class="pdot-row"><div class="pdot ${prioClass}"></div>${prioLbl}</div></td>
+      <td style="color:var(--blue);font-size:11px;font-weight:500">${a.nextFollowup||'—'}</td>
+      <td style="color:var(--text2);font-size:11px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${a.notes||''}">${a.notes||'—'}</td>
+      <td>
+        <div class="act-btns">
+          ${a.phone ? `<div class="act-btn call-btn" title="Call" onclick="callPhone('${a.phone}')"><i class="fas fa-phone"></i></div>` : ''}
+          ${a.phone ? `<div class="act-btn wa" title="WhatsApp" onclick="openWA('${a.phone}')"><i class="fab fa-whatsapp"></i></div>` : ''}
+          <div class="act-btn" title="Edit" onclick="editAgency(${idx})"><i class="fas fa-pen"></i></div>
+          <div class="act-btn del" title="Delete" onclick="deleteAgency(${idx})"><i class="fas fa-trash"></i></div>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filterByStatus(status, el) {
+  currentFilter = status;
+  document.querySelectorAll('.spill').forEach(p => p.classList.remove('sel'));
+  el.classList.add('sel');
+  renderAgencies();
+}
+
+function editAgency(idx) {
+  const a = agencies[idx];
+  openModal('agency', a, idx);
+}
+
+function deleteAgency(idx) {
+  const a = agencies[idx];
+  confirmDialog(`Delete "${a.name}"?`, `This will permanently remove ${a.name} from your list. This cannot be undone.`, () => {
+    logActivity(`Deleted agency — ${a.name}`, 'Removed from system', 'var(--rose)');
+    agencies.splice(idx, 1);
+    save('sf_agencies', agencies);
+    toast(`Deleted ${a.name}`, 'error');
+    renderAgencies();
+    updateBadges();
+  });
+}
+
+// ═══════════════════════════════════════════════
+// CONTACTS
+// ═══════════════════════════════════════════════
+
+const ccColors = ['#3b91ff','#8b5cf6','#10b981','#f59e0b','#ec4899','#00d4ff','#f43f5e','#a78bfa'];
+
+function renderContacts(q) {
+  q = (q || document.getElementById('contactSearch')?.value || '').toLowerCase();
+  let list = agencies.filter(a =>
+    !q || a.name.toLowerCase().includes(q) || (a.contact||'').toLowerCase().includes(q)
+  );
+
+  const grid = document.getElementById('contactsGrid');
+  if (!grid) return;
+
+  if (list.length === 0) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;padding:60px 20px">
+      <i class="fas fa-address-book"></i>
+      <h3>No contacts yet</h3>
+      <p>Contacts are created automatically when you add agencies with contact info.</p>
+      <button class="add-btn" onclick="openModal('agency')" style="margin:0 auto"><i class="fas fa-plus"></i>Add Agency</button>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map((a, i) => {
+    const color = ccColors[i % ccColors.length];
+    const initials = (a.contact||a.name).split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+    return `
+    <div class="contact-card">
+      <div class="cc-avatar" style="background:${color}18;color:${color};border-color:${color}33">${initials}</div>
+      <div class="cc-name">${a.contact||a.name}</div>
+      <div class="cc-role">${a.type||'Agency'}</div>
+      <div class="cc-agency">${a.name}</div>
+      <div class="cc-btns">
+        ${a.phone?`<div class="cc-btn call" onclick="callPhone('${a.phone}')"><i class="fas fa-phone" style="font-size:9px"></i>Call</div>`:''}
+        ${a.phone?`<div class="cc-btn wa" onclick="openWA('${a.phone}')"><i class="fab fa-whatsapp" style="font-size:10px"></i>WA</div>`:''}
+        ${a.email?`<div class="cc-btn" onclick="window.open('mailto:${a.email}','_blank')"><i class="fas fa-envelope" style="font-size:9px"></i>Email</div>`:''}
+        <div class="cc-btn del" onclick="deleteAgency(${agencies.indexOf(a)})"><i class="fas fa-trash" style="font-size:9px"></i></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════
+// MEETINGS
+// ═══════════════════════════════════════════════
+
+function renderMeetings() {
+  document.getElementById('mtgTotal').textContent    = meetings.length;
+  document.getElementById('mtgUpcoming').textContent = meetings.filter(m=>m.status!=='completed').length;
+  document.getElementById('mtgDone').textContent     = meetings.filter(m=>m.status==='completed').length;
+
+  const el = document.getElementById('mtgList');
+  if (!el) return;
+
+  if (meetings.length === 0) {
+    el.innerHTML = `<div class="empty-state">
+      <i class="fas fa-calendar-xmark"></i>
+      <h3>No meetings scheduled</h3>
+      <p>Schedule your first meeting with an agency.</p>
+      <button class="add-btn" onclick="openModal('meeting')" style="margin:0 auto"><i class="fas fa-plus"></i>Schedule Meeting</button>
+    </div>`;
+    return;
+  }
+
+  const sorted = [...meetings].sort((a,b) => a.date > b.date ? 1 : -1);
+  el.innerHTML = sorted.map((m, i) => {
+    const idx = meetings.indexOf(m);
+    const colors = ['#3b91ff','#8b5cf6','#10b981','#f59e0b','#ec4899','#00d4ff'];
+    const col = colors[i % colors.length];
+    const isCompleted = m.status === 'completed';
+    return `
+    <div class="mtg-card" style="--mc:${col};opacity:${isCompleted?.7:1}">
+      <div class="mtg-time-blk">
+        <div class="mtg-t">${m.time||'TBD'}</div>
+        <div class="mtg-ap">${m.date||''}</div>
+      </div>
+      <div class="mtg-info" style="flex:1">
+        <div class="mtg-agency">${m.agency}</div>
+        <div class="mtg-type">${m.type||'Meeting'} · ${m.platform||'Zoom'}</div>
+        ${m.notes?`<div style="font-size:10px;color:var(--text3)">${m.notes}</div>`:''}
+        <span class="badge ${isCompleted?'b-approved':'b-pending'}" style="margin-top:4px;display:inline-flex">${isCompleted?'Completed':'Upcoming'}</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0">
+        ${m.link?`<button class="mtg-join-btn" onclick="window.open('${m.link}','_blank')"><i class="fas fa-video" style="font-size:9px;margin-right:3px"></i>Join</button>`:''}
+        ${!isCompleted?`<div class="mtg-del-btn" onclick="markMeetingDone(${idx})"><i class="fas fa-check" style="font-size:9px;margin-right:3px"></i>Done</div>`:''}
+        <div class="mtg-del-btn" onclick="deleteMeeting(${idx})" style="background:rgba(244,63,94,.1);border-color:rgba(244,63,94,.2);color:var(--rose)"><i class="fas fa-trash" style="font-size:9px"></i></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function markMeetingDone(idx) {
+  meetings[idx].status = 'completed';
+  logActivity(`Meeting completed — ${meetings[idx].agency}`, meetings[idx].type, 'var(--emerald)');
+  save('sf_meetings', meetings);
+  renderMeetings();
+  toast('Meeting marked as completed!', 'success');
+}
+
+function deleteMeeting(idx) {
+  const m = meetings[idx];
+  confirmDialog(`Delete meeting with "${m.agency}"?`, 'This will remove the meeting from your schedule.', () => {
+    meetings.splice(idx, 1);
+    save('sf_meetings', meetings);
+    renderMeetings();
+    updateBadges();
+    toast('Meeting deleted', 'error');
+  });
+}
+
+// ═══════════════════════════════════════════════
+// TASKS / KANBAN
+// ═══════════════════════════════════════════════
+
+const kbCols = [
+  { key:'Pending',    color:'#f59e0b' },
+  { key:'In Progress',color:'#3b91ff' },
+  { key:'Completed',  color:'#10b981' },
+  { key:'Waiting',    color:'#8b5cf6' },
+];
+
+function renderKanban() {
+  const el = document.getElementById('kanban');
+  if (!el) return;
+  el.innerHTML = kbCols.map(col => `
+    <div class="kb-col">
+      <div class="kb-hd">
+        <div class="kb-lbl"><div class="kb-dot" style="background:${col.color}"></div>${col.key}</div>
+        <div class="kb-cnt">${(tasks[col.key]||[]).length}</div>
+      </div>
+      <div class="kb-body">
+        ${(tasks[col.key]||[]).length === 0
+          ? '<div style="text-align:center;padding:20px;color:var(--text3);font-size:11px">No tasks</div>'
+          : (tasks[col.key]).map((t,i) => `
+              <div class="task-card">
+                <div class="task-pbar" style="background:${t.priority==='high'?'var(--rose)':t.priority==='medium'?'var(--amber)':'var(--emerald)'}"></div>
+                <div class="task-title">${t.title}</div>
+                ${t.agency?`<div class="task-ag"><i class="fas fa-building" style="font-size:9px;color:var(--text3);margin-right:3px"></i>${t.agency}</div>`:''}
+                <div class="task-ft">
+                  <div class="task-due">${t.due?'Due: '+t.due:''}</div>
+                  <div class="task-del" onclick="deleteTask('${col.key}',${i})" title="Delete"><i class="fas fa-trash" style="font-size:10px"></i></div>
+                </div>
+              </div>`).join('')
+        }
+        <div class="kb-add" onclick="openModal('task','${col.key}')"><i class="fas fa-plus" style="margin-right:4px;font-size:9px"></i>Add task</div>
+      </div>
+    </div>`).join('');
+}
+
+function deleteTask(col, idx) {
+  tasks[col].splice(idx, 1);
+  save('sf_tasks', tasks);
+  renderKanban();
+}
+
+// ═══════════════════════════════════════════════
+// FOLLOW-UPS
+// ═══════════════════════════════════════════════
+
+function renderFollowups() {
+  const pending = agencies.filter(a => a.status === 'noresponse' || a.status === 'followup' || a.status === 'pending');
+  const urgent  = pending.filter(a => a.status === 'noresponse');
+  document.getElementById('fuUrgent').textContent = urgent.length;
+  document.getElementById('fuTotal').textContent  = pending.length;
+  document.getElementById('fuActive').textContent = agencies.filter(a=>a.status==='active').length;
+
+  const fuEl = document.getElementById('fuList');
+  if (fuEl) {
+    if (pending.length === 0) {
+      fuEl.innerHTML = '<div class="empty-state" style="padding:30px 20px"><i class="fas fa-inbox"></i><p>No follow-ups pending. Great job!</p></div>';
+    } else {
+      fuEl.innerHTML = pending.map(a => {
+        const idx = agencies.indexOf(a);
+        const isUrg = a.status === 'noresponse';
+        return `
+        <div class="fu-item ${isUrg?'urg':'norm'}">
+          <div class="fu-ico" style="background:${isUrg?'rgba(244,63,94,.12)':'rgba(59,145,255,.12)'};color:${isUrg?'var(--rose)':'var(--blue)'}">
+            <i class="fas fa-${isUrg?'exclamation-triangle':'reply'}"></i>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:12px;font-weight:600">${a.name}</div>
+            <div style="font-size:10px;color:var(--text2)">${a.contact||''} · <span class="badge ${statusMap[a.status]}" style="font-size:9px">${statusLbl[a.status]}</span></div>
+            ${a.notes?`<div style="font-size:10px;color:var(--text3);margin-top:2px">${a.notes}</div>`:''}
+          </div>
+          <div class="fu-right">
+            ${a.nextFollowup?`<div class="fu-time">${a.nextFollowup}</div>`:''}
+            <div style="display:flex;gap:4px;margin-top:4px">
+              ${a.phone?`<div class="fu-wa" onclick="openWA('${a.phone}')"><i class="fab fa-whatsapp"></i></div>`:''}
+              <div class="fu-rem" onclick="editAgency(${idx})">Edit</div>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  // Comm log from activity
+  const logEl = document.getElementById('commLog');
+  if (logEl) {
+    if (activity.length === 0) {
+      logEl.innerHTML = '<div class="empty-state" style="padding:30px 20px"><i class="fas fa-comments"></i><p>No communication logged yet.</p></div>';
+    } else {
+      logEl.innerHTML = activity.slice(0,8).map(a => `
+        <div class="tl-item">
+          <div class="tl-dot" style="background:${a.color||'var(--blue)'}"></div>
+          <div style="flex:1"><div class="tl-title">${a.title}</div><div class="tl-meta">${a.meta}</div></div>
+          <div class="tl-time">${a.time}</div>
+        </div>`).join('');
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════
+// REPORT
+// ═══════════════════════════════════════════════
+
+function renderReport() {
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-IN', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('rptDate').textContent = dateStr;
+
+  const active   = agencies.filter(a=>a.status==='active');
+  const pending  = agencies.filter(a=>a.status==='noresponse'||a.status==='followup'||a.status==='pending');
+  const approved = agencies.filter(a=>a.status==='approved');
+  const today    = now.toISOString().split('T')[0];
+  const todayMtg = meetings.filter(m=>m.date===today);
+  const allTasks = Object.values(tasks).flat();
+  const doneTasks = tasks['Completed']||[];
+
+  const report = `📋 DAILY WORK REPORT — ${dateStr}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 AGENCY OVERVIEW:
+  • Total Agencies: ${agencies.length}
+  • Active: ${active.length}
+  • Pending Follow-up: ${pending.length}
+  • Approved/Closed: ${approved.length}
+
+${todayMtg.length>0?`📅 TODAY'S MEETINGS (${todayMtg.length}):
+${todayMtg.map(m=>`  • ${m.time} — ${m.agency} (${m.type}, ${m.platform})`).join('\n')}
+`:'📅 MEETINGS: None scheduled today\n'}
+${doneTasks.length>0?`✅ COMPLETED TASKS (${doneTasks.length}):
+${doneTasks.map(t=>`  • ${t.title}${t.agency?' ('+t.agency+')':''}`).join('\n')}
+`:'✅ COMPLETED TASKS: None yet\n'}
+${pending.length>0?`⏳ PENDING FOLLOW-UPS (${pending.length}):
+${pending.map(a=>`  • ${a.name} — ${a.contact||''} — ${statusLbl[a.status]}`).join('\n')}
+`:'⏳ PENDING FOLLOW-UPS: All clear!\n'}
+${activity.length>0?`📝 RECENT ACTIVITY:
+${activity.slice(0,5).map(a=>`  • ${a.title} — ${a.meta}`).join('\n')}
+`:''}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Generated by StreamFlow`;
+
+  document.getElementById('rptPreview').textContent = report;
+}
+
+function copyReport() {
+  const text = document.getElementById('rptPreview')?.textContent || '';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => toast('Report copied!', 'success'));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+    toast('Report copied!', 'success');
+  }
+}
+
+function shareOnWhatsApp() {
+  const text = document.getElementById('rptPreview')?.textContent || '';
+  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+}
+
+// ═══════════════════════════════════════════════
+// MODALS
+// ═══════════════════════════════════════════════
+
+let modalMode = null;
+let modalEditIdx = -1;
+let modalTaskCol = null;
+
+function openModal(type, dataOrCol, editIdx) {
+  modalMode = type;
+  modalEditIdx = -1;
+  modalTaskCol = null;
+
+  if (type === 'agency') {
+    const isEdit = typeof editIdx === 'number';
+    const a = isEdit ? dataOrCol : null;
+    modalEditIdx = isEdit ? editIdx : -1;
+    document.getElementById('modalTitle').innerHTML = `<i class="fas fa-building"></i> ${isEdit?'Edit':'Add'} Agency`;
+    document.getElementById('modalSaveLbl').textContent = isEdit ? 'Save Changes' : 'Add Agency';
+    document.getElementById('modalBody').innerHTML = `
+      <div class="fgrid">
+        <div class="fgrp"><label class="flbl">Agency Name *</label><input class="finput" id="f_name" placeholder="e.g. BrightStream Media" value="${a?a.name||'':''}"></div>
+        <div class="fgrp"><label class="flbl">Agency Type</label><input class="finput" id="f_type" placeholder="e.g. Digital Agency, Media House" value="${a?a.type||'':''}"></div>
+      </div>
+      <div class="fgrid">
+        <div class="fgrp"><label class="flbl">Contact Person</label><input class="finput" id="f_contact" placeholder="Full name" value="${a?a.contact||'':''}"></div>
+        <div class="fgrp"><label class="flbl">Phone / WhatsApp *</label><input class="finput" id="f_phone" placeholder="+91 XXXXX XXXXX" value="${a?a.phone||'':''}"></div>
+      </div>
+      <div class="fgrid">
+        <div class="fgrp"><label class="flbl">Email</label><input class="finput" id="f_email" placeholder="email@agency.com" value="${a?a.email||'':''}"></div>
+        <div class="fgrp"><label class="flbl">Status</label>
+          <select class="finput" id="f_status">
+            <option value="active" ${a&&a.status==='active'?'selected':''}>Active</option>
+            <option value="pending" ${a&&a.status==='pending'?'selected':''}>Pending</option>
+            <option value="noresponse" ${a&&a.status==='noresponse'?'selected':''}>No Response</option>
+            <option value="followup" ${a&&a.status==='followup'?'selected':''}>Follow-up Needed</option>
+            <option value="approved" ${a&&a.status==='approved'?'selected':''}>Approved</option>
+            <option value="review" ${a&&a.status==='review'?'selected':''}>Review Pending</option>
+          </select>
+        </div>
+      </div>
+      <div class="fgrid">
+        <div class="fgrp"><label class="flbl">Priority</label>
+          <select class="finput" id="f_priority">
+            <option value="high" ${a&&a.priority==='high'?'selected':''}>High</option>
+            <option value="medium" ${a&&a.priority==='medium'?'selected':''}>Medium</option>
+            <option value="low" ${a&&a.priority==='low'?'selected':''}>Low</option>
+          </select>
+        </div>
+        <div class="fgrp"><label class="flbl">Next Follow-up Date</label><input class="finput" id="f_next" type="date" value="${a?a.nextFollowup||'':''}"></div>
+      </div>
+      <div class="fgrp"><label class="flbl">Deal / Package Value</label><input class="finput" id="f_value" placeholder="e.g. ₹1.2L, ₹85,000" value="${a?a.value||'':''}"></div>
+      <div class="fgrp"><label class="flbl">Notes / Feedback</label><textarea class="finput" id="f_notes" rows="3" placeholder="Any notes, feedback or observations…">${a?a.notes||'':''}</textarea></div>
+    `;
+  }
+
+  else if (type === 'meeting') {
+    document.getElementById('modalTitle').innerHTML = `<i class="fas fa-video"></i> Schedule Meeting`;
+    document.getElementById('modalSaveLbl').textContent = 'Save Meeting';
+    const agList = agencies.length > 0
+      ? agencies.map(a=>`<option>${a.name}</option>`).join('')
+      : '<option>— Add agencies first —</option>';
+    document.getElementById('modalBody').innerHTML = `
+      <div class="fgrid">
+        <div class="fgrp"><label class="flbl">Agency *</label>
+          <select class="finput" id="f_magency">${agList}</select>
+        </div>
+        <div class="fgrp"><label class="flbl">Meeting Type</label>
+          <select class="finput" id="f_mtype">
+            <option>Strategy Call</option><option>Proposal Review</option><option>Discovery Call</option>
+            <option>Contract Discussion</option><option>Pricing Discussion</option><option>Follow-up Call</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="fgrid">
+        <div class="fgrp"><label class="flbl">Date *</label><input class="finput" id="f_mdate" type="date" value="${new Date().toISOString().split('T')[0]}"></div>
+        <div class="fgrp"><label class="flbl">Time</label><input class="finput" id="f_mtime" type="time" value="10:00"></div>
+      </div>
+      <div class="fgrid">
+        <div class="fgrp"><label class="flbl">Platform</label>
+          <select class="finput" id="f_mplatform">
+            <option>Zoom</option><option>Google Meet</option><option>Phone Call</option><option>In-person</option><option>Teams</option>
+          </select>
+        </div>
+        <div class="fgrp"><label class="flbl">Duration</label>
+          <select class="finput" id="f_mduration">
+            <option>30 min</option><option>45 min</option><option>1 hour</option><option>1.5 hours</option><option>2 hours</option>
+          </select>
+        </div>
+      </div>
+      <div class="fgrp"><label class="flbl">Meeting Link (Zoom/Meet URL)</label><input class="finput" id="f_mlink" placeholder="https://zoom.us/j/..."></div>
+      <div class="fgrp"><label class="flbl">Agenda / Notes</label><textarea class="finput" id="f_mnotes" rows="3" placeholder="Discussion points, agenda…"></textarea></div>
+    `;
+  }
+
+  else if (type === 'task') {
+    modalTaskCol = (typeof dataOrCol === 'string') ? dataOrCol : 'Pending';
+    document.getElementById('modalTitle').innerHTML = `<i class="fas fa-check-square"></i> Add Task`;
+    document.getElementById('modalSaveLbl').textContent = 'Add Task';
+    const agList = ['Internal', ...agencies.map(a=>a.name)].map(n=>`<option>${n}</option>`).join('');
+    document.getElementById('modalBody').innerHTML = `
+      <div class="fgrp"><label class="flbl">Task Title *</label><input class="finput" id="f_ttitle" placeholder="What needs to be done?"></div>
+      <div class="fgrid">
+        <div class="fgrp"><label class="flbl">Agency</label><select class="finput" id="f_tagency">${agList}</select></div>
+        <div class="fgrp"><label class="flbl">Priority</label>
+          <select class="finput" id="f_tpriority">
+            <option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option>
+          </select>
+        </div>
+      </div>
+      <div class="fgrid">
+        <div class="fgrp"><label class="flbl">Column</label>
+          <select class="finput" id="f_tcol">
+            <option ${modalTaskCol==='Pending'?'selected':''}>Pending</option>
+            <option ${modalTaskCol==='In Progress'?'selected':''}>In Progress</option>
+            <option ${modalTaskCol==='Completed'?'selected':''}>Completed</option>
+            <option ${modalTaskCol==='Waiting'?'selected':''}>Waiting</option>
+          </select>
+        </div>
+        <div class="fgrp"><label class="flbl">Due Date</label><input class="finput" id="f_tdue" type="date"></div>
+      </div>
+    `;
+  }
+
+  document.getElementById('modalBg').classList.add('show');
+  // Focus first input
+  setTimeout(() => { const inp = document.querySelector('#modalBody .finput'); if(inp) inp.focus(); }, 100);
+}
+
+function closeModal() {
+  document.getElementById('modalBg').classList.remove('show');
+  modalMode = null; modalEditIdx = -1; modalTaskCol = null;
+}
+
+document.getElementById('modalSaveBtn').onclick = saveModal;
+
+function saveModal() {
+  if (modalMode === 'agency') saveAgency();
+  else if (modalMode === 'meeting') saveMeeting();
+  else if (modalMode === 'task') saveTask();
+}
+
+function saveAgency() {
+  const name = document.getElementById('f_name').value.trim();
+  if (!name) { toast('Agency name is required', 'error'); document.getElementById('f_name').focus(); return; }
+
+  const a = {
+    name,
+    type:        document.getElementById('f_type').value.trim(),
+    contact:     document.getElementById('f_contact').value.trim(),
+    phone:       document.getElementById('f_phone').value.trim(),
+    email:       document.getElementById('f_email').value.trim(),
+    status:      document.getElementById('f_status').value,
+    priority:    document.getElementById('f_priority').value,
+    nextFollowup:document.getElementById('f_next').value,
+    value:       document.getElementById('f_value').value.trim(),
+    notes:       document.getElementById('f_notes').value.trim(),
+    createdAt:   new Date().toISOString(),
+  };
+
+  if (modalEditIdx >= 0) {
+    agencies[modalEditIdx] = { ...agencies[modalEditIdx], ...a };
+    logActivity(`Updated — ${a.name}`, `Status: ${statusLbl[a.status]}`, statusColors[a.status]);
+    toast(`Updated ${a.name}`, 'success');
+  } else {
+    agencies.unshift(a);
+    logActivity(`New agency added — ${a.name}`, `${a.contact||''} · ${statusLbl[a.status]}`, statusColors[a.status]);
+    toast(`${a.name} added!`, 'success');
+  }
+
+  save('sf_agencies', agencies);
+  closeModal();
+  renderAgencies();
+  updateBadges();
+}
+
+function saveMeeting() {
+  const agency = document.getElementById('f_magency')?.value;
+  const date   = document.getElementById('f_mdate')?.value;
+  if (!agency || !date) { toast('Agency and date are required', 'error'); return; }
+
+  const m = {
+    agency,
+    type:     document.getElementById('f_mtype').value,
+    date,
+    time:     document.getElementById('f_mtime').value,
+    platform: document.getElementById('f_mplatform').value,
+    duration: document.getElementById('f_mduration').value,
+    link:     document.getElementById('f_mlink').value.trim(),
+    notes:    document.getElementById('f_mnotes').value.trim(),
+    status:   'upcoming',
+    createdAt:new Date().toISOString(),
+  };
+
+  meetings.unshift(m);
+  logActivity(`Meeting scheduled — ${agency}`, `${m.type} · ${m.date} ${m.time}`, 'var(--purple)');
+  save('sf_meetings', meetings);
+  toast('Meeting scheduled!', 'success');
+  closeModal();
+  renderMeetings();
+  updateBadges();
+}
+
+function saveTask() {
+  const title = document.getElementById('f_ttitle')?.value.trim();
+  if (!title) { toast('Task title is required', 'error'); return; }
+
+  const col = document.getElementById('f_tcol').value;
+  const t = {
+    title,
+    agency:   document.getElementById('f_tagency').value,
+    priority: document.getElementById('f_tpriority').value,
+    due:      document.getElementById('f_tdue').value,
+    createdAt:new Date().toISOString(),
+  };
+
+  if (!tasks[col]) tasks[col] = [];
+  tasks[col].unshift(t);
+  save('sf_tasks', tasks);
+  toast('Task added!', 'success');
+  closeModal();
+  renderKanban();
+}
+
+// ═══════════════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════════════
+
+function loadSettings() {
+  document.getElementById('settingName').value  = settings.name || '';
+  document.getElementById('settingWA').value    = settings.wa   || '';
+  document.getElementById('settingEmail').value = settings.email|| '';
+  document.getElementById('settingRole').value  = settings.role || '';
+}
+
+function saveSettings() {
+  settings.name  = document.getElementById('settingName').value.trim();
+  settings.wa    = document.getElementById('settingWA').value.trim();
+  settings.email = document.getElementById('settingEmail').value.trim();
+  settings.role  = document.getElementById('settingRole').value.trim();
+  save('sf_settings', settings);
+  updateBadges();
+  toast('Settings saved!', 'success');
+}
+
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
+
+function openWA(phone) {
+  const num = phone.replace(/\D/g,'');
+  window.open('https://wa.me/' + num, '_blank');
+}
+
+function callPhone(phone) {
+  window.open('tel:' + phone, '_blank');
+}
+
+function logActivity(title, meta, color) {
+  const now = new Date();
+  const time = now.toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'});
+  activity.unshift({ title, meta, color: color||'var(--blue)', time });
+  if (activity.length > 50) activity.pop();
+  save('sf_activity', activity);
+}
+
+function globalSearch(q) {
+  if (!q || q.length < 2) return;
+  showSec('agencies');
+  setTimeout(() => {
+    document.getElementById('agSearch').value = q;
+    renderAgencies();
+  }, 50);
+}
+
+// ═══════════════════════════════════════════════
+// CONFIRM DIALOG
+// ═══════════════════════════════════════════════
+
+let confirmCallback = null;
+
+function confirmDialog(title, msg, cb) {
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmMsg').textContent   = msg;
+  confirmCallback = cb;
+  document.getElementById('confirmBg').classList.add('show');
+}
+
+function closeConfirm() {
+  document.getElementById('confirmBg').classList.remove('show');
+  confirmCallback = null;
+}
+
+document.getElementById('confirmOkBtn').onclick = () => {
+  if (confirmCallback) confirmCallback();
+  closeConfirm();
+};
+
+// ═══════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════
+
+function toast(msg, type='success') {
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.textContent = (type==='success'?'✓ ':type==='error'?'✕ ':'ℹ ') + msg;
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.opacity='0'; setTimeout(()=>t.remove(),300); }, 2800);
+}
+
+// ═══════════════════════════════════════════════
+// KEYBOARD
+// ═══════════════════════════════════════════════
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closeConfirm(); }
+  if ((e.ctrlKey||e.metaKey) && e.key==='k') { e.preventDefault(); document.getElementById('globalSearchInput').focus(); }
+});
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Attach nav click events
+  // Nav
   document.querySelectorAll('.nav-item[data-sec]').forEach(n => {
     n.addEventListener('click', () => showSec(n.dataset.sec));
   });
   document.querySelectorAll('#mainTabs .tab[data-sec]').forEach(t => {
     t.addEventListener('click', () => showSec(t.dataset.sec));
   });
-  // Filter buttons - attach click for nf-btn
-  document.querySelectorAll('.nf-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      this.closest('.notif-filters').querySelectorAll('.nf-btn').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
+
+  // Settings nav decoration
+  document.querySelectorAll('.sn-item').forEach(n => {
+    n.addEventListener('click', () => {
+      document.querySelectorAll('.sn-item').forEach(x=>x.classList.remove('active'));
+      n.classList.add('active');
     });
   });
 
-  // Build all components
-  buildAgencies(agencyData);
-  buildContacts();
-  buildMeetings();
-  buildCalendar();
-  buildFullCalendar();
-  buildKanban();
-  buildFollowups();
-  buildReport();
-  buildNotifs();
-  buildNotifPage();
-  buildBarChart();
-  buildHeatmap('heatmap', 13);
-  buildHeatmap('miniHm', 1);
-  buildRpAgenda();
-
-  // Start on dashboard
+  loadSettings();
+  updateBadges();
+  renderDashboard();
   showSec('dashboard');
-
-  // Auto-dismiss float notif
-  setTimeout(closeFloat, 8000);
-});
-
-// ─── AGENCIES TABLE ───
-let currentFilter = 'all';
-let sortDir = {};
-
-function buildAgencies(data) {
-  const filtered = currentFilter === 'all' ? data : data.filter(a => a.status === currentFilter);
-  const tbody = document.getElementById('agTable');
-  if (!tbody) return;
-  if (filtered.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:40px;color:var(--text3)"><i class="fas fa-inbox" style="font-size:22px;margin-bottom:8px;display:block"></i>No agencies found</td></tr>';
-    return;
-  }
-  tbody.innerHTML = filtered.map((a, i) => `
-    <tr>
-      <td style="color:var(--text3);font-size:11px">${String(i+1).padStart(2,'0')}</td>
-      <td>
-        <div class="ag-name">${a.name}</div>
-        <div class="ag-sub">${a.sub}</div>
-        <div style="margin-top:4px;height:3px;background:rgba(255,255,255,.05);border-radius:2px;width:80px;overflow:hidden">
-          <div style="height:100%;width:${a.deal}%;background:${a.deal>70?'var(--emerald)':a.deal>40?'var(--amber)':'var(--rose)'};border-radius:2px"></div>
-        </div>
-        <div style="font-size:9px;color:var(--text3);margin-top:1px">${a.deal}% deal progress</div>
-      </td>
-      <td>
-        <div style="font-size:11.5px;font-weight:500">${a.contact}</div>
-        <div style="font-size:10px;color:var(--text3)">${a.email}</div>
-      </td>
-      <td style="color:var(--text2);font-size:11px">${a.phone}</td>
-      <td><span class="badge ${statusMap[a.status]}">${statusLbl[a.status]}</span></td>
-      <td><div class="pdot-row"><div class="pdot ${a.priority==='high'?'ph':a.priority==='med'?'pm':'pl'}"></div>${a.priority==='high'?'High':a.priority==='med'?'Medium':'Low'}</div></td>
-      <td style="color:var(--text2);font-size:11px">${a.last}</td>
-      <td style="color:var(--blue);font-size:11px;font-weight:500">${a.next}</td>
-      <td style="color:var(--text2);font-size:11px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${a.feedback}">${a.feedback}</td>
-      <td>
-        <div class="act-btns">
-          <div class="act-btn" title="Call" onclick="alert('Calling ${a.contact}...')"><i class="fas fa-phone"></i></div>
-          <div class="act-btn wa" title="WhatsApp" onclick="alert('Opening WhatsApp for ${a.contact}...')"><i class="fab fa-whatsapp"></i></div>
-          <div class="act-btn" title="Edit" onclick="openModal('edit')"><i class="fas fa-pen"></i></div>
-          <div class="act-btn del" title="Delete" onclick="if(confirm('Delete ${a.name}?'))showToast('Deleted ${a.name}')"><i class="fas fa-trash"></i></div>
-        </div>
-      </td>
-    </tr>
-  `).join('');
-}
-
-function filterAgencies(q) {
-  const f = agencyData.filter(a =>
-    a.name.toLowerCase().includes(q.toLowerCase()) ||
-    a.contact.toLowerCase().includes(q.toLowerCase()) ||
-    a.feedback.toLowerCase().includes(q.toLowerCase())
-  );
-  buildAgencies(f);
-}
-
-function filterByStatus(status, el) {
-  currentFilter = status;
-  document.querySelectorAll('.t-stat-pill').forEach(p => p.classList.remove('sel'));
-  el.classList.add('sel');
-  buildAgencies(agencyData);
-}
-
-function sortTable(by) {
-  sortDir[by] = !sortDir[by];
-  const sorted = [...agencyData].sort((a, b) => {
-    let va, vb;
-    if (by === 'name') { va = a.name; vb = b.name; }
-    else if (by === 'priority') { const o = ['high','med','low']; va = o.indexOf(a.priority); vb = o.indexOf(b.priority); }
-    else if (by === 'status') { va = a.status; vb = b.status; }
-    else { va = 0; vb = 0; }
-    const dir = sortDir[by] ? 1 : -1;
-    return va > vb ? dir : va < vb ? -dir : 0;
-  });
-  buildAgencies(sorted);
-}
-
-function exportCSV() {
-  const headers = ['Name','Sub','Contact','Phone','Email','Status','Priority','Last','Next','Feedback','Value','Deal%'];
-  const rows = agencyData.map(a => [a.name,a.sub,a.contact,a.phone,a.email,a.status,a.priority,a.last,a.next,a.feedback,a.value,a.deal].join(','));
-  const csv = [headers.join(','), ...rows].join('\n');
-  const blob = new Blob([csv], {type:'text/csv'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'agencies.csv'; a.click();
-  URL.revokeObjectURL(url);
-}
-
-// ─── CONTACTS ───
-const ccColors = ['#3b91ff','#8b5cf6','#10b981','#f59e0b','#ec4899','#00d4ff','#f43f5e','#a78bfa','#34d399','#fbbf24'];
-let allContacts = [];
-
-function buildContacts() {
-  allContacts = agencyData.map((a, i) => ({...a, initials: a.contact.split(' ').map(n=>n[0]).join(''), color: ccColors[i % ccColors.length], calls: Math.floor(Math.random()*15)+3, meetings: Math.floor(Math.random()*8)+1}));
-  renderContacts(allContacts);
-}
-
-function renderContacts(list) {
-  const grid = document.getElementById('contactsGrid');
-  if (!grid) return;
-  grid.innerHTML = list.map((a, i) => `
-    <div class="contact-card" style="--cc:${a.color}22;animation-delay:${i*.05}s">
-      <div class="cc-avatar" style="background:${a.color}18;color:${a.color};border-color:${a.color}33">${a.initials}</div>
-      <div class="cc-name">${a.contact}</div>
-      <div class="cc-role">Agency Manager</div>
-      <div class="cc-agency"><i class="fas fa-building" style="font-size:9px;color:var(--text3)"></i>${a.name}</div>
-      <div class="cc-stats">
-        <div class="cc-stat"><div class="cc-stat-val" style="color:${a.color}">${a.calls}</div><div class="cc-stat-lbl">Calls</div></div>
-        <div class="cc-stat"><div class="cc-stat-val" style="color:${a.color}">${a.meetings}</div><div class="cc-stat-lbl">Meetings</div></div>
-        <div class="cc-stat"><div class="cc-stat-val" style="color:${a.color}">${a.deal}%</div><div class="cc-stat-lbl">Deal</div></div>
-      </div>
-      <div class="cc-btns">
-        <div class="cc-btn primary" onclick="alert('Calling ${a.contact}...')"><i class="fas fa-phone" style="font-size:9px"></i>Call</div>
-        <div class="cc-btn wa" onclick="alert('WhatsApp ${a.contact}...')"><i class="fab fa-whatsapp" style="font-size:10px"></i>WA</div>
-        <div class="cc-btn" onclick="alert('Emailing ${a.contact}...')"><i class="fas fa-envelope" style="font-size:9px"></i>Email</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function filterContacts(q) {
-  const f = allContacts.filter(a => a.contact.toLowerCase().includes(q.toLowerCase()) || a.name.toLowerCase().includes(q.toLowerCase()));
-  renderContacts(f);
-}
-
-// ─── MEETINGS ───
-const meetingsData = [
-  {agency:'BrightStream Media',time:'10:00',ap:'AM',type:'Strategy Call',platform:'Zoom',color:'#3b91ff',status:'active',tags:['Zoom','High Priority'],notes:'Discuss annual package'},
-  {agency:'NovaCast Agency',time:'02:30',ap:'PM',type:'Proposal Review',platform:'Google Meet',color:'#8b5cf6',status:'pending',tags:['Meet','Review'],notes:'₹1.2L proposal'},
-  {agency:'StarMedia Ltd',time:'04:00',ap:'PM',type:'Contract Discussion',platform:'Phone',color:'#10b981',status:'completed',tags:['Phone','Contract'],notes:'Finalise terms'},
-  {agency:'Zync Digital',time:'11:00',ap:'AM',type:'Discovery Call',platform:'Zoom',color:'#f59e0b',status:'upcoming',tags:['Zoom','New Lead'],notes:'Initial discovery'},
-  {agency:'FlowCast Studios',time:'03:15',ap:'PM',type:'Pricing Discussion',platform:'Zoom',color:'#ec4899',status:'upcoming',tags:['Zoom','Pricing'],notes:'Send rate card before'},
-];
-
-function buildMeetings() {
-  renderMeetings(meetingsData);
-}
-
-function renderMeetings(list) {
-  const el = document.getElementById('mtgCards');
-  if (!el) return;
-  el.innerHTML = list.map(m => `
-    <div class="mtg-card" style="--mc:${m.color}">
-      <div class="mtg-time-blk">
-        <div class="mtg-t">${m.time}</div>
-        <div class="mtg-ap">${m.ap}</div>
-      </div>
-      <div class="mtg-info">
-        <div class="mtg-agency">${m.agency}</div>
-        <div class="mtg-type"><i class="fas fa-${m.platform==='Zoom'?'video':m.platform==='Phone'?'phone':'desktop'}" style="font-size:9px;margin-right:4px;opacity:.6"></i>${m.type} · ${m.platform}</div>
-        <div style="font-size:10px;color:var(--text3);margin-bottom:5px">${m.notes}</div>
-        <div class="mtg-tags">
-          ${m.tags.map(t=>`<span class="mtag">${t}</span>`).join('')}
-          <span class="badge ${m.status==='completed'?'b-approved':m.status==='active'?'b-active':'b-pending'}" style="font-size:9px">${m.status}</span>
-        </div>
-      </div>
-      <div class="mtg-actions">
-        <button class="mtg-join-btn" onclick="alert('Joining ${m.agency} meeting...')"><i class="fas fa-video" style="margin-right:3px;font-size:9px"></i>Join</button>
-        <div class="act-btn" title="Notes" style="width:28px;height:24px"><i class="fas fa-sticky-note" style="font-size:9px"></i></div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function filterMeetings(filter, btn) {
-  document.querySelectorAll('.mf-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const filtered = filter === 'all' ? meetingsData : meetingsData.filter(m => m.status === filter);
-  renderMeetings(filtered);
-}
-
-// ─── CALENDAR (mini) - with month navigation ───
-let calOffset = 0;
-
-function buildCalendar() {
-  const now = new Date();
-  const d = new Date(now.getFullYear(), now.getMonth() + calOffset, 1);
-  const year = d.getFullYear();
-  const month = d.getMonth();
-  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const titleEl = document.getElementById('calMonthTitle');
-  if (titleEl) titleEl.textContent = monthNames[month] + ' ' + year;
-
-  const grid = document.getElementById('calGrid');
-  if (!grid) return;
-  const days = ['S','M','T','W','T','F','S'];
-  const hasMtg = [3,8,12,15,19,22,26];
-  const firstDay = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month+1, 0).getDate();
-  const today = (calOffset === 0) ? now.getDate() : -1;
-
-  let html = days.map(d => `<div class="cal-dn">${d}</div>`).join('');
-  // Prev month filler
-  const prevDays = new Date(year, month, 0).getDate();
-  for (let i = firstDay - 1; i >= 0; i--) {
-    html += `<div class="cal-d other">${prevDays - i}</div>`;
-  }
-  for (let d = 1; d <= daysInMonth; d++) {
-    const cls = d === today ? 'today' : hasMtg.includes(d) ? 'has-mtg' : '';
-    html += `<div class="cal-d ${cls}">${d}</div>`;
-  }
-  grid.innerHTML = html;
-}
-
-function changeMonth(dir) {
-  calOffset += dir;
-  buildCalendar();
-}
-
-// ─── FULL CALENDAR ───
-let fullCalOffset = 0;
-
-function buildFullCalendar() {
-  const now = new Date();
-  const d = new Date(now.getFullYear(), now.getMonth() + fullCalOffset, 1);
-  const year = d.getFullYear();
-  const month = d.getMonth();
-  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const titleEl = document.getElementById('fullCalTitle');
-  if (titleEl) titleEl.textContent = monthNames[month] + ' ' + year;
-
-  const grid = document.getElementById('calFullGrid');
-  if (!grid) return;
-  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const events = {3:['BrightStream'],8:['NovaCast','Zync'],12:['StarMedia','FlowCast'],15:['ViralEdge'],19:['MediaSpark'],22:['CastPro'],26:['BrightStream']};
-  const evColors = ['#3b91ff','#8b5cf6','#10b981','#f59e0b'];
-  const firstDay = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month+1, 0).getDate();
-  const prevDays = new Date(year, month, 0).getDate();
-  const todayDate = (fullCalOffset === 0) ? now.getDate() : -1;
-
-  let html = days.map(d => `<div class="cal-full-day-name">${d}</div>`).join('');
-  for (let i = firstDay - 1; i >= 0; i--) {
-    html += `<div class="cal-full-cell"><div class="cal-full-num" style="opacity:.3">${prevDays-i}</div></div>`;
-  }
-  for (let d = 1; d <= daysInMonth; d++) {
-    const isToday = d === todayDate;
-    const ev = events[d] || [];
-    html += `<div class="cal-full-cell ${isToday?'today-cell':''}">
-      <div class="cal-full-num ${isToday?'today-num':''}">${d}</div>
-      ${ev.map((e,i)=>`<div class="cal-event" style="background:${evColors[i%4]}20;color:${evColors[i%4]};border-left:2px solid ${evColors[i%4]}">${e}</div>`).join('')}
-    </div>`;
-  }
-  grid.innerHTML = html;
-
-  const sched = document.getElementById('todaySchedule');
-  if (sched) {
-    sched.innerHTML = meetingsData.map(m => `
-      <div class="tl-item">
-        <div class="tl-dot" style="background:${m.color}"></div>
-        <div style="flex:1">
-          <div class="tl-title">${m.time} ${m.ap} — ${m.agency}</div>
-          <div class="tl-meta">${m.type} · ${m.platform}</div>
-        </div>
-        <span class="badge ${m.status==='completed'?'b-approved':m.status==='active'?'b-active':'b-pending'}" style="font-size:9px">${m.status}</span>
-      </div>
-    `).join('');
-  }
-}
-
-function changeFullMonth(dir) {
-  fullCalOffset += dir;
-  buildFullCalendar();
-}
-
-// ─── KANBAN ───
-const kbData = [
-  {col:'Pending',color:'#f59e0b',tasks:[
-    {title:'Send proposal to BrightStream',agency:'BrightStream Media',tags:['Proposal'],tagColor:'',p:'high',due:'Today',ov:false,prog:0},
-    {title:'Prepare rate card document',agency:'Internal',tags:['Document'],tagColor:'amber',p:'med',due:'May 15',ov:false,prog:30},
-    {title:'Follow up Zync Digital call',agency:'Zync Digital',tags:['Follow-up'],tagColor:'amber',p:'high',due:'May 12',ov:true,prog:0},
-    {title:'Update agency feedback sheet',agency:'All Agencies',tags:['CRM'],tagColor:'green',p:'low',due:'May 16',ov:false,prog:15},
-  ]},
-  {col:'In Progress',color:'#3b91ff',tasks:[
-    {title:'Draft NovaCast contract terms',agency:'NovaCast Agency',tags:['Legal'],tagColor:'purple',p:'high',due:'May 14',ov:false,prog:60},
-    {title:'Update CRM with call notes',agency:'All Agencies',tags:['CRM'],tagColor:'green',p:'low',due:'Today',ov:false,prog:80},
-    {title:'ViralEdge sponsorship deck',agency:'ViralEdge Studios',tags:['Deck'],tagColor:'',p:'high',due:'May 13',ov:false,prog:45},
-    {title:'FlowCast pricing email',agency:'FlowCast Studios',tags:['Email'],tagColor:'green',p:'med',due:'May 14',ov:false,prog:70},
-  ]},
-  {col:'Completed',color:'#10b981',tasks:[
-    {title:'StarMedia onboarding meeting',agency:'StarMedia Ltd',tags:['Meeting'],tagColor:'green',p:'med',due:'May 10',ov:false,prog:100},
-    {title:'Monthly report compilation',agency:'Internal',tags:['Report'],tagColor:'amber',p:'med',due:'May 10',ov:false,prog:100},
-    {title:'BrightStream intro call',agency:'BrightStream Media',tags:['Proposal'],tagColor:'',p:'high',due:'May 11',ov:false,prog:100},
-  ]},
-  {col:'Waiting Response',color:'#8b5cf6',tasks:[
-    {title:'Package approval from StarMedia',agency:'StarMedia Ltd',tags:['Approval'],tagColor:'purple',p:'high',due:'May 16',ov:false,prog:0},
-    {title:'Contract sign from NovaCast',agency:'NovaCast Agency',tags:['Contract'],tagColor:'purple',p:'high',due:'May 18',ov:false,prog:0},
-  ]},
-];
-
-const avClrs = ['#3b91ff','#8b5cf6','#10b981','#f59e0b','#ec4899'];
-const avInit = ['AK','RK','PS','DS','MN'];
-function av(i){return`<div class="task-av" style="background:${avClrs[i%5]}22;color:${avClrs[i%5]}">${avInit[i%5]}</div>`}
-
-function buildKanban() {
-  const el = document.getElementById('kanban');
-  if (!el) return;
-  el.innerHTML = kbData.map(col => `
-    <div class="kb-col">
-      <div class="kb-hd">
-        <div class="kb-lbl"><div class="kb-dot" style="background:${col.color}"></div>${col.col}</div>
-        <div class="kb-cnt">${col.tasks.length}</div>
-      </div>
-      <div class="kb-body">
-        ${col.tasks.map((t,i) => `
-          <div class="task-card" draggable="true">
-            <div class="task-pbar" style="background:${t.p==='high'?'var(--rose)':t.p==='med'?'var(--amber)':'var(--emerald)'}"></div>
-            <div class="task-title">${t.title}</div>
-            <div class="task-ag"><i class="fas fa-building" style="font-size:9px;color:var(--text3)"></i>${t.agency}</div>
-            <div class="task-ft">
-              <div class="task-tags">${t.tags.map(tg=>`<span class="ttag ${t.tagColor}">${tg}</span>`).join('')}</div>
-              <div class="task-avs">${av(i)}${i<2?av(i+1):''}</div>
-            </div>
-            ${t.prog>0?`<div class="task-progress">
-              <div class="task-progress-lbl">${t.prog}% complete</div>
-              <div class="task-progress-bar"><div class="task-progress-fill" style="width:${t.prog}%;background:${col.color}"></div></div>
-            </div>`:''}
-            <div class="task-due ${t.ov?'ov':t.due==='Today'?'soon':''}"><i class="fas fa-clock" style="font-size:9px"></i>${t.ov?'⚠ Overdue · ':''}${t.due}</div>
-          </div>
-        `).join('')}
-        <div class="kb-add" onclick="openModal('task')"><i class="fas fa-plus" style="margin-right:4px;font-size:9px"></i>Add task</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-// ─── FOLLOW-UPS ───
-const fuData = [
-  {name:'Zync Digital',detail:'No response for 5 days · Proposal sent',time:'5 days',urg:'urg',icon:'fas fa-exclamation-triangle',ibg:'rgba(244,63,94,.12)',ic:'var(--rose)'},
-  {name:'CastPro Network',detail:'Sent brochure — no reply yet',time:'7 days',urg:'urg',icon:'fas fa-reply',ibg:'rgba(244,63,94,.12)',ic:'var(--rose)'},
-  {name:'FlowCast Studios',detail:'Awaiting pricing reply from Vijay',time:'3 days',urg:'warn',icon:'fas fa-clock',ibg:'rgba(245,158,11,.12)',ic:'var(--amber)'},
-  {name:'MediaSpark India',detail:'Annual plan follow-up needed',time:'4 days',urg:'warn',icon:'fas fa-file-invoice',ibg:'rgba(245,158,11,.12)',ic:'var(--amber)'},
-  {name:'PixelWave Agency',detail:'Proposal follow-up pending',time:'2 days',urg:'norm',icon:'fas fa-paper-plane',ibg:'rgba(59,145,255,.12)',ic:'var(--blue)'},
-  {name:'BrightStream Media',detail:'Confirm meeting for tomorrow',time:'1 day',urg:'norm',icon:'fas fa-phone',ibg:'rgba(59,145,255,.12)',ic:'var(--blue)'},
-  {name:'NovaCast Agency',detail:'Proposal review follow-up',time:'1 day',urg:'norm',icon:'fas fa-file-alt',ibg:'rgba(59,145,255,.12)',ic:'var(--blue)'},
-];
-
-function buildFollowups() {
-  const fuEl = document.getElementById('fuList');
-  if (fuEl) fuEl.innerHTML = fuData.map(f => `
-    <div class="fu-item ${f.urg}">
-      <div class="fu-ico" style="background:${f.ibg};color:${f.ic}"><i class="${f.icon}"></i></div>
-      <div style="flex:1;min-width:0">
-        <div class="fu-name">${f.name}</div>
-        <div class="fu-detail">${f.detail}</div>
-      </div>
-      <div class="fu-right">
-        <div class="fu-time">${f.time} ago</div>
-        <div class="fu-rem" onclick="showToast('✓ Reminder set for ${f.name}')">Remind</div>
-      </div>
-    </div>
-  `).join('');
-
-  const logEl = document.getElementById('commLog');
-  if (logEl) logEl.innerHTML = `
-    <div class="tl-item"><div class="tl-dot" style="background:var(--blue)"></div><div style="flex:1"><div class="tl-title">Called BrightStream — No Answer</div><div class="tl-meta">3 attempts, left voicemail</div></div><div class="tl-time">10:30 AM</div></div>
-    <div class="tl-item"><div class="tl-dot" style="background:var(--emerald)"></div><div style="flex:1"><div class="tl-title">WhatsApp — NovaCast responded ✓</div><div class="tl-meta">Interested in premium package</div></div><div class="tl-time">9:15 AM</div></div>
-    <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div style="flex:1"><div class="tl-title">Email sent — Zync Digital</div><div class="tl-meta">Pricing proposal with deck attached</div></div><div class="tl-time">Yesterday</div></div>
-    <div class="tl-item"><div class="tl-dot" style="background:var(--rose)"></div><div style="flex:1"><div class="tl-title">Follow-up overdue — CastPro</div><div class="tl-meta">7 days no response — escalate</div></div><div class="tl-time">3 days ago</div></div>
-    <div class="tl-item"><div class="tl-dot" style="background:var(--purple)"></div><div style="flex:1"><div class="tl-title">Meeting completed — ViralEdge ✓</div><div class="tl-meta">Very positive response, sending deck</div></div><div class="tl-time">2 days ago</div></div>
-    <div class="tl-item"><div class="tl-dot" style="background:var(--cyan)"></div><div style="flex:1"><div class="tl-title">Proposal viewed — MediaSpark</div><div class="tl-meta">Opened email 3 times</div></div><div class="tl-time">4 days ago</div></div>
-  `;
-}
-
-// ─── REPORT ───
-const rDone = ['StarMedia onboarding meeting completed','NovaCast proposal draft finalized and sent','Monthly CRM data updated with all call notes','BrightStream intro call done — positive response','ViralEdge initial pitch presented — hot lead','FlowCast pricing email sent with rate card'];
-const rPend = ['Zync Digital follow-up call still pending','FlowCast pricing reply awaited from Vijay','CastPro contract review due this week','PixelWave brochure follow-up needed','MediaSpark annual plan discussion pending','NovaCast contract terms review'];
-const rMtg = ['BrightStream — 10:00 AM Strategy Call (Zoom) ✓','NovaCast — 2:30 PM Proposal Review (Meet) — Upcoming','StarMedia — 4:00 PM Contract Discussion (In-person)'];
-
-function buildReport() {
-  const now = new Date();
-  const el = document.getElementById('rptDate');
-  if (el) el.textContent = now.toLocaleDateString('en-IN', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  const doneEl = document.getElementById('rptDone');
-  if (doneEl) doneEl.innerHTML = rDone.map(c=>`<div class="rpt-item"><div class="rpt-dot" style="background:var(--emerald)"></div><div class="rpt-txt">${c}</div><i class="fas fa-check" style="color:var(--emerald);font-size:10px;flex-shrink:0"></i></div>`).join('');
-  const pendEl = document.getElementById('rptPend');
-  if (pendEl) pendEl.innerHTML = rPend.map(p=>`<div class="rpt-item"><div class="rpt-dot" style="background:var(--amber)"></div><div class="rpt-txt">${p}</div><i class="fas fa-hourglass-half" style="color:var(--amber);font-size:9px;flex-shrink:0"></i></div>`).join('');
-  const mtgEl = document.getElementById('rptMtg');
-  if (mtgEl) mtgEl.innerHTML = rMtg.map(m=>`<div class="rpt-item"><div class="rpt-dot" style="background:var(--blue)"></div><div class="rpt-txt">${m}</div></div>`).join('');
-  const prev = document.getElementById('rptPreview');
-  if (prev) prev.textContent = `📋 DAILY WORK REPORT — ${now.toLocaleDateString('en-IN')}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n✅ COMPLETED TASKS (${rDone.length}):\n${rDone.map(c=>`  • ${c}`).join('\n')}\n\n⏳ PENDING TASKS (${rPend.length}):\n${rPend.map(p=>`  • ${p}`).join('\n')}\n\n📅 MEETINGS TODAY (${rMtg.length}):\n${rMtg.map(m=>`  • ${m}`).join('\n')}\n\n📊 PERFORMANCE SCORE: 87/100\n🔥 PRODUCTIVITY: 87% Weekly Average\n💰 REVENUE PIPELINE: ₹4.2L Active\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nGenerated by StreamFlow Dashboard`;
-}
-
-function copyReport() {
-  const text = document.getElementById('rptPreview')?.textContent || '';
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => {
-      const b = document.querySelector('.copy-btn');
-      if (b) { b.innerHTML = '<i class="fas fa-check"></i> Copied!'; setTimeout(() => { b.innerHTML = '<i class="fas fa-copy"></i>Copy Report'; }, 2200); }
-    }).catch(() => fallbackCopy(text));
-  } else { fallbackCopy(text); }
-}
-
-function fallbackCopy(text) {
-  const ta = document.createElement('textarea');
-  ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-  showToast('✓ Report copied!');
-}
-
-function shareOnWhatsApp() {
-  const text = document.getElementById('rptPreview')?.textContent || '';
-  const url = 'https://wa.me/?text=' + encodeURIComponent(text);
-  window.open(url, '_blank');
-}
-
-// ─── NOTIFICATIONS ───
-const notifData = [
-  {icon:'fas fa-calendar-check',ibg:'rgba(59,145,255,.15)',ic:'var(--blue)',ttl:'Meeting in 30 min',body:'BrightStream Strategy Call · Zoom',time:'30 min',unread:true},
-  {icon:'fas fa-exclamation-triangle',ibg:'rgba(244,63,94,.15)',ic:'var(--rose)',ttl:'Urgent Follow-up',body:'Zync Digital — 5 days no response',time:'1h',unread:true},
-  {icon:'fas fa-handshake',ibg:'rgba(16,185,129,.15)',ic:'var(--emerald)',ttl:'Deal Closed 🎉',body:'StarMedia contract signed ✓',time:'2h',unread:false},
-  {icon:'fas fa-file-invoice',ibg:'rgba(139,92,246,.15)',ic:'var(--purple)',ttl:'Proposal Viewed',body:'NovaCast opened your proposal',time:'3h',unread:false},
-  {icon:'fas fa-fire',ibg:'rgba(245,158,11,.15)',ic:'var(--amber)',ttl:'Hot Lead Alert',body:'ViralEdge Studios — High Intent',time:'4h',unread:false},
-];
-
-function buildNotifs() {
-  const el = document.getElementById('notifList');
-  if (!el) return;
-  el.innerHTML = notifData.map(n => `
-    <div class="notif-item">
-      <div class="notif-ico" style="background:${n.ibg};color:${n.ic}"><i class="${n.icon}"></i></div>
-      <div class="notif-content">
-        <div class="notif-ttl">${n.ttl}</div>
-        <div class="notif-body">${n.body}</div>
-        <div class="notif-time">${n.time} ago</div>
-      </div>
-      ${n.unread ? '<div class="notif-unread"></div>' : ''}
-    </div>
-  `).join('');
-}
-
-function buildNotifPage() {
-  const el = document.getElementById('notifPageList');
-  if (!el) return;
-  const all = [...notifData,
-    {icon:'fas fa-user-plus',ibg:'rgba(0,212,255,.12)',ic:'var(--cyan)',ttl:'New Contact Added',body:'Rohan Verma from ViralEdge Studios added',time:'5h',unread:false},
-    {icon:'fas fa-chart-line',ibg:'rgba(16,185,129,.12)',ic:'var(--emerald)',ttl:'Weekly Target Reached',body:'87% productivity — above target',time:'Yesterday',unread:false},
-    {icon:'fas fa-clock',ibg:'rgba(245,158,11,.12)',ic:'var(--amber)',ttl:'Daily Report Ready',body:'Your auto-generated report is ready',time:'Yesterday',unread:false},
-  ];
-  el.innerHTML = all.map(n => `
-    <div class="notif-page-item ${n.unread?'unread':''}">
-      <div class="npi-ico" style="background:${n.ibg};color:${n.ic}"><i class="${n.icon}"></i></div>
-      <div class="npi-content">
-        <div class="npi-ttl">${n.ttl}${n.unread?'<span style="font-size:9px;color:var(--blue);margin-left:6px;background:rgba(59,145,255,.1);padding:1px 6px;border-radius:10px">New</span>':''}</div>
-        <div class="npi-body">${n.body}</div>
-        <div class="npi-time">${n.time} ago</div>
-        <div class="npi-actions">
-          <div class="npi-act primary">View Details</div>
-          <div class="npi-act" onclick="showToast('✓ Marked as read')">Mark Read</div>
-          <div class="npi-act" onclick="this.closest('.notif-page-item').remove()">Dismiss</div>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-// ─── BAR CHART ───
-const barData = [{c:8,m:3,f:5},{c:12,m:5,f:8},{c:6,m:2,f:4},{c:15,m:6,f:10},{c:10,m:4,f:7},{c:4,m:1,f:2},{c:7,m:3,f:5}];
-
-function buildBarChart() {
-  const el = document.getElementById('barChart');
-  if (!el) return;
-  const max = 15;
-  el.innerHTML = barData.map((d, i) => `
-    <div class="bar-group">
-      <div class="bar" style="background:rgba(59,145,255,.75);height:0%" data-h="${d.c/max*100}" data-v="${d.c} calls"></div>
-      <div class="bar" style="background:rgba(139,92,246,.75);height:0%" data-h="${d.m/max*100}" data-v="${d.m} meetings"></div>
-      <div class="bar" style="background:rgba(0,212,255,.55);height:0%" data-h="${d.f/max*100}" data-v="${d.f} follow-ups"></div>
-    </div>
-  `).join('');
-}
-
-function animBars() {
-  document.querySelectorAll('#barChart .bar').forEach(b => {
-    b.style.height = b.dataset.h + '%';
-  });
-}
-
-// ─── RINGS ───
-function animRing(id, pct) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const c = 2 * Math.PI * 27;
-  el.style.strokeDasharray = c;
-  el.style.strokeDashoffset = c - (pct / 100 * c);
-}
-
-// ─── HEATMAP ───
-function buildHeatmap(id, weeks) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const cols = weeks === 1 ? 7 : weeks * 7;
-  el.style.gridTemplateColumns = weeks === 1 ? 'repeat(7,1fr)' : 'repeat(13,1fr)';
-  el.innerHTML = Array.from({length: cols}, (_, i) => {
-    const l = Math.random() < .25 ? 0 : [0,1,2,3,4][Math.floor(Math.random()*5)];
-    return `<div class="hm-cell hm${l}" title="Activity level: ${l}"></div>`;
-  }).join('');
-}
-
-// ─── RIGHT PANEL AGENDA ───
-function buildRpAgenda() {
-  const el = document.getElementById('rpAgenda');
-  if (!el) return;
-  const items = [
-    {time:'10:00',label:'BrightStream call',color:'var(--blue)'},
-    {time:'02:30',label:'NovaCast review',color:'var(--purple)'},
-    {time:'04:00',label:'StarMedia contract',color:'var(--emerald)'},
-  ];
-  el.innerHTML = items.map(a => `
-    <div style="display:flex;align-items:center;gap:8px;padding:6px 3px;border-bottom:1px solid var(--border)">
-      <div style="font-size:10px;color:var(--text3);white-space:nowrap;min-width:36px">${a.time}</div>
-      <div style="width:3px;height:20px;border-radius:2px;background:${a.color};flex-shrink:0"></div>
-      <div style="font-size:11px;color:var(--text)">${a.label}</div>
-    </div>
-  `).join('');
-}
-
-// ─── SETTINGS NAV ───
-function settingsNav(el) {
-  document.querySelectorAll('.sn-item').forEach(n => n.classList.remove('active'));
-  el.classList.add('active');
-}
-
-// ─── MODAL CONFIGS ───
-const modalBodies = {
-  agency: `
-    <div class="fgrid">
-      <div class="fgrp"><label class="flbl">Agency Name</label><input class="finput" placeholder="e.g. BrightStream Media"></div>
-      <div class="fgrp"><label class="flbl">Contact Person</label><input class="finput" placeholder="Full name"></div>
-    </div>
-    <div class="fgrid">
-      <div class="fgrp"><label class="flbl">Phone</label><input class="finput" placeholder="+91 XXXXX XXXXX"></div>
-      <div class="fgrp"><label class="flbl">Email</label><input class="finput" placeholder="email@agency.com"></div>
-    </div>
-    <div class="fgrid">
-      <div class="fgrp"><label class="flbl">Status</label><select class="finput"><option>Active</option><option>Pending</option><option>No Response</option><option>Follow-up Needed</option><option>Approved</option><option>Review Pending</option></select></div>
-      <div class="fgrp"><label class="flbl">Priority</label><select class="finput"><option>High</option><option>Medium</option><option>Low</option></select></div>
-    </div>
-    <div class="fgrid">
-      <div class="fgrp"><label class="flbl">Last Contacted</label><input class="finput" type="date"></div>
-      <div class="fgrp"><label class="flbl">Next Follow-up</label><input class="finput" type="date"></div>
-    </div>
-    <div class="fgrp"><label class="flbl">Platform Interest</label><select class="finput"><option>YouTube Sponsorship</option><option>Live Stream Integration</option><option>Social Media</option><option>Annual Package</option><option>Custom Deal</option></select></div>
-    <div class="fgrp"><label class="flbl">Notes / Feedback</label><textarea class="finput" rows="3" placeholder="Any notes, feedback or observations…"></textarea></div>
-  `,
-  meeting: `
-    <div class="fgrid">
-      <div class="fgrp"><label class="flbl">Agency Name</label><select class="finput">${agencyData.map(a=>`<option>${a.name}</option>`).join('')}</select></div>
-      <div class="fgrp"><label class="flbl">Meeting Type</label><select class="finput"><option>Strategy Call</option><option>Proposal Review</option><option>Discovery Call</option><option>Contract Discussion</option><option>Pricing Discussion</option></select></div>
-    </div>
-    <div class="fgrid">
-      <div class="fgrp"><label class="flbl">Date</label><input class="finput" type="date"></div>
-      <div class="fgrp"><label class="flbl">Time</label><input class="finput" type="time" value="10:00"></div>
-    </div>
-    <div class="fgrid">
-      <div class="fgrp"><label class="flbl">Platform</label><select class="finput"><option>Zoom</option><option>Google Meet</option><option>Phone Call</option><option>In-person</option></select></div>
-      <div class="fgrp"><label class="flbl">Duration</label><select class="finput"><option>30 min</option><option>45 min</option><option>1 hour</option><option>1.5 hours</option></select></div>
-    </div>
-    <div class="fgrp"><label class="flbl">Meeting Link / Location</label><input class="finput" placeholder="https://zoom.us/j/..."></div>
-    <div class="fgrp"><label class="flbl">Agenda / Notes</label><textarea class="finput" rows="3" placeholder="Meeting agenda or discussion points…"></textarea></div>
-  `,
-  task: `
-    <div class="fgrp"><label class="flbl">Task Title</label><input class="finput" placeholder="What needs to be done?"></div>
-    <div class="fgrid">
-      <div class="fgrp"><label class="flbl">Agency</label><select class="finput"><option>Internal</option>${agencyData.map(a=>`<option>${a.name}</option>`).join('')}</select></div>
-      <div class="fgrp"><label class="flbl">Priority</label><select class="finput"><option>High</option><option>Medium</option><option>Low</option></select></div>
-    </div>
-    <div class="fgrid">
-      <div class="fgrp"><label class="flbl">Column</label><select class="finput"><option>Pending</option><option>In Progress</option><option>Completed</option><option>Waiting Response</option></select></div>
-      <div class="fgrp"><label class="flbl">Due Date</label><input class="finput" type="date"></div>
-    </div>
-    <div class="fgrp"><label class="flbl">Assign To</label><select class="finput"><option>Arjun Kapoor (Me)</option><option>Rahul K</option><option>Priya S</option><option>Dev S</option></select></div>
-    <div class="fgrp"><label class="flbl">Notes</label><textarea class="finput" rows="2" placeholder="Any additional notes…"></textarea></div>
-  `,
-  contact: `
-    <div class="fgrid">
-      <div class="fgrp"><label class="flbl">Full Name</label><input class="finput" placeholder="Contact person name"></div>
-      <div class="fgrp"><label class="flbl">Agency</label><select class="finput">${agencyData.map(a=>`<option>${a.name}</option>`).join('')}</select></div>
-    </div>
-    <div class="fgrid">
-      <div class="fgrp"><label class="flbl">Phone</label><input class="finput" placeholder="+91 XXXXX XXXXX"></div>
-      <div class="fgrp"><label class="flbl">Email</label><input class="finput" placeholder="email@domain.com"></div>
-    </div>
-    <div class="fgrp"><label class="flbl">Role / Designation</label><input class="finput" placeholder="e.g. Marketing Manager"></div>
-    <div class="fgrp"><label class="flbl">Notes</label><textarea class="finput" rows="2" placeholder="Any notes about this contact…"></textarea></div>
-  `,
-  edit: `
-    <div class="fgrid">
-      <div class="fgrp"><label class="flbl">Agency Name</label><input class="finput" placeholder="Agency name"></div>
-      <div class="fgrp"><label class="flbl">Status</label><select class="finput"><option>Active</option><option>Pending</option><option>No Response</option><option>Follow-up Needed</option></select></div>
-    </div>
-    <div class="fgrp"><label class="flbl">Notes</label><textarea class="finput" rows="3" placeholder="Update notes…"></textarea></div>
-  `
-};
-
-const modalTitles = {
-  agency:'<i class="fas fa-building"></i> Add New Agency',
-  meeting:'<i class="fas fa-video"></i> Schedule Meeting',
-  task:'<i class="fas fa-check-square"></i> Add New Task',
-  contact:'<i class="fas fa-user-plus"></i> Add New Contact',
-  edit:'<i class="fas fa-pen"></i> Edit Agency'
-};
-
-function openModal(type = 'agency') {
-  document.getElementById('modalTitle').innerHTML = modalTitles[type] || modalTitles.agency;
-  document.getElementById('modalBody').innerHTML = modalBodies[type] || modalBodies.agency;
-  document.getElementById('modalBg').classList.add('show');
-}
-
-function closeModal() {
-  document.getElementById('modalBg').classList.remove('show');
-}
-
-function saveItem() {
-  closeModal();
-  showToast('✓ Saved successfully!');
-}
-
-// ─── TOAST ───
-function showToast(msg) {
-  const t = document.createElement('div');
-  t.style.cssText = 'position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);color:#10b981;padding:9px 20px;border-radius:8px;font-size:12.5px;font-weight:600;z-index:500;backdrop-filter:blur(10px)';
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => { t.style.opacity = '0'; t.style.transition = '.3s'; setTimeout(() => t.remove(), 300); }, 2500);
-}
-
-// ─── FLOAT NOTIF ───
-function closeFloat() {
-  const n = document.getElementById('floatNotif');
-  if (!n) return;
-  n.style.transform = 'translateY(20px)';
-  n.style.opacity = '0';
-  n.style.transition = '.3s';
-  setTimeout(() => { n.style.display = 'none'; }, 300);
-}
-
-// ─── VOICE ───
-let voiceTimer = null, voiceSecs = 0;
-
-function toggleVoice() {
-  const m = document.getElementById('voiceModal');
-  if (m.classList.contains('show')) { stopVoice(); return; }
-  m.classList.add('show');
-  voiceSecs = 0;
-  voiceTimer = setInterval(() => {
-    voiceSecs++;
-    const min = Math.floor(voiceSecs / 60);
-    const sec = voiceSecs % 60;
-    const el = document.getElementById('voiceTimer');
-    if (el) el.textContent = `${min}:${String(sec).padStart(2,'0')}`;
-  }, 1000);
-}
-
-function stopVoice() {
-  clearInterval(voiceTimer);
-  document.getElementById('voiceModal').classList.remove('show');
-  showToast('🎤 Voice note saved — 0:' + String(voiceSecs).padStart(2,'0'));
-}
-
-// ─── GLOBAL SEARCH ───
-function globalSearch(q) {
-  if (!q || q.length < 2) return;
-  const results = agencyData.filter(a =>
-    a.name.toLowerCase().includes(q.toLowerCase()) ||
-    a.contact.toLowerCase().includes(q.toLowerCase()) ||
-    a.feedback.toLowerCase().includes(q.toLowerCase())
-  );
-  showSec('agencies');
-  buildAgencies(results);
-}
-
-// Keyboard shortcut: Escape closes modal
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal();
 });
 </script>
 </body>
