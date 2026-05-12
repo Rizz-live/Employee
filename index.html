@@ -48,7 +48,7 @@ body::before{content:'';position:fixed;inset:0;background:
 ::-webkit-scrollbar-thumb{background:rgba(59,145,255,0.25);border-radius:2px}
 .app{display:flex;height:100vh;overflow:hidden;position:relative;z-index:1}
 
-/* ── SIDEBAR ── */
+/* SIDEBAR */
 .sidebar{width:var(--sidebar);min-width:var(--sidebar);height:100vh;background:var(--glass);border-right:1px solid var(--border);display:flex;flex-direction:column;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);position:relative;z-index:50}
 .sidebar::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(59,145,255,0.5),transparent)}
 .s-logo{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--border)}
@@ -86,7 +86,7 @@ body::before{content:'';position:fixed;inset:0;background:
 .s-stor-bar{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
 .s-stor-fill{height:100%;width:68%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:2px}
 
-/* ── MAIN ── */
+/* MAIN */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .topbar{height:var(--topbar);display:flex;align-items:center;gap:10px;padding:0 18px;background:rgba(6,11,23,.85);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);flex-shrink:0;z-index:30}
 .tb-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;letter-spacing:-.3px;white-space:nowrap}
@@ -103,17 +103,17 @@ body::before{content:'';position:fixed;inset:0;background:
 .add-btn{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:var(--r2);padding:7px 15px;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap;box-shadow:0 2px 12px rgba(59,145,255,.25)}
 .add-btn:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(59,145,255,.4)}
 
-/* ── CONTENT WRAP ── */
+/* CONTENT WRAP */
 .cwrap{display:flex;flex:1;overflow:hidden}
 .content{flex:1;overflow-y:auto;padding:18px}
 
-/* ── TABS ── */
+/* TABS */
 .tabs{display:flex;gap:3px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:3px;margin-bottom:18px;width:fit-content;flex-wrap:wrap}
 .tab{padding:6px 15px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);transition:.15s;white-space:nowrap}
 .tab.active{background:rgba(59,145,255,.14);color:var(--blue)}
 .tab:hover:not(.active){color:var(--text)}
 
-/* ── CARDS ── */
+/* CARDS */
 .card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
 .card-hd{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid var(--border)}
 .card-title{font-family:'Syne',sans-serif;font-size:12.5px;font-weight:700}
@@ -121,19 +121,19 @@ body::before{content:'';position:fixed;inset:0;background:
 .card-act:hover{color:var(--cyan)}
 .card-body{padding:13px 15px}
 
-/* ── STATS GRID ── */
+/* STATS GRID */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
-.stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px;position:relative;overflow:hidden;cursor:pointer;transition:.2s;animation:fiu .5s ease backwards}
+.stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px;position:relative;overflow:hidden;cursor:pointer;transition:.2s}
 .stat:hover{background:var(--bg4);border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,80,.3)}
 .stat::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,var(--cg,rgba(59,145,255,.06)) 0%,transparent 60%);pointer-events:none}
-.stat:nth-child(1){--cg:rgba(59,145,255,.09);animation-delay:.05s}
-.stat:nth-child(2){--cg:rgba(16,185,129,.09);animation-delay:.08s}
-.stat:nth-child(3){--cg:rgba(245,158,11,.09);animation-delay:.11s}
-.stat:nth-child(4){--cg:rgba(139,92,246,.09);animation-delay:.14s}
-.stat:nth-child(5){--cg:rgba(0,212,255,.09);animation-delay:.17s}
-.stat:nth-child(6){--cg:rgba(244,63,94,.09);animation-delay:.2s}
-.stat:nth-child(7){--cg:rgba(236,72,153,.09);animation-delay:.23s}
-.stat:nth-child(8){--cg:rgba(59,145,255,.09);animation-delay:.26s}
+.stat:nth-child(1){--cg:rgba(59,145,255,.09)}
+.stat:nth-child(2){--cg:rgba(16,185,129,.09)}
+.stat:nth-child(3){--cg:rgba(245,158,11,.09)}
+.stat:nth-child(4){--cg:rgba(139,92,246,.09)}
+.stat:nth-child(5){--cg:rgba(0,212,255,.09)}
+.stat:nth-child(6){--cg:rgba(244,63,94,.09)}
+.stat:nth-child(7){--cg:rgba(236,72,153,.09)}
+.stat:nth-child(8){--cg:rgba(59,145,255,.09)}
 @keyframes fiu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .stat-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
 .stat-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
@@ -143,15 +143,15 @@ body::before{content:'';position:fixed;inset:0;background:
 .stat-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;line-height:1;margin-bottom:4px;letter-spacing:-1px}
 .stat-lbl{font-size:10.5px;color:var(--text2);font-weight:500;margin-bottom:9px}
 .stat-bar{height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden}
-.stat-fill{height:100%;border-radius:2px;width:0;transition:width 1.5s cubic-bezier(.4,0,.2,1)}
+.stat-fill{height:100%;border-radius:2px;transition:width 1.5s cubic-bezier(.4,0,.2,1);width:0}
 
-/* ── LOWER GRID ── */
+/* LOWER GRID */
 .lower{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px}
 
-/* ── BAR CHART ── */
+/* BAR CHART */
 .chart-wrap{height:110px;display:flex;align-items:flex-end;gap:5px}
 .bar-group{flex:1;display:flex;gap:2px;align-items:flex-end}
-.bar{flex:1;border-radius:3px 3px 0 0;transition:height 1.2s cubic-bezier(.4,0,.2,1);cursor:pointer;position:relative;min-height:3px}
+.bar{flex:1;border-radius:3px 3px 0 0;cursor:pointer;position:relative;min-height:3px;transition:height 1.2s cubic-bezier(.4,0,.2,1)}
 .bar:hover{filter:brightness(1.3)}
 .bar:hover::after{content:attr(data-v);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:rgba(8,18,36,.97);border:1px solid var(--border2);color:var(--text);font-size:10px;padding:3px 6px;border-radius:4px;white-space:nowrap;margin-bottom:4px;z-index:10}
 .chart-lbls{display:flex;padding-top:5px}
@@ -160,16 +160,17 @@ body::before{content:'';position:fixed;inset:0;background:
 .cl-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text2)}
 .cl-dot{width:8px;height:8px;border-radius:2px}
 
-/* ── RINGS ── */
+/* RINGS */
 .rings-row{display:flex;justify-content:space-around;align-items:center;padding:12px 0}
-.ring-item{display:flex;flex-direction:column;align-items:center;gap:7px}
+.ring-item{display:flex;flex-direction:column;align-items:center;gap:7px;position:relative}
 .ring-svg{transform:rotate(-90deg)}
 .ring-track{fill:none;stroke:rgba(255,255,255,.06)}
 .ring-fill{fill:none;stroke-linecap:round;stroke-dasharray:169.6;stroke-dashoffset:169.6;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)}
+.ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
 .ring-val{font-family:'Syne',sans-serif;font-size:13px;font-weight:700}
 .ring-lbl{font-size:10px;color:var(--text2)}
 
-/* ── TIMELINE ── */
+/* TIMELINE */
 .tl-item{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid var(--border);transition:.15s}
 .tl-item:last-child{border-bottom:none}
 .tl-item:hover{padding-left:3px}
@@ -178,7 +179,7 @@ body::before{content:'';position:fixed;inset:0;background:
 .tl-meta{font-size:10px;color:var(--text2)}
 .tl-time{font-size:10px;color:var(--text3);white-space:nowrap}
 
-/* ── HEATMAP ── */
+/* HEATMAP */
 .hm-grid{display:grid;grid-template-columns:repeat(13,1fr);gap:3px}
 .hm-cell{aspect-ratio:1;border-radius:3px;cursor:pointer;transition:transform .15s,opacity .15s}
 .hm-cell:hover{transform:scale(1.35);opacity:.85}
@@ -188,7 +189,7 @@ body::before{content:'';position:fixed;inset:0;background:
 .hm3{background:rgba(59,145,255,.62)}
 .hm4{background:var(--blue);box-shadow:0 0 4px rgba(59,145,255,.4)}
 
-/* ── AGENCIES TABLE ── */
+/* AGENCIES TABLE */
 .t-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:13px;flex-wrap:wrap}
 .t-search{display:flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:6px 11px;flex:1;min-width:180px;transition:.2s}
 .t-search:focus-within{border-color:var(--blue);box-shadow:0 0 0 2px rgba(59,145,255,.1)}
@@ -196,7 +197,7 @@ body::before{content:'';position:fixed;inset:0;background:
 .t-btn{display:flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:6px 11px;color:var(--text2);font-size:11.5px;cursor:pointer;transition:.15s;white-space:nowrap}
 .t-btn:hover{background:var(--bg4);color:var(--text)}
 .t-btn.active-filter{color:var(--blue);border-color:rgba(59,145,255,.3);background:rgba(59,145,255,.08)}
-.t-stats{display:flex;gap:8px;margin-bottom:12px}
+.t-stats{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
 .t-stat-pill{padding:4px 11px;border-radius:20px;font-size:10.5px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);transition:.15s}
 .t-stat-pill:hover{background:var(--bg4);color:var(--text)}
 .t-stat-pill.sel{color:var(--blue);border-color:rgba(59,145,255,.3);background:rgba(59,145,255,.1)}
@@ -228,7 +229,7 @@ body::before{content:'';position:fixed;inset:0;background:
 .act-btn.del:hover{background:rgba(244,63,94,.13);color:var(--rose);border-color:rgba(244,63,94,.28)}
 .act-btn.wa:hover{background:rgba(37,211,102,.12);color:#25d366;border-color:rgba(37,211,102,.25)}
 
-/* ── MEETINGS ── */
+/* MEETINGS */
 .mtg-layout{display:grid;grid-template-columns:1fr 1.7fr;gap:13px}
 .mini-cal{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:15px}
 .cal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
@@ -248,7 +249,7 @@ body::before{content:'';position:fixed;inset:0;background:
 .mtg-filter{display:flex;gap:5px}
 .mf-btn{padding:4px 9px;border-radius:20px;font-size:10px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);transition:.13s}
 .mf-btn.active{color:var(--blue);border-color:rgba(59,145,255,.3);background:rgba(59,145,255,.1)}
-.mtg-cards{display:flex;flex-direction:column;gap:9px}
+.mtg-cards{display:flex;flex-direction:column;gap:9px;max-height:420px;overflow-y:auto}
 .mtg-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:13px;display:flex;gap:11px;align-items:flex-start;transition:.18s;cursor:pointer;position:relative;overflow:hidden}
 .mtg-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--mc,var(--blue))}
 .mtg-card:hover{background:var(--bg4);transform:translateX(3px)}
@@ -268,15 +269,15 @@ body::before{content:'';position:fixed;inset:0;background:
 .mtg-stat-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:2px}
 .mtg-stat-lbl{font-size:10px;color:var(--text2)}
 
-/* ── KANBAN ── */
+/* KANBAN */
 .kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .kb-col{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
 .kb-hd{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-bottom:1px solid var(--border)}
 .kb-lbl{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600}
 .kb-dot{width:7px;height:7px;border-radius:50%}
 .kb-cnt{background:var(--bg3);border:1px solid var(--border);border-radius:20px;font-size:10px;color:var(--text2);padding:1px 7px}
-.kb-body{padding:9px;display:flex;flex-direction:column;gap:7px;min-height:260px}
-.task-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:11px;cursor:grab;transition:.18s;position:relative;animation:fiu .4s ease backwards}
+.kb-body{padding:9px;display:flex;flex-direction:column;gap:7px;min-height:260px;max-height:450px;overflow-y:auto}
+.task-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:11px;cursor:grab;transition:.18s;position:relative}
 .task-card:hover{background:var(--bg4);border-color:var(--border2);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,60,.25)}
 .task-card:active{cursor:grabbing;opacity:.8}
 .task-pbar{position:absolute;top:0;left:0;right:0;height:2px;border-radius:8px 8px 0 0}
@@ -301,7 +302,7 @@ body::before{content:'';position:fixed;inset:0;background:
 .kb-add{padding:9px;text-align:center;color:var(--text3);font-size:11px;cursor:pointer;border:1px dashed rgba(255,255,255,.08);border-radius:6px;transition:.13s}
 .kb-add:hover{color:var(--blue);border-color:rgba(59,145,255,.3);background:rgba(59,145,255,.04)}
 
-/* ── FOLLOW-UPS ── */
+/* FOLLOW-UPS */
 .fu-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:13px}
 .fu-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:11px 13px;display:flex;align-items:center;gap:11px;transition:.16s;cursor:pointer;margin-bottom:7px;position:relative;overflow:hidden}
 .fu-item:hover{background:var(--bg4);border-color:var(--border2)}
@@ -320,24 +321,24 @@ body::before{content:'';position:fixed;inset:0;background:
 .fu-sum-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:2px}
 .fu-sum-lbl{font-size:10px;color:var(--text2)}
 
-/* ── REPORT ── */
+/* REPORT */
 .rpt-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:22px;position:relative;overflow:hidden}
 .rpt-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 700px 400px at 50% -50px,rgba(59,145,255,.05) 0%,transparent 65%);pointer-events:none}
-.rpt-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.rpt-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
 .rpt-date{font-size:11px;color:var(--text2);margin-bottom:3px}
 .rpt-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;letter-spacing:-.4px}
-.rpt-btns{display:flex;gap:8px}
+.rpt-btns{display:flex;gap:8px;flex-wrap:wrap}
 .copy-btn{display:flex;align-items:center;gap:7px;background:rgba(59,145,255,.1);border:1px solid rgba(59,145,255,.28);border-radius:var(--r2);padding:7px 15px;color:var(--blue);font-size:12px;font-weight:600;cursor:pointer;transition:.18s}
 .copy-btn:hover{background:rgba(59,145,255,.18)}
 .share-btn{display:flex;align-items:center;gap:7px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.28);border-radius:var(--r2);padding:7px 15px;color:var(--emerald);font-size:12px;font-weight:600;cursor:pointer;transition:.18s}
 .share-btn:hover{background:rgba(16,185,129,.18)}
-.rpt-score{display:flex;align-items:center;gap:18px;padding:14px;background:rgba(59,145,255,.05);border:1px solid rgba(59,145,255,.12);border-radius:var(--r2);margin-bottom:18px}
+.rpt-score{display:flex;align-items:center;gap:18px;padding:14px;background:rgba(59,145,255,.05);border:1px solid rgba(59,145,255,.12);border-radius:var(--r2);margin-bottom:18px;flex-wrap:wrap}
 .rpt-score-val{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--blue);line-height:1}
 .rpt-score-lbl{font-size:11px;color:var(--text2);margin-bottom:4px}
 .rpt-score-sub{font-size:10px;color:var(--text3)}
-.rpt-score-bar{flex:1}
+.rpt-score-bar{flex:1;min-width:150px}
 .rpt-score-bar-track{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-top:6px}
-.rpt-score-bar-fill{height:100%;width:87%;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:3px;transition:width 1.5s ease}
+.rpt-score-bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:3px;transition:width 1.5s ease}
 .rpt-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;margin-bottom:18px}
 .rpt-blk{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:var(--r2);padding:13px}
 .rpt-blk-title{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:11px}
@@ -347,10 +348,10 @@ body::before{content:'';position:fixed;inset:0;background:
 .rpt-txt{flex:1;line-height:1.4}
 .rpt-preview{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:var(--r2);padding:13px;font-family:'Courier New',monospace;font-size:11.5px;line-height:1.85;color:var(--text2);white-space:pre-wrap;max-height:220px;overflow-y:auto}
 
-/* ── CONTACTS ── */
-.contacts-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+/* CONTACTS */
+.contacts-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
 .contacts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.contact-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:18px;text-align:center;transition:.2s;cursor:pointer;position:relative;overflow:hidden;animation:fiu .4s ease backwards}
+.contact-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:18px;text-align:center;transition:.2s;cursor:pointer;position:relative;overflow:hidden}
 .contact-card:hover{background:var(--bg4);border-color:var(--border2);transform:translateY(-3px);box-shadow:0 10px 32px rgba(0,0,80,.25)}
 .contact-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,var(--cc,rgba(59,145,255,.06)) 0%,transparent 60%);pointer-events:none}
 .cc-avatar{width:52px;height:52px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;border:2px solid;position:relative}
@@ -368,8 +369,7 @@ body::before{content:'';position:fixed;inset:0;background:
 .cc-btn.primary{background:rgba(59,145,255,.12);border-color:rgba(59,145,255,.22);color:var(--blue)}
 .cc-btn.wa{background:rgba(37,211,102,.1);border-color:rgba(37,211,102,.2);color:#25d366}
 
-/* ── CALENDAR FULL ── */
-.cal-sec{display:none}
+/* FULL CALENDAR */
 .cal-full-layout{display:grid;grid-template-columns:1fr 280px;gap:14px}
 .cal-full-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:10px}
 .cal-full-day-name{text-align:center;font-size:10px;color:var(--text3);font-weight:600;padding:6px 0;border-bottom:1px solid var(--border)}
@@ -380,8 +380,7 @@ body::before{content:'';position:fixed;inset:0;background:
 .cal-full-num.today-num{color:var(--blue)}
 .cal-event{font-size:9px;padding:2px 5px;border-radius:3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
 
-/* ── SETTINGS ── */
-.settings-sec{display:none}
+/* SETTINGS */
 .settings-layout{display:grid;grid-template-columns:200px 1fr;gap:14px}
 .settings-nav{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:10px;height:fit-content}
 .sn-item{padding:9px 12px;border-radius:var(--r2);cursor:pointer;font-size:12.5px;font-weight:500;color:var(--text2);transition:.13s;display:flex;align-items:center;gap:8px}
@@ -394,7 +393,6 @@ body::before{content:'';position:fixed;inset:0;background:
 .settings-divider{height:1px;background:var(--border);margin:18px 0}
 .setting-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)}
 .setting-row:last-child{border-bottom:none}
-.setting-info{}
 .setting-lbl{font-size:12.5px;font-weight:600;margin-bottom:2px}
 .setting-desc{font-size:10.5px;color:var(--text2)}
 .toggle{width:38px;height:20px;background:var(--bg4);border-radius:10px;position:relative;cursor:pointer;transition:.2s;flex-shrink:0;border:1px solid var(--border)}
@@ -408,8 +406,7 @@ body::before{content:'';position:fixed;inset:0;background:
 .sp-edit{margin-left:auto;padding:6px 14px;background:rgba(59,145,255,.1);border:1px solid rgba(59,145,255,.25);border-radius:var(--r2);color:var(--blue);font-size:11.5px;cursor:pointer;transition:.15s}
 .sp-edit:hover{background:rgba(59,145,255,.2)}
 
-/* ── NOTIFICATIONS PAGE ── */
-.notif-sec{display:none}
+/* NOTIFICATIONS PAGE */
 .notif-page-layout{display:grid;grid-template-columns:1fr 320px;gap:14px}
 .notif-filters{display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap}
 .nf-btn{padding:5px 13px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);transition:.13s}
@@ -427,7 +424,7 @@ body::before{content:'';position:fixed;inset:0;background:
 .npi-act:hover{background:var(--bg4);color:var(--text)}
 .npi-act.primary{color:var(--blue);border-color:rgba(59,145,255,.25);background:rgba(59,145,255,.08)}
 
-/* ── RIGHT PANEL ── */
+/* RIGHT PANEL */
 .rpanel{width:var(--rpanel);min-width:var(--rpanel);height:100%;background:var(--glass);border-left:1px solid var(--border);display:flex;flex-direction:column;backdrop-filter:blur(20px)}
 .rp-hd{padding:13px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .rp-title{font-family:'Syne',sans-serif;font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:6px}
@@ -435,9 +432,8 @@ body::before{content:'';position:fixed;inset:0;background:
 .rp-clear:hover{color:var(--cyan)}
 .rp-body{flex:1;overflow-y:auto;padding:11px}
 .rp-sec{font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);padding:7px 3px 3px}
-.notif-item{display:flex;gap:9px;padding:9px;border-radius:var(--r2);margin-bottom:5px;border:1px solid var(--border);background:var(--bg3);transition:.16s;cursor:pointer;animation:slin .3s ease backwards}
+.notif-item{display:flex;gap:9px;padding:9px;border-radius:var(--r2);margin-bottom:5px;border:1px solid var(--border);background:var(--bg3);transition:.16s;cursor:pointer}
 .notif-item:hover{background:var(--bg4)}
-@keyframes slin{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
 .notif-ico{width:29px;height:29px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
 .notif-content{flex:1;min-width:0}
 .notif-ttl{font-size:11px;font-weight:600;margin-bottom:2px}
@@ -451,10 +447,10 @@ body::before{content:'';position:fixed;inset:0;background:
 .rp-qa i{font-size:12px;width:14px;text-align:center;color:var(--blue)}
 .rp-qa-badge{margin-left:auto;font-size:9px;font-weight:700;padding:1px 5px;border-radius:20px;background:rgba(244,63,94,.18);color:var(--rose)}
 
-/* ── FLOATING NOTIF ── */
-.float-notif{position:fixed;bottom:22px;right:calc(var(--rpanel) + 14px);background:rgba(8,16,32,.97);border:1px solid rgba(59,145,255,.3);border-radius:var(--r2);padding:11px 15px;display:flex;align-items:center;gap:9px;min-width:290px;box-shadow:0 8px 32px rgba(0,0,0,.55);backdrop-filter:blur(20px);z-index:200;animation:fpop .45s cubic-bezier(.34,1.56,.64,1);transition:.3s}
+/* FLOATING NOTIF */
+.float-notif{position:fixed;bottom:22px;right:calc(var(--rpanel) + 14px);background:rgba(8,16,32,.97);border:1px solid rgba(59,145,255,.3);border-radius:var(--r2);padding:11px 15px;display:flex;align-items:center;gap:9px;min-width:290px;box-shadow:0 8px 32px rgba(0,0,0,.55);backdrop-filter:blur(20px);z-index:200;animation:fpop .45s cubic-bezier(.34,1.56,.64,1)}
 @keyframes fpop{from{opacity:0;transform:translateY(20px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
-.fn-ico{width:33px;height:33px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;box-shadow:0 0 14px rgba(59,145,255,.3)}
+.fn-ico{width:33px;height:33px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
 .fn-ttl{font-size:12px;font-weight:600;margin-bottom:2px}
 .fn-body{font-size:11px;color:var(--text2)}
 .fn-close{font-size:12px;color:var(--text3);cursor:pointer;transition:.13s;padding:3px}
@@ -464,7 +460,23 @@ body::before{content:'';position:fixed;inset:0;background:
 .fn-act.join{background:rgba(59,145,255,.15);border-color:rgba(59,145,255,.3);color:var(--blue)}
 .fn-act.dismiss{background:rgba(255,255,255,.05);border-color:var(--border);color:var(--text2)}
 
-/* ── MODAL ── */
+/* VOICE MODAL */
+.voice-modal{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(8,16,32,.97);border:1px solid var(--border2);border-radius:var(--r);padding:18px 24px;display:none;align-items:center;gap:14px;z-index:200;backdrop-filter:blur(20px);box-shadow:0 10px 40px rgba(0,0,0,.6)}
+.voice-modal.show{display:flex}
+.voice-wave{display:flex;align-items:center;gap:3px;height:30px}
+.voice-wave span{width:3px;background:var(--blue);border-radius:2px;animation:wave 1s ease infinite}
+.voice-wave span:nth-child(2){animation-delay:.1s}
+.voice-wave span:nth-child(3){animation-delay:.2s}
+.voice-wave span:nth-child(4){animation-delay:.3s}
+.voice-wave span:nth-child(5){animation-delay:.4s}
+.voice-wave span:nth-child(6){animation-delay:.3s}
+.voice-wave span:nth-child(7){animation-delay:.2s}
+@keyframes wave{0%,100%{height:20%}50%{height:100%}}
+.voice-timer{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--blue)}
+.voice-stop{padding:7px 16px;background:rgba(244,63,94,.15);border:1px solid rgba(244,63,94,.3);border-radius:var(--r2);color:var(--rose);font-size:12px;cursor:pointer;transition:.15s;font-weight:600}
+.voice-stop:hover{background:rgba(244,63,94,.25)}
+
+/* MODAL */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:300;display:none;align-items:center;justify-content:center}
 .modal-bg.show{display:flex}
 .modal{background:#08121e;border:1px solid var(--border2);border-radius:var(--r);width:500px;max-width:95vw;max-height:90vh;overflow:hidden;box-shadow:0 28px 80px rgba(0,0,0,.85);animation:min .32s cubic-bezier(.34,1.56,.64,1)}
@@ -485,41 +497,24 @@ select.finput option{background:#08121e;color:var(--text)}
 .modal-ft{padding:13px 18px;border-top:1px solid var(--border);display:flex;gap:7px;justify-content:flex-end;background:rgba(255,255,255,.01)}
 .btn-cancel{padding:7px 17px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:.15s}
 .btn-cancel:hover{background:var(--bg4);color:var(--text)}
-.btn-save{padding:7px 17px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:var(--r2);color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(59,145,255,.25)}
+.btn-save{padding:7px 17px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:var(--r2);color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
 .btn-save:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(59,145,255,.35)}
 
-/* ── EMPTY STATE ── */
-.empty-state{text-align:center;padding:50px 20px;color:var(--text3)}
-.empty-state i{font-size:32px;margin-bottom:12px;opacity:.4}
-.empty-state p{font-size:12.5px}
+/* SECTION VISIBILITY - FIX: all sections hidden by default */
+.section{display:none}
+.section.active{display:block}
 
-/* ── VOICE RECORDING ── */
-.voice-modal{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(8,16,32,.97);border:1px solid var(--border2);border-radius:var(--r);padding:18px 24px;display:none;align-items:center;gap:14px;z-index:200;backdrop-filter:blur(20px);box-shadow:0 10px 40px rgba(0,0,0,.6);animation:fpop .3s ease}
-.voice-modal.show{display:flex}
-.voice-wave{display:flex;align-items:center;gap:3px;height:30px}
-.voice-wave span{width:3px;background:var(--blue);border-radius:2px;animation:wave 1s ease infinite}
-.voice-wave span:nth-child(2){animation-delay:.1s;height:60%}
-.voice-wave span:nth-child(3){animation-delay:.2s;height:100%}
-.voice-wave span:nth-child(4){animation-delay:.3s;height:70%}
-.voice-wave span:nth-child(5){animation-delay:.4s;height:40%}
-.voice-wave span:nth-child(6){animation-delay:.3s;height:90%}
-.voice-wave span:nth-child(7){animation-delay:.2s;height:55%}
-@keyframes wave{0%,100%{height:20%}50%{height:100%}}
-.voice-timer{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--blue)}
-.voice-stop{padding:7px 16px;background:rgba(244,63,94,.15);border:1px solid rgba(244,63,94,.3);border-radius:var(--r2);color:var(--rose);font-size:12px;cursor:pointer;transition:.15s;font-weight:600}
-.voice-stop:hover{background:rgba(244,63,94,.25)}
-
-/* ── RESPONSIVE ── */
+/* RESPONSIVE */
 @media(max-width:1400px){:root{--rpanel:260px}}
 @media(max-width:1150px){.rpanel{display:none}:root{--rpanel:0px}}
 @media(max-width:1000px){.stats-grid{grid-template-columns:repeat(2,1fr)}.lower{grid-template-columns:1fr 1fr}.contacts-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:768px){.sidebar{display:none}.kanban{grid-template-columns:repeat(2,1fr)}.rpt-grid{grid-template-columns:1fr}.fu-grid{grid-template-columns:1fr}.mtg-layout{grid-template-columns:1fr}}
+@media(max-width:768px){.sidebar{display:none}.kanban{grid-template-columns:repeat(2,1fr)}.rpt-grid{grid-template-columns:1fr}.fu-grid{grid-template-columns:1fr}.mtg-layout{grid-template-columns:1fr}.cal-full-layout{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="app">
 
-<!-- ── SIDEBAR ── -->
+<!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="s-logo">
     <div class="s-logo-icon"><i class="fas fa-bolt"></i></div>
@@ -532,7 +527,7 @@ select.finput option{background:#08121e;color:var(--text)}
   </div>
   <nav class="s-nav">
     <div class="s-sec">Overview</div>
-    <div class="nav-item active" data-sec="dashboard"><i class="fas fa-chart-line"></i>Dashboard</div>
+    <div class="nav-item" data-sec="dashboard"><i class="fas fa-chart-line"></i>Dashboard</div>
     <div class="nav-item" data-sec="agencies"><i class="fas fa-building"></i>Agencies<span class="nbadge red">24</span></div>
     <div class="nav-item" data-sec="contacts"><i class="fas fa-address-book"></i>Contacts</div>
     <div class="s-sec">Work</div>
@@ -560,11 +555,14 @@ select.finput option{background:#08121e;color:var(--text)}
   </div>
 </aside>
 
-<!-- ── MAIN ── -->
+<!-- MAIN -->
 <div class="main">
   <div class="topbar">
     <div class="tb-title" id="pageTitle">Dashboard<span class="tb-sub">Good morning, Arjun 👋</span></div>
-    <div class="tb-search"><i class="fas fa-search" style="color:var(--text3);font-size:11px"></i><input type="text" placeholder="Search agencies, meetings, tasks…" oninput="globalSearch(this.value)"></div>
+    <div class="tb-search">
+      <i class="fas fa-search" style="color:var(--text3);font-size:11px"></i>
+      <input type="text" placeholder="Search agencies, meetings, tasks…" oninput="globalSearch(this.value)" id="globalSearchInput">
+    </div>
     <div class="tb-actions">
       <div class="tb-btn" title="Calendar" onclick="showSec('calendar')"><i class="fas fa-calendar"></i></div>
       <div class="tb-btn" title="Notifications" onclick="showSec('notifications')"><i class="fas fa-bell"></i><div class="dot"></div></div>
@@ -576,9 +574,9 @@ select.finput option{background:#08121e;color:var(--text)}
   <div class="cwrap">
     <div class="content">
 
-      <!-- TABS -->
+      <!-- TABS (only show for these sections) -->
       <div class="tabs" id="mainTabs">
-        <div class="tab active" data-sec="dashboard">Dashboard</div>
+        <div class="tab" data-sec="dashboard">Dashboard</div>
         <div class="tab" data-sec="agencies">Agencies</div>
         <div class="tab" data-sec="contacts">Contacts</div>
         <div class="tab" data-sec="meetings">Meetings</div>
@@ -588,7 +586,7 @@ select.finput option{background:#08121e;color:var(--text)}
       </div>
 
       <!-- ══ DASHBOARD ══ -->
-      <div id="sec-dashboard">
+      <div id="sec-dashboard" class="section">
         <div class="stats-grid">
           <div class="stat">
             <div class="stat-top"><div class="stat-icon" style="background:rgba(59,145,255,.12);color:var(--blue)"><i class="fas fa-building"></i></div><div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 12%</div></div>
@@ -633,7 +631,7 @@ select.finput option{background:#08121e;color:var(--text)}
         </div>
 
         <div class="lower">
-          <div class="card" style="animation:fiu .5s .28s ease backwards">
+          <div class="card">
             <div class="card-hd"><div class="card-title"><i class="fas fa-chart-bar" style="color:var(--blue);margin-right:6px;font-size:11px"></i>Weekly Agency Activity</div><div class="card-act">This Week ▾</div></div>
             <div class="card-body">
               <div class="chart-wrap" id="barChart"></div>
@@ -645,17 +643,35 @@ select.finput option{background:#08121e;color:var(--text)}
               </div>
             </div>
           </div>
-          <div class="card" style="animation:fiu .5s .32s ease backwards">
+          <div class="card">
             <div class="card-hd"><div class="card-title"><i class="fas fa-bullseye" style="color:var(--purple);margin-right:6px;font-size:11px"></i>Performance Overview</div><div class="card-act">Details →</div></div>
             <div class="card-body">
               <div class="rings-row">
-                <div class="ring-item"><svg class="ring-svg" width="62" height="62" viewBox="0 0 64 64"><circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/><circle class="ring-fill" cx="32" cy="32" r="27" stroke="#3b91ff" stroke-width="5" id="r1"/></svg><div class="ring-val">78%</div><div class="ring-lbl">Calls Done</div></div>
-                <div class="ring-item"><svg class="ring-svg" width="62" height="62" viewBox="0 0 64 64"><circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/><circle class="ring-fill" cx="32" cy="32" r="27" stroke="#10b981" stroke-width="5" id="r2"/></svg><div class="ring-val">92%</div><div class="ring-lbl">Meetings</div></div>
-                <div class="ring-item"><svg class="ring-svg" width="62" height="62" viewBox="0 0 64 64"><circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/><circle class="ring-fill" cx="32" cy="32" r="27" stroke="#8b5cf6" stroke-width="5" id="r3"/></svg><div class="ring-val">65%</div><div class="ring-lbl">Follow-ups</div></div>
+                <div class="ring-item">
+                  <svg class="ring-svg" width="70" height="70" viewBox="0 0 64 64">
+                    <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
+                    <circle class="ring-fill" id="r1" cx="32" cy="32" r="27" stroke="#3b91ff" stroke-width="5"/>
+                  </svg>
+                  <div style="margin-top:-5px;text-align:center"><div class="ring-val">78%</div><div class="ring-lbl">Calls Done</div></div>
+                </div>
+                <div class="ring-item">
+                  <svg class="ring-svg" width="70" height="70" viewBox="0 0 64 64">
+                    <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
+                    <circle class="ring-fill" id="r2" cx="32" cy="32" r="27" stroke="#10b981" stroke-width="5"/>
+                  </svg>
+                  <div style="margin-top:-5px;text-align:center"><div class="ring-val">92%</div><div class="ring-lbl">Meetings</div></div>
+                </div>
+                <div class="ring-item">
+                  <svg class="ring-svg" width="70" height="70" viewBox="0 0 64 64">
+                    <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
+                    <circle class="ring-fill" id="r3" cx="32" cy="32" r="27" stroke="#8b5cf6" stroke-width="5"/>
+                  </svg>
+                  <div style="margin-top:-5px;text-align:center"><div class="ring-val">65%</div><div class="ring-lbl">Follow-ups</div></div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="card" style="animation:fiu .5s .36s ease backwards">
+          <div class="card">
             <div class="card-hd"><div class="card-title"><i class="fas fa-timeline" style="color:var(--emerald);margin-right:6px;font-size:11px"></i>Recent Activity</div><div class="card-act" onclick="showSec('agencies')">View All →</div></div>
             <div class="card-body">
               <div class="tl-item"><div class="tl-dot" style="background:var(--emerald)"></div><div style="flex:1"><div class="tl-title">Deal closed — StarMedia Agency</div><div class="tl-meta">₹85,000 package signed ✓</div></div><div class="tl-time">2m</div></div>
@@ -667,11 +683,17 @@ select.finput option{background:#08121e;color:var(--text)}
           </div>
         </div>
 
-        <div class="card" style="animation:fiu .5s .4s ease backwards;margin-bottom:14px">
+        <div class="card" style="margin-bottom:14px">
           <div class="card-hd">
             <div class="card-title"><i class="fas fa-fire" style="color:var(--amber);margin-right:6px;font-size:11px"></i>Productivity Heatmap — Last 13 Weeks</div>
             <div style="display:flex;gap:5px;align-items:center;font-size:10px;color:var(--text3)">
-              Less <span class="hm-cell hm0" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span><span class="hm-cell hm1" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span><span class="hm-cell hm2" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span><span class="hm-cell hm3" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span><span class="hm-cell hm4" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span> More
+              Less
+              <span class="hm-cell hm0" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span>
+              <span class="hm-cell hm1" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span>
+              <span class="hm-cell hm2" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span>
+              <span class="hm-cell hm3" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span>
+              <span class="hm-cell hm4" style="width:10px;height:10px;display:inline-block;border-radius:2px;vertical-align:middle"></span>
+              More
             </div>
           </div>
           <div class="card-body"><div class="hm-grid" id="heatmap"></div></div>
@@ -679,7 +701,7 @@ select.finput option{background:#08121e;color:var(--text)}
       </div>
 
       <!-- ══ AGENCIES ══ -->
-      <div style="display:none" id="sec-agencies">
+      <div id="sec-agencies" class="section">
         <div class="t-stats">
           <div class="t-stat-pill sel" onclick="filterByStatus('all',this)">All (10)</div>
           <div class="t-stat-pill" onclick="filterByStatus('active',this)">Active (3)</div>
@@ -693,34 +715,36 @@ select.finput option{background:#08121e;color:var(--text)}
           <div class="t-search"><i class="fas fa-search" style="color:var(--text3);font-size:10.5px"></i><input type="text" placeholder="Search by name, contact, feedback…" oninput="filterAgencies(this.value)"></div>
           <div class="t-btn" onclick="this.classList.toggle('active-filter')"><i class="fas fa-filter"></i>Filter</div>
           <div class="t-btn"><i class="fas fa-sort"></i>Sort by Priority</div>
-          <div class="t-btn"><i class="fas fa-download"></i>Export CSV</div>
+          <div class="t-btn" onclick="exportCSV()"><i class="fas fa-download"></i>Export CSV</div>
           <button class="add-btn" onclick="openModal('agency')"><i class="fas fa-plus"></i>Add Agency</button>
         </div>
         <div class="card">
-          <table class="dtable">
-            <thead>
-              <tr>
-                <th onclick="sortTable('idx')"># ↕</th>
-                <th onclick="sortTable('name')">Agency ↕</th>
-                <th>Contact</th>
-                <th>Phone</th>
-                <th onclick="sortTable('status')">Status ↕</th>
-                <th onclick="sortTable('priority')">Priority ↕</th>
-                <th>Last Contact</th>
-                <th>Next Follow-up</th>
-                <th>Feedback</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="agTable"></tbody>
-          </table>
+          <div style="overflow-x:auto">
+            <table class="dtable">
+              <thead>
+                <tr>
+                  <th onclick="sortTable('idx')"># ↕</th>
+                  <th onclick="sortTable('name')">Agency ↕</th>
+                  <th>Contact</th>
+                  <th>Phone</th>
+                  <th onclick="sortTable('status')">Status ↕</th>
+                  <th onclick="sortTable('priority')">Priority ↕</th>
+                  <th>Last Contact</th>
+                  <th>Next Follow-up</th>
+                  <th>Feedback</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="agTable"></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       <!-- ══ CONTACTS ══ -->
-      <div style="display:none" id="sec-contacts">
+      <div id="sec-contacts" class="section">
         <div class="contacts-toolbar">
-          <div class="t-search" style="max-width:280px"><i class="fas fa-search" style="color:var(--text3);font-size:10.5px"></i><input type="text" placeholder="Search contacts…"></div>
+          <div class="t-search" style="max-width:280px"><i class="fas fa-search" style="color:var(--text3);font-size:10.5px"></i><input type="text" placeholder="Search contacts…" oninput="filterContacts(this.value)"></div>
           <div class="t-btn"><i class="fas fa-filter"></i>Filter</div>
           <div class="t-btn"><i class="fas fa-sort"></i>Sort</div>
           <div class="t-btn"><i class="fas fa-download"></i>Export</div>
@@ -730,7 +754,7 @@ select.finput option{background:#08121e;color:var(--text)}
       </div>
 
       <!-- ══ MEETINGS ══ -->
-      <div style="display:none" id="sec-meetings">
+      <div id="sec-meetings" class="section">
         <div class="mtg-stats-row">
           <div class="mtg-stat"><div class="mtg-stat-val" style="color:var(--blue)">5</div><div class="mtg-stat-lbl">Today's Meetings</div></div>
           <div class="mtg-stat"><div class="mtg-stat-val" style="color:var(--emerald)">1</div><div class="mtg-stat-lbl">Completed</div></div>
@@ -739,7 +763,11 @@ select.finput option{background:#08121e;color:var(--text)}
         <div class="mtg-layout">
           <div>
             <div class="mini-cal">
-              <div class="cal-hd"><div class="cal-nav"><i class="fas fa-chevron-left"></i></div><div class="cal-month" id="calMonthTitle">May 2025</div><div class="cal-nav"><i class="fas fa-chevron-right"></i></div></div>
+              <div class="cal-hd">
+                <div class="cal-nav" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></div>
+                <div class="cal-month" id="calMonthTitle"></div>
+                <div class="cal-nav" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></div>
+              </div>
               <div class="cal-grid" id="calGrid"></div>
             </div>
             <div style="margin-top:12px" class="card">
@@ -756,9 +784,9 @@ select.finput option{background:#08121e;color:var(--text)}
             <div class="mtg-list-header">
               <div class="mtg-list-title">Today's Schedule</div>
               <div class="mtg-filter">
-                <div class="mf-btn active">All</div>
-                <div class="mf-btn">Pending</div>
-                <div class="mf-btn">Done</div>
+                <div class="mf-btn active" onclick="filterMeetings('all',this)">All</div>
+                <div class="mf-btn" onclick="filterMeetings('pending',this)">Pending</div>
+                <div class="mf-btn" onclick="filterMeetings('completed',this)">Done</div>
               </div>
             </div>
             <div class="mtg-cards" id="mtgCards"></div>
@@ -767,7 +795,7 @@ select.finput option{background:#08121e;color:var(--text)}
       </div>
 
       <!-- ══ TASKS ══ -->
-      <div style="display:none" id="sec-tasks">
+      <div id="sec-tasks" class="section">
         <div class="t-toolbar" style="margin-bottom:14px">
           <div class="t-search" style="max-width:250px"><i class="fas fa-search" style="color:var(--text3);font-size:10.5px"></i><input type="text" placeholder="Search tasks…"></div>
           <div class="t-btn"><i class="fas fa-filter"></i>Priority</div>
@@ -778,7 +806,7 @@ select.finput option{background:#08121e;color:var(--text)}
       </div>
 
       <!-- ══ FOLLOW-UPS ══ -->
-      <div style="display:none" id="sec-followups">
+      <div id="sec-followups" class="section">
         <div class="fu-summary">
           <div class="fu-sum-card"><div class="fu-sum-val" style="color:var(--rose)">3</div><div class="fu-sum-lbl">Urgent (5+ days)</div></div>
           <div class="fu-sum-card"><div class="fu-sum-val" style="color:var(--amber)">4</div><div class="fu-sum-lbl">Due Today</div></div>
@@ -797,12 +825,12 @@ select.finput option{background:#08121e;color:var(--text)}
       </div>
 
       <!-- ══ REPORT ══ -->
-      <div style="display:none" id="sec-report">
+      <div id="sec-report" class="section">
         <div class="rpt-card">
           <div class="rpt-hd">
             <div><div class="rpt-date" id="rptDate"></div><div class="rpt-title">📋 Daily Work Report</div></div>
             <div class="rpt-btns">
-              <button class="share-btn"><i class="fab fa-whatsapp"></i>Share on WA</button>
+              <button class="share-btn" onclick="shareOnWhatsApp()"><i class="fab fa-whatsapp"></i>Share on WA</button>
               <button class="copy-btn" onclick="copyReport()"><i class="fas fa-copy"></i>Copy Report</button>
             </div>
           </div>
@@ -812,16 +840,16 @@ select.finput option{background:#08121e;color:var(--text)}
               <div class="rpt-score-val">87</div>
               <div style="font-size:10px;color:var(--emerald);margin-top:3px">↑ +12 from yesterday</div>
             </div>
-            <div class="rpt-score-bar" style="flex:1">
+            <div class="rpt-score-bar">
               <div class="rpt-score-lbl">Productivity Target: 100 pts</div>
               <div class="rpt-score-sub">Calls · Meetings · Follow-ups · Tasks</div>
-              <div class="rpt-score-bar-track"><div class="rpt-score-bar-fill"></div></div>
+              <div class="rpt-score-bar-track"><div class="rpt-score-bar-fill" id="rptScoreFill"></div></div>
             </div>
             <div style="text-align:center">
               <div style="font-size:10px;color:var(--text2);margin-bottom:5px">Today's Progress</div>
               <svg width="60" height="60" viewBox="0 0 64 64" style="transform:rotate(-90deg)">
                 <circle fill="none" stroke="rgba(255,255,255,.06)" cx="32" cy="32" r="27" stroke-width="5"/>
-                <circle fill="none" stroke="#3b91ff" cx="32" cy="32" r="27" stroke-width="5" stroke-linecap="round" stroke-dasharray="169.6" stroke-dashoffset="21.6" style="transition:stroke-dashoffset 1.5s ease"/>
+                <circle fill="none" stroke="#3b91ff" cx="32" cy="32" r="27" stroke-width="5" stroke-linecap="round" stroke-dasharray="169.6" stroke-dashoffset="21.6"/>
               </svg>
             </div>
           </div>
@@ -844,11 +872,11 @@ select.finput option{background:#08121e;color:var(--text)}
       </div>
 
       <!-- ══ CALENDAR ══ -->
-      <div class="cal-sec" id="sec-calendar">
+      <div id="sec-calendar" class="section">
         <div class="t-toolbar" style="margin-bottom:14px">
-          <div class="tb-btn" style="width:auto;padding:6px 12px;font-size:12px"><i class="fas fa-chevron-left"></i></div>
-          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700">May 2025</div>
-          <div class="tb-btn" style="width:auto;padding:6px 12px;font-size:12px"><i class="fas fa-chevron-right"></i></div>
+          <div class="tb-btn" style="width:auto;padding:6px 12px;font-size:12px" onclick="changeFullMonth(-1)"><i class="fas fa-chevron-left"></i></div>
+          <div id="fullCalTitle" style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700">May 2025</div>
+          <div class="tb-btn" style="width:auto;padding:6px 12px;font-size:12px" onclick="changeFullMonth(1)"><i class="fas fa-chevron-right"></i></div>
           <button class="add-btn" onclick="openModal('meeting')" style="margin-left:auto"><i class="fas fa-plus"></i>New Event</button>
         </div>
         <div class="card">
@@ -858,7 +886,7 @@ select.finput option{background:#08121e;color:var(--text)}
                 <div class="cal-full-grid" id="calFullGrid"></div>
               </div>
               <div>
-                <div class="card-hd" style="margin-bottom:10px"><div class="card-title">May 12 — Today</div></div>
+                <div class="card-hd" style="margin-bottom:10px"><div class="card-title">Today's Schedule</div></div>
                 <div id="todaySchedule"></div>
               </div>
             </div>
@@ -866,8 +894,8 @@ select.finput option{background:#08121e;color:var(--text)}
         </div>
       </div>
 
-      <!-- ══ NOTIFICATIONS PAGE ══ -->
-      <div class="notif-sec" id="sec-notifications">
+      <!-- ══ NOTIFICATIONS ══ -->
+      <div id="sec-notifications" class="section">
         <div class="notif-page-layout">
           <div>
             <div class="notif-filters">
@@ -885,19 +913,19 @@ select.finput option{background:#08121e;color:var(--text)}
               <div class="card-hd"><div class="card-title">Notification Settings</div></div>
               <div class="card-body">
                 <div class="setting-row">
-                  <div class="setting-info"><div class="setting-lbl">Meeting Reminders</div><div class="setting-desc">30 min before</div></div>
+                  <div><div class="setting-lbl">Meeting Reminders</div><div class="setting-desc">30 min before</div></div>
                   <div class="toggle on" onclick="this.classList.toggle('on')"></div>
                 </div>
                 <div class="setting-row">
-                  <div class="setting-info"><div class="setting-lbl">Follow-up Alerts</div><div class="setting-desc">Daily at 9 AM</div></div>
+                  <div><div class="setting-lbl">Follow-up Alerts</div><div class="setting-desc">Daily at 9 AM</div></div>
                   <div class="toggle on" onclick="this.classList.toggle('on')"></div>
                 </div>
                 <div class="setting-row">
-                  <div class="setting-info"><div class="setting-lbl">Deal Updates</div><div class="setting-desc">Instant</div></div>
+                  <div><div class="setting-lbl">Deal Updates</div><div class="setting-desc">Instant</div></div>
                   <div class="toggle" onclick="this.classList.toggle('on')"></div>
                 </div>
                 <div class="setting-row">
-                  <div class="setting-info"><div class="setting-lbl">WhatsApp Alerts</div><div class="setting-desc">Critical only</div></div>
+                  <div><div class="setting-lbl">WhatsApp Alerts</div><div class="setting-desc">Critical only</div></div>
                   <div class="toggle on" onclick="this.classList.toggle('on')"></div>
                 </div>
               </div>
@@ -907,14 +935,14 @@ select.finput option{background:#08121e;color:var(--text)}
       </div>
 
       <!-- ══ SETTINGS ══ -->
-      <div class="settings-sec" id="sec-settings">
+      <div id="sec-settings" class="section">
         <div class="settings-layout">
           <div class="settings-nav">
             <div class="sn-item active" onclick="settingsNav(this)"><i class="fas fa-user"></i>Profile</div>
             <div class="sn-item" onclick="settingsNav(this)"><i class="fas fa-bell"></i>Notifications</div>
             <div class="sn-item" onclick="settingsNav(this)"><i class="fas fa-palette"></i>Appearance</div>
             <div class="sn-item" onclick="settingsNav(this)"><i class="fas fa-shield-alt"></i>Privacy</div>
-            <div class="sn-item" onclick="settingsNav(this)"><i class="fas fa-database"></i>Data & Sync</div>
+            <div class="sn-item" onclick="settingsNav(this)"><i class="fas fa-database"></i>Data &amp; Sync</div>
             <div class="sn-item" onclick="settingsNav(this)"><i class="fas fa-plug"></i>Integrations</div>
             <div class="sn-item" onclick="settingsNav(this)"><i class="fas fa-keyboard"></i>Shortcuts</div>
           </div>
@@ -937,27 +965,27 @@ select.finput option{background:#08121e;color:var(--text)}
             <div class="settings-divider"></div>
             <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:13px">Preferences</div>
             <div class="setting-row">
-              <div class="setting-info"><div class="setting-lbl">Dark Mode</div><div class="setting-desc">Always on — premium dark theme</div></div>
+              <div><div class="setting-lbl">Dark Mode</div><div class="setting-desc">Always on — premium dark theme</div></div>
               <div class="toggle on"></div>
             </div>
             <div class="setting-row">
-              <div class="setting-info"><div class="setting-lbl">Auto Follow-up Reminders</div><div class="setting-desc">Set reminders automatically for agencies with no response</div></div>
+              <div><div class="setting-lbl">Auto Follow-up Reminders</div><div class="setting-desc">Set reminders automatically for no response agencies</div></div>
               <div class="toggle on" onclick="this.classList.toggle('on')"></div>
             </div>
             <div class="setting-row">
-              <div class="setting-info"><div class="setting-lbl">Daily Report Auto-Generate</div><div class="setting-desc">Generate report at 6 PM daily</div></div>
+              <div><div class="setting-lbl">Daily Report Auto-Generate</div><div class="setting-desc">Generate report at 6 PM daily</div></div>
               <div class="toggle on" onclick="this.classList.toggle('on')"></div>
             </div>
             <div class="setting-row">
-              <div class="setting-info"><div class="setting-lbl">WhatsApp Integration</div><div class="setting-desc">Quick send from dashboard</div></div>
+              <div><div class="setting-lbl">WhatsApp Integration</div><div class="setting-desc">Quick send from dashboard</div></div>
               <div class="toggle on" onclick="this.classList.toggle('on')"></div>
             </div>
             <div class="setting-row">
-              <div class="setting-info"><div class="setting-lbl">Sound Notifications</div><div class="setting-desc">Play sound for meeting alerts</div></div>
+              <div><div class="setting-lbl">Sound Notifications</div><div class="setting-desc">Play sound for meeting alerts</div></div>
               <div class="toggle" onclick="this.classList.toggle('on')"></div>
             </div>
             <div style="margin-top:18px;display:flex;gap:8px">
-              <button class="btn-save"><i class="fas fa-save"></i>Save Changes</button>
+              <button class="btn-save" onclick="showToast('✓ Settings saved!')"><i class="fas fa-save"></i>Save Changes</button>
               <button class="btn-cancel">Reset to Default</button>
             </div>
           </div>
@@ -966,11 +994,11 @@ select.finput option{background:#08121e;color:var(--text)}
 
     </div><!-- /content -->
 
-    <!-- ── RIGHT PANEL ── -->
+    <!-- RIGHT PANEL -->
     <div class="rpanel">
       <div class="rp-hd">
         <div class="rp-title"><i class="fas fa-bell" style="color:var(--blue)"></i>Activity</div>
-        <div class="rp-clear">Clear all</div>
+        <div class="rp-clear" onclick="document.getElementById('notifList').innerHTML=''">Clear all</div>
       </div>
       <div class="rp-body">
         <div class="rp-sec">Notifications</div>
@@ -986,8 +1014,20 @@ select.finput option{background:#08121e;color:var(--text)}
         <div class="card" style="margin-top:6px">
           <div class="card-body">
             <div class="rings-row" style="justify-content:space-evenly">
-              <div class="ring-item"><svg class="ring-svg" width="50" height="50" viewBox="0 0 64 64"><circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/><circle class="ring-fill" cx="32" cy="32" r="27" stroke="#3b91ff" stroke-width="5" id="rs1"/></svg><div class="ring-val" style="font-size:12px">87%</div><div class="ring-lbl">You</div></div>
-              <div class="ring-item"><svg class="ring-svg" width="50" height="50" viewBox="0 0 64 64"><circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/><circle class="ring-fill" cx="32" cy="32" r="27" stroke="#8b5cf6" stroke-width="5" id="rs2"/></svg><div class="ring-val" style="font-size:12px">72%</div><div class="ring-lbl">Team</div></div>
+              <div class="ring-item">
+                <svg class="ring-svg" width="54" height="54" viewBox="0 0 64 64">
+                  <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
+                  <circle class="ring-fill" id="rs1" cx="32" cy="32" r="27" stroke="#3b91ff" stroke-width="5"/>
+                </svg>
+                <div style="margin-top:-4px;text-align:center"><div class="ring-val" style="font-size:12px">87%</div><div class="ring-lbl">You</div></div>
+              </div>
+              <div class="ring-item">
+                <svg class="ring-svg" width="54" height="54" viewBox="0 0 64 64">
+                  <circle class="ring-track" cx="32" cy="32" r="27" stroke-width="5"/>
+                  <circle class="ring-fill" id="rs2" cx="32" cy="32" r="27" stroke="#8b5cf6" stroke-width="5"/>
+                </svg>
+                <div style="margin-top:-4px;text-align:center"><div class="ring-val" style="font-size:12px">72%</div><div class="ring-lbl">Team</div></div>
+              </div>
             </div>
           </div>
         </div>
@@ -1030,26 +1070,7 @@ select.finput option{background:#08121e;color:var(--text)}
       <div class="modal-ttl" id="modalTitle"><i class="fas fa-building"></i>Add New Agency</div>
       <div class="modal-x" onclick="closeModal()"><i class="fas fa-times"></i></div>
     </div>
-    <div class="modal-body" id="modalBody">
-      <div class="fgrid">
-        <div class="fgrp"><label class="flbl">Agency Name</label><input class="finput" placeholder="e.g. BrightStream Media"></div>
-        <div class="fgrp"><label class="flbl">Contact Person</label><input class="finput" placeholder="Full name"></div>
-      </div>
-      <div class="fgrid">
-        <div class="fgrp"><label class="flbl">Phone</label><input class="finput" placeholder="+91 XXXXX XXXXX"></div>
-        <div class="fgrp"><label class="flbl">Email</label><input class="finput" placeholder="email@agency.com"></div>
-      </div>
-      <div class="fgrid">
-        <div class="fgrp"><label class="flbl">Status</label><select class="finput"><option>Active</option><option>Pending</option><option>No Response</option><option>Follow-up Needed</option><option>Approved</option><option>Review Pending</option></select></div>
-        <div class="fgrp"><label class="flbl">Priority</label><select class="finput"><option>High</option><option>Medium</option><option>Low</option></select></div>
-      </div>
-      <div class="fgrid">
-        <div class="fgrp"><label class="flbl">Last Contacted</label><input class="finput" type="date"></div>
-        <div class="fgrp"><label class="flbl">Next Follow-up</label><input class="finput" type="date"></div>
-      </div>
-      <div class="fgrp"><label class="flbl">Platform Interest</label><select class="finput"><option>YouTube Sponsorship</option><option>Live Stream Integration</option><option>Social Media</option><option>Annual Package</option><option>Custom Deal</option></select></div>
-      <div class="fgrp"><label class="flbl">Notes / Feedback</label><textarea class="finput" rows="3" placeholder="Any notes, feedback or observations…"></textarea></div>
-    </div>
+    <div class="modal-body" id="modalBody"></div>
     <div class="modal-ft">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
       <button class="btn-save" onclick="saveItem()"><i class="fas fa-save"></i>Save</button>
@@ -1074,51 +1095,73 @@ const agencyData = [
 
 const statusMap={active:'b-active',pending:'b-pending',noresponse:'b-noresp',approved:'b-approved',review:'b-review',followup:'b-followup'};
 const statusLbl={active:'Active',pending:'Pending',noresponse:'No Response',approved:'Approved',review:'Review Pending',followup:'Follow-up'};
-const tagColors={'Proposal':'','Document':'amber','Follow-up':'amber','Legal':'purple','CRM':'green','Deck':'','Email':'green','Meeting':'green','Report':'amber','Approval':'purple','Contract':'purple'};
 
-// ─── NAV ───
+// ─── SECTION NAVIGATION ───
 const allSecs=['dashboard','agencies','contacts','meetings','tasks','followups','report','calendar','notifications','settings'];
 const tabSecs=['dashboard','agencies','contacts','meetings','tasks','followups','report'];
-const pageTitles={
-  dashboard:'Dashboard',agencies:'Agencies',contacts:'Contacts',meetings:'Meetings',
-  tasks:'Daily Tasks',followups:'Follow-ups',report:'Reports',calendar:'Calendar',
-  notifications:'Notifications',settings:'Settings'
-};
-const pageSubs={
-  dashboard:'Good morning, Arjun 👋',agencies:'Manage your agency network',
-  contacts:'All contacts & relationships',meetings:'Schedule & track meetings',
-  tasks:'Your kanban board',followups:'Pending follow-ups',
-  report:'Auto-generated daily report',calendar:'Full calendar view',
-  notifications:'Alerts & reminders',settings:'Preferences & configuration'
-};
+const pageTitles={dashboard:'Dashboard',agencies:'Agencies',contacts:'Contacts',meetings:'Meetings',tasks:'Daily Tasks',followups:'Follow-ups',report:'Reports',calendar:'Calendar',notifications:'Notifications',settings:'Settings'};
+const pageSubs={dashboard:'Good morning, Arjun 👋',agencies:'Manage your agency network',contacts:'All contacts & relationships',meetings:'Schedule & track meetings',tasks:'Your kanban board',followups:'Pending follow-ups',report:'Auto-generated daily report',calendar:'Full calendar view',notifications:'Alerts & reminders',settings:'Preferences & configuration'};
 
-function showSec(name){
-  allSecs.forEach(s=>{
-    const el=document.getElementById('sec-'+s);
-    if(el) el.style.display='none';
-  });
-  const target=document.getElementById('sec-'+name);
-  if(target) target.style.display='block';
-  document.getElementById('pageTitle').innerHTML=pageTitles[name]+(pageSubs[name]?`<span class="tb-sub">${pageSubs[name]}</span>`:'');
-  // update sidebar nav
-  document.querySelectorAll('.nav-item').forEach(n=>{
-    n.classList.toggle('active', n.dataset.sec===name);
-  });
-  // update tabs
-  document.querySelectorAll('#mainTabs .tab').forEach(t=>{
-    t.classList.toggle('active', t.dataset.sec===name);
-  });
+function showSec(name) {
+  // Hide all sections
+  document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+  // Show target
+  const target = document.getElementById('sec-' + name);
+  if (target) target.classList.add('active');
+  // Update page title
+  const sub = pageSubs[name] ? '<span class="tb-sub">' + pageSubs[name] + '</span>' : '';
+  document.getElementById('pageTitle').innerHTML = (pageTitles[name] || name) + sub;
+  // Update sidebar active
+  document.querySelectorAll('.nav-item[data-sec]').forEach(n => n.classList.toggle('active', n.dataset.sec === name));
+  // Update tabs
+  document.querySelectorAll('#mainTabs .tab[data-sec]').forEach(t => t.classList.toggle('active', t.dataset.sec === name));
+  // Show/hide tabs bar (only for tab sections)
+  document.getElementById('mainTabs').style.display = tabSecs.includes(name) ? '' : 'none';
+  // Trigger animations for this section
+  triggerSectionAnimations(name);
 }
 
-// attach nav events
-document.addEventListener('DOMContentLoaded',()=>{
-  document.querySelectorAll('.nav-item[data-sec]').forEach(n=>{
-    n.addEventListener('click',()=>showSec(n.dataset.sec));
+function triggerSectionAnimations(name) {
+  if (name === 'dashboard') {
+    setTimeout(() => {
+      document.querySelectorAll('#sec-dashboard .stat-fill').forEach(el => {
+        const w = el.getAttribute('data-w');
+        if (w) el.style.width = w + '%';
+      });
+      animRing('r1', 78);
+      animRing('r2', 92);
+      animRing('r3', 65);
+      animRing('rs1', 87);
+      animRing('rs2', 72);
+      animBars();
+    }, 100);
+  }
+  if (name === 'report') {
+    setTimeout(() => {
+      const fill = document.getElementById('rptScoreFill');
+      if (fill) fill.style.width = '87%';
+    }, 200);
+  }
+}
+
+// ─── INIT ───
+document.addEventListener('DOMContentLoaded', () => {
+  // Attach nav click events
+  document.querySelectorAll('.nav-item[data-sec]').forEach(n => {
+    n.addEventListener('click', () => showSec(n.dataset.sec));
   });
-  document.querySelectorAll('#mainTabs .tab[data-sec]').forEach(t=>{
-    t.addEventListener('click',()=>showSec(t.dataset.sec));
+  document.querySelectorAll('#mainTabs .tab[data-sec]').forEach(t => {
+    t.addEventListener('click', () => showSec(t.dataset.sec));
+  });
+  // Filter buttons - attach click for nf-btn
+  document.querySelectorAll('.nf-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      this.closest('.notif-filters').querySelectorAll('.nf-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
   });
 
+  // Build all components
   buildAgencies(agencyData);
   buildContacts();
   buildMeetings();
@@ -1130,43 +1173,43 @@ document.addEventListener('DOMContentLoaded',()=>{
   buildNotifs();
   buildNotifPage();
   buildBarChart();
-  buildHeatmap('heatmap',13);
-  buildHeatmap('miniHm',1);
+  buildHeatmap('heatmap', 13);
+  buildHeatmap('miniHm', 1);
   buildRpAgenda();
 
-  setTimeout(()=>{
-    document.querySelectorAll('.stat-fill').forEach(el=>{
-      const w=el.getAttribute('data-w');
-      if(w) el.style.width=w+'%';
-    });
-    animRing('r1',78);animRing('r2',92);animRing('r3',65);
-    animRing('rs1',87);animRing('rs2',72);
-  },500);
-
+  // Start on dashboard
   showSec('dashboard');
-  setTimeout(closeFloat,8000);
+
+  // Auto-dismiss float notif
+  setTimeout(closeFloat, 8000);
 });
 
-// ─── BUILD AGENCY TABLE ───
-let currentFilter='all';
-function buildAgencies(data){
-  const filtered = currentFilter==='all'?data:data.filter(a=>a.status===currentFilter);
-  document.getElementById('agTable').innerHTML = filtered.length===0
-    ? `<tr><td colspan="10" style="text-align:center;padding:40px;color:var(--text3)"><i class="fas fa-inbox" style="font-size:22px;margin-bottom:8px;display:block"></i>No agencies found</td></tr>`
-    : filtered.map((a,i)=>`
+// ─── AGENCIES TABLE ───
+let currentFilter = 'all';
+let sortDir = {};
+
+function buildAgencies(data) {
+  const filtered = currentFilter === 'all' ? data : data.filter(a => a.status === currentFilter);
+  const tbody = document.getElementById('agTable');
+  if (!tbody) return;
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:40px;color:var(--text3)"><i class="fas fa-inbox" style="font-size:22px;margin-bottom:8px;display:block"></i>No agencies found</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map((a, i) => `
     <tr>
       <td style="color:var(--text3);font-size:11px">${String(i+1).padStart(2,'0')}</td>
       <td>
         <div class="ag-name">${a.name}</div>
         <div class="ag-sub">${a.sub}</div>
         <div style="margin-top:4px;height:3px;background:rgba(255,255,255,.05);border-radius:2px;width:80px;overflow:hidden">
-          <div style="height:100%;width:${a.deal}%;background:${a.deal>70?'var(--emerald)':a.deal>40?'var(--amber)':'var(--rose)'};border-radius:2px;transition:width 1s ease"></div>
+          <div style="height:100%;width:${a.deal}%;background:${a.deal>70?'var(--emerald)':a.deal>40?'var(--amber)':'var(--rose)'};border-radius:2px"></div>
         </div>
         <div style="font-size:9px;color:var(--text3);margin-top:1px">${a.deal}% deal progress</div>
       </td>
       <td>
         <div style="font-size:11.5px;font-weight:500">${a.contact}</div>
-        <div style="font-size:10px;color:var(--text3)">${a.email||''}</div>
+        <div style="font-size:10px;color:var(--text3)">${a.email}</div>
       </td>
       <td style="color:var(--text2);font-size:11px">${a.phone}</td>
       <td><span class="badge ${statusMap[a.status]}">${statusLbl[a.status]}</span></td>
@@ -1177,74 +1220,110 @@ function buildAgencies(data){
       <td>
         <div class="act-btns">
           <div class="act-btn" title="Call" onclick="alert('Calling ${a.contact}...')"><i class="fas fa-phone"></i></div>
-          <div class="act-btn wa" title="WhatsApp"><i class="fab fa-whatsapp"></i></div>
+          <div class="act-btn wa" title="WhatsApp" onclick="alert('Opening WhatsApp for ${a.contact}...')"><i class="fab fa-whatsapp"></i></div>
           <div class="act-btn" title="Edit" onclick="openModal('edit')"><i class="fas fa-pen"></i></div>
-          <div class="act-btn del" title="Delete"><i class="fas fa-trash"></i></div>
+          <div class="act-btn del" title="Delete" onclick="if(confirm('Delete ${a.name}?'))showToast('Deleted ${a.name}')"><i class="fas fa-trash"></i></div>
         </div>
       </td>
     </tr>
   `).join('');
 }
-function filterAgencies(q){
-  const f=agencyData.filter(a=>
-    a.name.toLowerCase().includes(q.toLowerCase())||
-    a.contact.toLowerCase().includes(q.toLowerCase())||
+
+function filterAgencies(q) {
+  const f = agencyData.filter(a =>
+    a.name.toLowerCase().includes(q.toLowerCase()) ||
+    a.contact.toLowerCase().includes(q.toLowerCase()) ||
     a.feedback.toLowerCase().includes(q.toLowerCase())
   );
   buildAgencies(f);
 }
-function filterByStatus(status,el){
-  currentFilter=status;
-  document.querySelectorAll('.t-stat-pill').forEach(p=>p.classList.remove('sel'));
+
+function filterByStatus(status, el) {
+  currentFilter = status;
+  document.querySelectorAll('.t-stat-pill').forEach(p => p.classList.remove('sel'));
   el.classList.add('sel');
   buildAgencies(agencyData);
 }
-function sortTable(by){
-  // simple sort toggle
-  const sorted=[...agencyData].sort((a,b)=>{
-    if(by==='name') return a.name.localeCompare(b.name);
-    if(by==='priority') return ['high','med','low'].indexOf(a.priority)-['high','med','low'].indexOf(b.priority);
-    if(by==='status') return a.status.localeCompare(b.status);
-    return 0;
+
+function sortTable(by) {
+  sortDir[by] = !sortDir[by];
+  const sorted = [...agencyData].sort((a, b) => {
+    let va, vb;
+    if (by === 'name') { va = a.name; vb = b.name; }
+    else if (by === 'priority') { const o = ['high','med','low']; va = o.indexOf(a.priority); vb = o.indexOf(b.priority); }
+    else if (by === 'status') { va = a.status; vb = b.status; }
+    else { va = 0; vb = 0; }
+    const dir = sortDir[by] ? 1 : -1;
+    return va > vb ? dir : va < vb ? -dir : 0;
   });
   buildAgencies(sorted);
 }
 
+function exportCSV() {
+  const headers = ['Name','Sub','Contact','Phone','Email','Status','Priority','Last','Next','Feedback','Value','Deal%'];
+  const rows = agencyData.map(a => [a.name,a.sub,a.contact,a.phone,a.email,a.status,a.priority,a.last,a.next,a.feedback,a.value,a.deal].join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'agencies.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
 // ─── CONTACTS ───
-const ccColors=['#3b91ff','#8b5cf6','#10b981','#f59e0b','#ec4899','#00d4ff','#f43f5e','#a78bfa','#34d399','#fbbf24'];
-function buildContacts(){
-  document.getElementById('contactsGrid').innerHTML=agencyData.map((a,i)=>{
-    const initials=a.contact.split(' ').map(n=>n[0]).join('');
-    const c=ccColors[i%ccColors.length];
-    return`<div class="contact-card" style="--cc:${c}22;animation-delay:${i*.05}s">
-      <div class="cc-avatar" style="background:${c}18;color:${c};border-color:${c}33">${initials}</div>
+const ccColors = ['#3b91ff','#8b5cf6','#10b981','#f59e0b','#ec4899','#00d4ff','#f43f5e','#a78bfa','#34d399','#fbbf24'];
+let allContacts = [];
+
+function buildContacts() {
+  allContacts = agencyData.map((a, i) => ({...a, initials: a.contact.split(' ').map(n=>n[0]).join(''), color: ccColors[i % ccColors.length], calls: Math.floor(Math.random()*15)+3, meetings: Math.floor(Math.random()*8)+1}));
+  renderContacts(allContacts);
+}
+
+function renderContacts(list) {
+  const grid = document.getElementById('contactsGrid');
+  if (!grid) return;
+  grid.innerHTML = list.map((a, i) => `
+    <div class="contact-card" style="--cc:${a.color}22;animation-delay:${i*.05}s">
+      <div class="cc-avatar" style="background:${a.color}18;color:${a.color};border-color:${a.color}33">${a.initials}</div>
       <div class="cc-name">${a.contact}</div>
       <div class="cc-role">Agency Manager</div>
       <div class="cc-agency"><i class="fas fa-building" style="font-size:9px;color:var(--text3)"></i>${a.name}</div>
       <div class="cc-stats">
-        <div class="cc-stat"><div class="cc-stat-val" style="color:${c}">${Math.floor(Math.random()*15)+3}</div><div class="cc-stat-lbl">Calls</div></div>
-        <div class="cc-stat"><div class="cc-stat-val" style="color:${c}">${Math.floor(Math.random()*8)+1}</div><div class="cc-stat-lbl">Meetings</div></div>
-        <div class="cc-stat"><div class="cc-stat-val" style="color:${c}">${a.deal}%</div><div class="cc-stat-lbl">Deal</div></div>
+        <div class="cc-stat"><div class="cc-stat-val" style="color:${a.color}">${a.calls}</div><div class="cc-stat-lbl">Calls</div></div>
+        <div class="cc-stat"><div class="cc-stat-val" style="color:${a.color}">${a.meetings}</div><div class="cc-stat-lbl">Meetings</div></div>
+        <div class="cc-stat"><div class="cc-stat-val" style="color:${a.color}">${a.deal}%</div><div class="cc-stat-lbl">Deal</div></div>
       </div>
       <div class="cc-btns">
         <div class="cc-btn primary" onclick="alert('Calling ${a.contact}...')"><i class="fas fa-phone" style="font-size:9px"></i>Call</div>
-        <div class="cc-btn wa"><i class="fab fa-whatsapp" style="font-size:10px"></i>WA</div>
-        <div class="cc-btn"><i class="fas fa-envelope" style="font-size:9px"></i>Email</div>
+        <div class="cc-btn wa" onclick="alert('WhatsApp ${a.contact}...')"><i class="fab fa-whatsapp" style="font-size:10px"></i>WA</div>
+        <div class="cc-btn" onclick="alert('Emailing ${a.contact}...')"><i class="fas fa-envelope" style="font-size:9px"></i>Email</div>
       </div>
-    </div>`;
-  }).join('');
+    </div>
+  `).join('');
+}
+
+function filterContacts(q) {
+  const f = allContacts.filter(a => a.contact.toLowerCase().includes(q.toLowerCase()) || a.name.toLowerCase().includes(q.toLowerCase()));
+  renderContacts(f);
 }
 
 // ─── MEETINGS ───
-const meetings=[
+const meetingsData = [
   {agency:'BrightStream Media',time:'10:00',ap:'AM',type:'Strategy Call',platform:'Zoom',color:'#3b91ff',status:'active',tags:['Zoom','High Priority'],notes:'Discuss annual package'},
   {agency:'NovaCast Agency',time:'02:30',ap:'PM',type:'Proposal Review',platform:'Google Meet',color:'#8b5cf6',status:'pending',tags:['Meet','Review'],notes:'₹1.2L proposal'},
   {agency:'StarMedia Ltd',time:'04:00',ap:'PM',type:'Contract Discussion',platform:'Phone',color:'#10b981',status:'completed',tags:['Phone','Contract'],notes:'Finalise terms'},
   {agency:'Zync Digital',time:'11:00',ap:'AM',type:'Discovery Call',platform:'Zoom',color:'#f59e0b',status:'upcoming',tags:['Zoom','New Lead'],notes:'Initial discovery'},
   {agency:'FlowCast Studios',time:'03:15',ap:'PM',type:'Pricing Discussion',platform:'Zoom',color:'#ec4899',status:'upcoming',tags:['Zoom','Pricing'],notes:'Send rate card before'},
 ];
-function buildMeetings(){
-  document.getElementById('mtgCards').innerHTML=meetings.map(m=>`
+
+function buildMeetings() {
+  renderMeetings(meetingsData);
+}
+
+function renderMeetings(list) {
+  const el = document.getElementById('mtgCards');
+  if (!el) return;
+  el.innerHTML = list.map(m => `
     <div class="mtg-card" style="--mc:${m.color}">
       <div class="mtg-time-blk">
         <div class="mtg-t">${m.time}</div>
@@ -1267,44 +1346,90 @@ function buildMeetings(){
   `).join('');
 }
 
-// ─── CALENDAR (mini) ───
-function buildCalendar(){
-  const grid=document.getElementById('calGrid');
-  if(!grid)return;
-  const days=['S','M','T','W','T','F','S'];
-  const hasMtg=[3,8,12,15,19,22,26];
-  let html=days.map(d=>`<div class="cal-dn">${d}</div>`).join('');
-  for(let i=0;i<4;i++) html+=`<div class="cal-d other">${26+i}</div>`;
-  for(let d=1;d<=31;d++){
-    const cls=d===12?'today':hasMtg.includes(d)?'has-mtg':'';
-    html+=`<div class="cal-d ${cls}">${d}</div>`;
+function filterMeetings(filter, btn) {
+  document.querySelectorAll('.mf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = filter === 'all' ? meetingsData : meetingsData.filter(m => m.status === filter);
+  renderMeetings(filtered);
+}
+
+// ─── CALENDAR (mini) - with month navigation ───
+let calOffset = 0;
+
+function buildCalendar() {
+  const now = new Date();
+  const d = new Date(now.getFullYear(), now.getMonth() + calOffset, 1);
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const titleEl = document.getElementById('calMonthTitle');
+  if (titleEl) titleEl.textContent = monthNames[month] + ' ' + year;
+
+  const grid = document.getElementById('calGrid');
+  if (!grid) return;
+  const days = ['S','M','T','W','T','F','S'];
+  const hasMtg = [3,8,12,15,19,22,26];
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const today = (calOffset === 0) ? now.getDate() : -1;
+
+  let html = days.map(d => `<div class="cal-dn">${d}</div>`).join('');
+  // Prev month filler
+  const prevDays = new Date(year, month, 0).getDate();
+  for (let i = firstDay - 1; i >= 0; i--) {
+    html += `<div class="cal-d other">${prevDays - i}</div>`;
   }
-  grid.innerHTML=html;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const cls = d === today ? 'today' : hasMtg.includes(d) ? 'has-mtg' : '';
+    html += `<div class="cal-d ${cls}">${d}</div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function changeMonth(dir) {
+  calOffset += dir;
+  buildCalendar();
 }
 
 // ─── FULL CALENDAR ───
-function buildFullCalendar(){
-  const grid=document.getElementById('calFullGrid');
-  if(!grid)return;
-  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const events={3:['BrightStream'],8:['NovaCast','Zync'],12:['StarMedia','FlowCast'],15:['ViralEdge'],19:['MediaSpark'],22:['CastPro'],26:['BrightStream']};
-  const evColors=['#3b91ff','#8b5cf6','#10b981','#f59e0b'];
-  let html=days.map(d=>`<div class="cal-full-day-name">${d}</div>`).join('');
-  for(let i=0;i<4;i++) html+=`<div class="cal-full-cell"><div class="cal-full-num" style="opacity:.3">${26+i}</div></div>`;
-  for(let d=1;d<=31;d++){
-    const isToday=d===12;
-    const ev=events[d]||[];
-    html+=`<div class="cal-full-cell ${isToday?'today-cell':''}">
+let fullCalOffset = 0;
+
+function buildFullCalendar() {
+  const now = new Date();
+  const d = new Date(now.getFullYear(), now.getMonth() + fullCalOffset, 1);
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const titleEl = document.getElementById('fullCalTitle');
+  if (titleEl) titleEl.textContent = monthNames[month] + ' ' + year;
+
+  const grid = document.getElementById('calFullGrid');
+  if (!grid) return;
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const events = {3:['BrightStream'],8:['NovaCast','Zync'],12:['StarMedia','FlowCast'],15:['ViralEdge'],19:['MediaSpark'],22:['CastPro'],26:['BrightStream']};
+  const evColors = ['#3b91ff','#8b5cf6','#10b981','#f59e0b'];
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const prevDays = new Date(year, month, 0).getDate();
+  const todayDate = (fullCalOffset === 0) ? now.getDate() : -1;
+
+  let html = days.map(d => `<div class="cal-full-day-name">${d}</div>`).join('');
+  for (let i = firstDay - 1; i >= 0; i--) {
+    html += `<div class="cal-full-cell"><div class="cal-full-num" style="opacity:.3">${prevDays-i}</div></div>`;
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = d === todayDate;
+    const ev = events[d] || [];
+    html += `<div class="cal-full-cell ${isToday?'today-cell':''}">
       <div class="cal-full-num ${isToday?'today-num':''}">${d}</div>
       ${ev.map((e,i)=>`<div class="cal-event" style="background:${evColors[i%4]}20;color:${evColors[i%4]};border-left:2px solid ${evColors[i%4]}">${e}</div>`).join('')}
     </div>`;
   }
-  grid.innerHTML=html;
+  grid.innerHTML = html;
 
-  // today schedule
-  const sched=document.getElementById('todaySchedule');
-  if(sched){
-    sched.innerHTML=meetings.map(m=>`
+  const sched = document.getElementById('todaySchedule');
+  if (sched) {
+    sched.innerHTML = meetingsData.map(m => `
       <div class="tl-item">
         <div class="tl-dot" style="background:${m.color}"></div>
         <div style="flex:1">
@@ -1317,8 +1442,13 @@ function buildFullCalendar(){
   }
 }
 
+function changeFullMonth(dir) {
+  fullCalOffset += dir;
+  buildFullCalendar();
+}
+
 // ─── KANBAN ───
-const kbData=[
+const kbData = [
   {col:'Pending',color:'#f59e0b',tasks:[
     {title:'Send proposal to BrightStream',agency:'BrightStream Media',tags:['Proposal'],tagColor:'',p:'high',due:'Today',ov:false,prog:0},
     {title:'Prepare rate card document',agency:'Internal',tags:['Document'],tagColor:'amber',p:'med',due:'May 15',ov:false,prog:30},
@@ -1341,19 +1471,23 @@ const kbData=[
     {title:'Contract sign from NovaCast',agency:'NovaCast Agency',tags:['Contract'],tagColor:'purple',p:'high',due:'May 18',ov:false,prog:0},
   ]},
 ];
-const avClrs=['#3b91ff','#8b5cf6','#10b981','#f59e0b','#ec4899'];
-const avInit=['AK','RK','PS','DS','MN'];
+
+const avClrs = ['#3b91ff','#8b5cf6','#10b981','#f59e0b','#ec4899'];
+const avInit = ['AK','RK','PS','DS','MN'];
 function av(i){return`<div class="task-av" style="background:${avClrs[i%5]}22;color:${avClrs[i%5]}">${avInit[i%5]}</div>`}
-function buildKanban(){
-  document.getElementById('kanban').innerHTML=kbData.map(col=>`
+
+function buildKanban() {
+  const el = document.getElementById('kanban');
+  if (!el) return;
+  el.innerHTML = kbData.map(col => `
     <div class="kb-col">
       <div class="kb-hd">
         <div class="kb-lbl"><div class="kb-dot" style="background:${col.color}"></div>${col.col}</div>
         <div class="kb-cnt">${col.tasks.length}</div>
       </div>
       <div class="kb-body">
-        ${col.tasks.map((t,i)=>`
-          <div class="task-card" draggable="true" style="animation-delay:${i*.06}s">
+        ${col.tasks.map((t,i) => `
+          <div class="task-card" draggable="true">
             <div class="task-pbar" style="background:${t.p==='high'?'var(--rose)':t.p==='med'?'var(--amber)':'var(--emerald)'}"></div>
             <div class="task-title">${t.title}</div>
             <div class="task-ag"><i class="fas fa-building" style="font-size:9px;color:var(--text3)"></i>${t.agency}</div>
@@ -1368,14 +1502,14 @@ function buildKanban(){
             <div class="task-due ${t.ov?'ov':t.due==='Today'?'soon':''}"><i class="fas fa-clock" style="font-size:9px"></i>${t.ov?'⚠ Overdue · ':''}${t.due}</div>
           </div>
         `).join('')}
-        <div class="kb-add"><i class="fas fa-plus" style="margin-right:4px;font-size:9px"></i>Add task</div>
+        <div class="kb-add" onclick="openModal('task')"><i class="fas fa-plus" style="margin-right:4px;font-size:9px"></i>Add task</div>
       </div>
     </div>
   `).join('');
 }
 
 // ─── FOLLOW-UPS ───
-const fuData=[
+const fuData = [
   {name:'Zync Digital',detail:'No response for 5 days · Proposal sent',time:'5 days',urg:'urg',icon:'fas fa-exclamation-triangle',ibg:'rgba(244,63,94,.12)',ic:'var(--rose)'},
   {name:'CastPro Network',detail:'Sent brochure — no reply yet',time:'7 days',urg:'urg',icon:'fas fa-reply',ibg:'rgba(244,63,94,.12)',ic:'var(--rose)'},
   {name:'FlowCast Studios',detail:'Awaiting pricing reply from Vijay',time:'3 days',urg:'warn',icon:'fas fa-clock',ibg:'rgba(245,158,11,.12)',ic:'var(--amber)'},
@@ -1384,8 +1518,10 @@ const fuData=[
   {name:'BrightStream Media',detail:'Confirm meeting for tomorrow',time:'1 day',urg:'norm',icon:'fas fa-phone',ibg:'rgba(59,145,255,.12)',ic:'var(--blue)'},
   {name:'NovaCast Agency',detail:'Proposal review follow-up',time:'1 day',urg:'norm',icon:'fas fa-file-alt',ibg:'rgba(59,145,255,.12)',ic:'var(--blue)'},
 ];
-function buildFollowups(){
-  document.getElementById('fuList').innerHTML=fuData.map(f=>`
+
+function buildFollowups() {
+  const fuEl = document.getElementById('fuList');
+  if (fuEl) fuEl.innerHTML = fuData.map(f => `
     <div class="fu-item ${f.urg}">
       <div class="fu-ico" style="background:${f.ibg};color:${f.ic}"><i class="${f.icon}"></i></div>
       <div style="flex:1;min-width:0">
@@ -1394,11 +1530,13 @@ function buildFollowups(){
       </div>
       <div class="fu-right">
         <div class="fu-time">${f.time} ago</div>
-        <div class="fu-rem" onclick="alert('Reminder set for ${f.name}')">Remind</div>
+        <div class="fu-rem" onclick="showToast('✓ Reminder set for ${f.name}')">Remind</div>
       </div>
     </div>
   `).join('');
-  document.getElementById('commLog').innerHTML=`
+
+  const logEl = document.getElementById('commLog');
+  if (logEl) logEl.innerHTML = `
     <div class="tl-item"><div class="tl-dot" style="background:var(--blue)"></div><div style="flex:1"><div class="tl-title">Called BrightStream — No Answer</div><div class="tl-meta">3 attempts, left voicemail</div></div><div class="tl-time">10:30 AM</div></div>
     <div class="tl-item"><div class="tl-dot" style="background:var(--emerald)"></div><div style="flex:1"><div class="tl-title">WhatsApp — NovaCast responded ✓</div><div class="tl-meta">Interested in premium package</div></div><div class="tl-time">9:15 AM</div></div>
     <div class="tl-item"><div class="tl-dot" style="background:var(--amber)"></div><div style="flex:1"><div class="tl-title">Email sent — Zync Digital</div><div class="tl-meta">Pricing proposal with deck attached</div></div><div class="tl-time">Yesterday</div></div>
@@ -1409,69 +1547,80 @@ function buildFollowups(){
 }
 
 // ─── REPORT ───
-const rDone=['StarMedia onboarding meeting completed','NovaCast proposal draft finalized and sent','Monthly CRM data updated with all call notes','BrightStream intro call done — positive response','ViralEdge initial pitch presented — hot lead','FlowCast pricing email sent with rate card'];
-const rPend=['Zync Digital follow-up call still pending','FlowCast pricing reply awaited from Vijay','CastPro contract review due this week','PixelWave brochure follow-up needed','MediaSpark annual plan discussion pending','NovaCast contract terms review'];
-const rMtg=['BrightStream — 10:00 AM Strategy Call (Zoom) ✓','NovaCast — 2:30 PM Proposal Review (Meet) — Upcoming','StarMedia — 4:00 PM Contract Discussion (In-person)'];
-function buildReport(){
-  const now=new Date();
-  const el=document.getElementById('rptDate');
-  if(el) el.textContent=now.toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  const doneEl=document.getElementById('rptDone');
-  if(doneEl) doneEl.innerHTML=rDone.map(c=>`<div class="rpt-item"><div class="rpt-dot" style="background:var(--emerald)"></div><div class="rpt-txt">${c}</div><i class="fas fa-check" style="color:var(--emerald);font-size:10px;flex-shrink:0"></i></div>`).join('');
-  const pendEl=document.getElementById('rptPend');
-  if(pendEl) pendEl.innerHTML=rPend.map(p=>`<div class="rpt-item"><div class="rpt-dot" style="background:var(--amber)"></div><div class="rpt-txt">${p}</div><i class="fas fa-hourglass-half" style="color:var(--amber);font-size:9px;flex-shrink:0"></i></div>`).join('');
-  const mtgEl=document.getElementById('rptMtg');
-  if(mtgEl) mtgEl.innerHTML=rMtg.map(m=>`<div class="rpt-item"><div class="rpt-dot" style="background:var(--blue)"></div><div class="rpt-txt">${m}</div></div>`).join('');
-  const prev=document.getElementById('rptPreview');
-  if(prev) prev.textContent=`📋 DAILY WORK REPORT — ${now.toLocaleDateString('en-IN')}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n✅ COMPLETED TASKS (${rDone.length}):\n${rDone.map(c=>`  • ${c}`).join('\n')}\n\n⏳ PENDING TASKS (${rPend.length}):\n${rPend.map(p=>`  • ${p}`).join('\n')}\n\n📅 MEETINGS TODAY (${rMtg.length}):\n${rMtg.map(m=>`  • ${m}`).join('\n')}\n\n📊 PERFORMANCE SCORE: 87/100\n🔥 PRODUCTIVITY: 87% Weekly Average\n💰 REVENUE PIPELINE: ₹4.2L Active\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nGenerated by StreamFlow Dashboard`;
+const rDone = ['StarMedia onboarding meeting completed','NovaCast proposal draft finalized and sent','Monthly CRM data updated with all call notes','BrightStream intro call done — positive response','ViralEdge initial pitch presented — hot lead','FlowCast pricing email sent with rate card'];
+const rPend = ['Zync Digital follow-up call still pending','FlowCast pricing reply awaited from Vijay','CastPro contract review due this week','PixelWave brochure follow-up needed','MediaSpark annual plan discussion pending','NovaCast contract terms review'];
+const rMtg = ['BrightStream — 10:00 AM Strategy Call (Zoom) ✓','NovaCast — 2:30 PM Proposal Review (Meet) — Upcoming','StarMedia — 4:00 PM Contract Discussion (In-person)'];
+
+function buildReport() {
+  const now = new Date();
+  const el = document.getElementById('rptDate');
+  if (el) el.textContent = now.toLocaleDateString('en-IN', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const doneEl = document.getElementById('rptDone');
+  if (doneEl) doneEl.innerHTML = rDone.map(c=>`<div class="rpt-item"><div class="rpt-dot" style="background:var(--emerald)"></div><div class="rpt-txt">${c}</div><i class="fas fa-check" style="color:var(--emerald);font-size:10px;flex-shrink:0"></i></div>`).join('');
+  const pendEl = document.getElementById('rptPend');
+  if (pendEl) pendEl.innerHTML = rPend.map(p=>`<div class="rpt-item"><div class="rpt-dot" style="background:var(--amber)"></div><div class="rpt-txt">${p}</div><i class="fas fa-hourglass-half" style="color:var(--amber);font-size:9px;flex-shrink:0"></i></div>`).join('');
+  const mtgEl = document.getElementById('rptMtg');
+  if (mtgEl) mtgEl.innerHTML = rMtg.map(m=>`<div class="rpt-item"><div class="rpt-dot" style="background:var(--blue)"></div><div class="rpt-txt">${m}</div></div>`).join('');
+  const prev = document.getElementById('rptPreview');
+  if (prev) prev.textContent = `📋 DAILY WORK REPORT — ${now.toLocaleDateString('en-IN')}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n✅ COMPLETED TASKS (${rDone.length}):\n${rDone.map(c=>`  • ${c}`).join('\n')}\n\n⏳ PENDING TASKS (${rPend.length}):\n${rPend.map(p=>`  • ${p}`).join('\n')}\n\n📅 MEETINGS TODAY (${rMtg.length}):\n${rMtg.map(m=>`  • ${m}`).join('\n')}\n\n📊 PERFORMANCE SCORE: 87/100\n🔥 PRODUCTIVITY: 87% Weekly Average\n💰 REVENUE PIPELINE: ₹4.2L Active\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nGenerated by StreamFlow Dashboard`;
 }
-function copyReport(){
-  const text=document.getElementById('rptPreview')?.textContent||'';
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(text).then(()=>{
-      const b=document.querySelector('.copy-btn');
-      if(b){b.innerHTML='<i class="fas fa-check"></i> Copied!';setTimeout(()=>{b.innerHTML='<i class="fas fa-copy"></i>Copy Report'},2200);}
-    });
-  } else {
-    // fallback
-    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
-    alert('Report copied!');
-  }
+
+function copyReport() {
+  const text = document.getElementById('rptPreview')?.textContent || '';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => {
+      const b = document.querySelector('.copy-btn');
+      if (b) { b.innerHTML = '<i class="fas fa-check"></i> Copied!'; setTimeout(() => { b.innerHTML = '<i class="fas fa-copy"></i>Copy Report'; }, 2200); }
+    }).catch(() => fallbackCopy(text));
+  } else { fallbackCopy(text); }
+}
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+  showToast('✓ Report copied!');
+}
+
+function shareOnWhatsApp() {
+  const text = document.getElementById('rptPreview')?.textContent || '';
+  const url = 'https://wa.me/?text=' + encodeURIComponent(text);
+  window.open(url, '_blank');
 }
 
 // ─── NOTIFICATIONS ───
-const notifData=[
-  {icon:'fas fa-calendar-check',ibg:'rgba(59,145,255,.15)',ic:'var(--blue)',ttl:'Meeting in 30 min',body:'BrightStream Strategy Call · Zoom',time:'30 min',unread:true,delay:.05},
-  {icon:'fas fa-exclamation-triangle',ibg:'rgba(244,63,94,.15)',ic:'var(--rose)',ttl:'Urgent Follow-up',body:'Zync Digital — 5 days no response',time:'1h',unread:true,delay:.1},
-  {icon:'fas fa-handshake',ibg:'rgba(16,185,129,.15)',ic:'var(--emerald)',ttl:'Deal Closed 🎉',body:'StarMedia contract signed ✓',time:'2h',unread:false,delay:.15},
-  {icon:'fas fa-file-invoice',ibg:'rgba(139,92,246,.15)',ic:'var(--purple)',ttl:'Proposal Viewed',body:'NovaCast opened your proposal',time:'3h',unread:false,delay:.2},
-  {icon:'fas fa-fire',ibg:'rgba(245,158,11,.15)',ic:'var(--amber)',ttl:'Hot Lead Alert',body:'ViralEdge Studios — High Intent',time:'4h',unread:false,delay:.25},
+const notifData = [
+  {icon:'fas fa-calendar-check',ibg:'rgba(59,145,255,.15)',ic:'var(--blue)',ttl:'Meeting in 30 min',body:'BrightStream Strategy Call · Zoom',time:'30 min',unread:true},
+  {icon:'fas fa-exclamation-triangle',ibg:'rgba(244,63,94,.15)',ic:'var(--rose)',ttl:'Urgent Follow-up',body:'Zync Digital — 5 days no response',time:'1h',unread:true},
+  {icon:'fas fa-handshake',ibg:'rgba(16,185,129,.15)',ic:'var(--emerald)',ttl:'Deal Closed 🎉',body:'StarMedia contract signed ✓',time:'2h',unread:false},
+  {icon:'fas fa-file-invoice',ibg:'rgba(139,92,246,.15)',ic:'var(--purple)',ttl:'Proposal Viewed',body:'NovaCast opened your proposal',time:'3h',unread:false},
+  {icon:'fas fa-fire',ibg:'rgba(245,158,11,.15)',ic:'var(--amber)',ttl:'Hot Lead Alert',body:'ViralEdge Studios — High Intent',time:'4h',unread:false},
 ];
-function buildNotifs(){
-  const el=document.getElementById('notifList');
-  if(!el)return;
-  el.innerHTML=notifData.map(n=>`
-    <div class="notif-item" style="animation-delay:${n.delay}s">
+
+function buildNotifs() {
+  const el = document.getElementById('notifList');
+  if (!el) return;
+  el.innerHTML = notifData.map(n => `
+    <div class="notif-item">
       <div class="notif-ico" style="background:${n.ibg};color:${n.ic}"><i class="${n.icon}"></i></div>
       <div class="notif-content">
         <div class="notif-ttl">${n.ttl}</div>
         <div class="notif-body">${n.body}</div>
         <div class="notif-time">${n.time} ago</div>
       </div>
-      ${n.unread?'<div class="notif-unread"></div>':''}
+      ${n.unread ? '<div class="notif-unread"></div>' : ''}
     </div>
   `).join('');
 }
 
-function buildNotifPage(){
-  const el=document.getElementById('notifPageList');
-  if(!el)return;
-  const all=[...notifData,
+function buildNotifPage() {
+  const el = document.getElementById('notifPageList');
+  if (!el) return;
+  const all = [...notifData,
     {icon:'fas fa-user-plus',ibg:'rgba(0,212,255,.12)',ic:'var(--cyan)',ttl:'New Contact Added',body:'Rohan Verma from ViralEdge Studios added',time:'5h',unread:false},
     {icon:'fas fa-chart-line',ibg:'rgba(16,185,129,.12)',ic:'var(--emerald)',ttl:'Weekly Target Reached',body:'87% productivity — above target',time:'Yesterday',unread:false},
     {icon:'fas fa-clock',ibg:'rgba(245,158,11,.12)',ic:'var(--amber)',ttl:'Daily Report Ready',body:'Your auto-generated report is ready',time:'Yesterday',unread:false},
   ];
-  el.innerHTML=all.map(n=>`
+  el.innerHTML = all.map(n => `
     <div class="notif-page-item ${n.unread?'unread':''}">
       <div class="npi-ico" style="background:${n.ibg};color:${n.ic}"><i class="${n.icon}"></i></div>
       <div class="npi-content">
@@ -1480,8 +1629,8 @@ function buildNotifPage(){
         <div class="npi-time">${n.time} ago</div>
         <div class="npi-actions">
           <div class="npi-act primary">View Details</div>
-          <div class="npi-act">Mark Read</div>
-          <div class="npi-act">Dismiss</div>
+          <div class="npi-act" onclick="showToast('✓ Marked as read')">Mark Read</div>
+          <div class="npi-act" onclick="this.closest('.notif-page-item').remove()">Dismiss</div>
         </div>
       </div>
     </div>
@@ -1489,55 +1638,58 @@ function buildNotifPage(){
 }
 
 // ─── BAR CHART ───
-function buildBarChart(){
-  const data=[{c:8,m:3,f:5},{c:12,m:5,f:8},{c:6,m:2,f:4},{c:15,m:6,f:10},{c:10,m:4,f:7},{c:4,m:1,f:2},{c:7,m:3,f:5}];
-  const max=15;
-  document.getElementById('barChart').innerHTML=data.map((d,i)=>`
+const barData = [{c:8,m:3,f:5},{c:12,m:5,f:8},{c:6,m:2,f:4},{c:15,m:6,f:10},{c:10,m:4,f:7},{c:4,m:1,f:2},{c:7,m:3,f:5}];
+
+function buildBarChart() {
+  const el = document.getElementById('barChart');
+  if (!el) return;
+  const max = 15;
+  el.innerHTML = barData.map((d, i) => `
     <div class="bar-group">
-      <div class="bar" style="height:0%;background:rgba(59,145,255,.75)" data-v="${d.c} calls" data-h="${d.c/max*100}"></div>
-      <div class="bar" style="height:0%;background:rgba(139,92,246,.75)" data-v="${d.m} meetings" data-h="${d.m/max*100}"></div>
-      <div class="bar" style="height:0%;background:rgba(0,212,255,.55)" data-v="${d.f} follow-ups" data-h="${d.f/max*100}"></div>
+      <div class="bar" style="background:rgba(59,145,255,.75);height:0%" data-h="${d.c/max*100}" data-v="${d.c} calls"></div>
+      <div class="bar" style="background:rgba(139,92,246,.75);height:0%" data-h="${d.m/max*100}" data-v="${d.m} meetings"></div>
+      <div class="bar" style="background:rgba(0,212,255,.55);height:0%" data-h="${d.f/max*100}" data-v="${d.f} follow-ups"></div>
     </div>
   `).join('');
-  setTimeout(()=>{
-    document.querySelectorAll('.bar').forEach(b=>{
-      b.style.height=b.dataset.h+'%';
-    });
-  },600);
+}
+
+function animBars() {
+  document.querySelectorAll('#barChart .bar').forEach(b => {
+    b.style.height = b.dataset.h + '%';
+  });
 }
 
 // ─── RINGS ───
-function animRing(id,pct){
-  const el=document.getElementById(id);
-  if(!el)return;
-  const c=2*Math.PI*27;
-  setTimeout(()=>{
-    el.style.strokeDasharray=c;
-    el.style.strokeDashoffset=c-(pct/100*c);
-  },500);
+function animRing(id, pct) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const c = 2 * Math.PI * 27;
+  el.style.strokeDasharray = c;
+  el.style.strokeDashoffset = c - (pct / 100 * c);
 }
 
 // ─── HEATMAP ───
-function buildHeatmap(id,weeks){
-  const el=document.getElementById(id);
-  if(!el)return;
-  const cols=weeks===1?7:weeks*7;
-  el.innerHTML=Array.from({length:cols},(_,i)=>{
-    const l=Math.random()<.25?0:[0,1,2,3,4][Math.floor(Math.random()*5)];
-    return`<div class="hm-cell hm${l}" title="Week ${Math.floor(i/7)+1}: ${l} activities"></div>`;
+function buildHeatmap(id, weeks) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const cols = weeks === 1 ? 7 : weeks * 7;
+  el.style.gridTemplateColumns = weeks === 1 ? 'repeat(7,1fr)' : 'repeat(13,1fr)';
+  el.innerHTML = Array.from({length: cols}, (_, i) => {
+    const l = Math.random() < .25 ? 0 : [0,1,2,3,4][Math.floor(Math.random()*5)];
+    return `<div class="hm-cell hm${l}" title="Activity level: ${l}"></div>`;
   }).join('');
 }
 
-// ─── RP AGENDA ───
-function buildRpAgenda(){
-  const el=document.getElementById('rpAgenda');
-  if(!el)return;
-  const items=[
+// ─── RIGHT PANEL AGENDA ───
+function buildRpAgenda() {
+  const el = document.getElementById('rpAgenda');
+  if (!el) return;
+  const items = [
     {time:'10:00',label:'BrightStream call',color:'var(--blue)'},
     {time:'02:30',label:'NovaCast review',color:'var(--purple)'},
     {time:'04:00',label:'StarMedia contract',color:'var(--emerald)'},
   ];
-  el.innerHTML=items.map(a=>`
+  el.innerHTML = items.map(a => `
     <div style="display:flex;align-items:center;gap:8px;padding:6px 3px;border-bottom:1px solid var(--border)">
       <div style="font-size:10px;color:var(--text3);white-space:nowrap;min-width:36px">${a.time}</div>
       <div style="width:3px;height:20px;border-radius:2px;background:${a.color};flex-shrink:0"></div>
@@ -1547,102 +1699,164 @@ function buildRpAgenda(){
 }
 
 // ─── SETTINGS NAV ───
-function settingsNav(el){
-  document.querySelectorAll('.sn-item').forEach(n=>n.classList.remove('active'));
+function settingsNav(el) {
+  document.querySelectorAll('.sn-item').forEach(n => n.classList.remove('active'));
   el.classList.add('active');
 }
 
-// ─── MODAL ───
-const modalConfigs={
-  agency:{title:'<i class="fas fa-building"></i> Add New Agency',body:null},
-  meeting:{title:'<i class="fas fa-video"></i> Schedule Meeting',body:`
-    <div class="fgrid"><div class="fgrp"><label class="flbl">Agency Name</label><select class="finput">${agencyData.map(a=>`<option>${a.name}</option>`).join('')}</select></div><div class="fgrp"><label class="flbl">Meeting Type</label><select class="finput"><option>Strategy Call</option><option>Proposal Review</option><option>Discovery Call</option><option>Contract Discussion</option><option>Pricing Discussion</option></select></div></div>
-    <div class="fgrid"><div class="fgrp"><label class="flbl">Date</label><input class="finput" type="date"></div><div class="fgrp"><label class="flbl">Time</label><input class="finput" type="time" value="10:00"></div></div>
-    <div class="fgrid"><div class="fgrp"><label class="flbl">Platform</label><select class="finput"><option>Zoom</option><option>Google Meet</option><option>Phone Call</option><option>In-person</option></select></div><div class="fgrp"><label class="flbl">Duration</label><select class="finput"><option>30 min</option><option>45 min</option><option>1 hour</option><option>1.5 hours</option></select></div></div>
+// ─── MODAL CONFIGS ───
+const modalBodies = {
+  agency: `
+    <div class="fgrid">
+      <div class="fgrp"><label class="flbl">Agency Name</label><input class="finput" placeholder="e.g. BrightStream Media"></div>
+      <div class="fgrp"><label class="flbl">Contact Person</label><input class="finput" placeholder="Full name"></div>
+    </div>
+    <div class="fgrid">
+      <div class="fgrp"><label class="flbl">Phone</label><input class="finput" placeholder="+91 XXXXX XXXXX"></div>
+      <div class="fgrp"><label class="flbl">Email</label><input class="finput" placeholder="email@agency.com"></div>
+    </div>
+    <div class="fgrid">
+      <div class="fgrp"><label class="flbl">Status</label><select class="finput"><option>Active</option><option>Pending</option><option>No Response</option><option>Follow-up Needed</option><option>Approved</option><option>Review Pending</option></select></div>
+      <div class="fgrp"><label class="flbl">Priority</label><select class="finput"><option>High</option><option>Medium</option><option>Low</option></select></div>
+    </div>
+    <div class="fgrid">
+      <div class="fgrp"><label class="flbl">Last Contacted</label><input class="finput" type="date"></div>
+      <div class="fgrp"><label class="flbl">Next Follow-up</label><input class="finput" type="date"></div>
+    </div>
+    <div class="fgrp"><label class="flbl">Platform Interest</label><select class="finput"><option>YouTube Sponsorship</option><option>Live Stream Integration</option><option>Social Media</option><option>Annual Package</option><option>Custom Deal</option></select></div>
+    <div class="fgrp"><label class="flbl">Notes / Feedback</label><textarea class="finput" rows="3" placeholder="Any notes, feedback or observations…"></textarea></div>
+  `,
+  meeting: `
+    <div class="fgrid">
+      <div class="fgrp"><label class="flbl">Agency Name</label><select class="finput">${agencyData.map(a=>`<option>${a.name}</option>`).join('')}</select></div>
+      <div class="fgrp"><label class="flbl">Meeting Type</label><select class="finput"><option>Strategy Call</option><option>Proposal Review</option><option>Discovery Call</option><option>Contract Discussion</option><option>Pricing Discussion</option></select></div>
+    </div>
+    <div class="fgrid">
+      <div class="fgrp"><label class="flbl">Date</label><input class="finput" type="date"></div>
+      <div class="fgrp"><label class="flbl">Time</label><input class="finput" type="time" value="10:00"></div>
+    </div>
+    <div class="fgrid">
+      <div class="fgrp"><label class="flbl">Platform</label><select class="finput"><option>Zoom</option><option>Google Meet</option><option>Phone Call</option><option>In-person</option></select></div>
+      <div class="fgrp"><label class="flbl">Duration</label><select class="finput"><option>30 min</option><option>45 min</option><option>1 hour</option><option>1.5 hours</option></select></div>
+    </div>
     <div class="fgrp"><label class="flbl">Meeting Link / Location</label><input class="finput" placeholder="https://zoom.us/j/..."></div>
     <div class="fgrp"><label class="flbl">Agenda / Notes</label><textarea class="finput" rows="3" placeholder="Meeting agenda or discussion points…"></textarea></div>
-  `},
-  task:{title:'<i class="fas fa-check-square"></i> Add New Task',body:`
+  `,
+  task: `
     <div class="fgrp"><label class="flbl">Task Title</label><input class="finput" placeholder="What needs to be done?"></div>
-    <div class="fgrid"><div class="fgrp"><label class="flbl">Agency</label><select class="finput"><option>Internal</option>${agencyData.map(a=>`<option>${a.name}</option>`).join('')}</select></div><div class="fgrp"><label class="flbl">Priority</label><select class="finput"><option>High</option><option>Medium</option><option>Low</option></select></div></div>
-    <div class="fgrid"><div class="fgrp"><label class="flbl">Column</label><select class="finput"><option>Pending</option><option>In Progress</option><option>Completed</option><option>Waiting Response</option></select></div><div class="fgrp"><label class="flbl">Due Date</label><input class="finput" type="date"></div></div>
+    <div class="fgrid">
+      <div class="fgrp"><label class="flbl">Agency</label><select class="finput"><option>Internal</option>${agencyData.map(a=>`<option>${a.name}</option>`).join('')}</select></div>
+      <div class="fgrp"><label class="flbl">Priority</label><select class="finput"><option>High</option><option>Medium</option><option>Low</option></select></div>
+    </div>
+    <div class="fgrid">
+      <div class="fgrp"><label class="flbl">Column</label><select class="finput"><option>Pending</option><option>In Progress</option><option>Completed</option><option>Waiting Response</option></select></div>
+      <div class="fgrp"><label class="flbl">Due Date</label><input class="finput" type="date"></div>
+    </div>
     <div class="fgrp"><label class="flbl">Assign To</label><select class="finput"><option>Arjun Kapoor (Me)</option><option>Rahul K</option><option>Priya S</option><option>Dev S</option></select></div>
     <div class="fgrp"><label class="flbl">Notes</label><textarea class="finput" rows="2" placeholder="Any additional notes…"></textarea></div>
-  `},
-  contact:{title:'<i class="fas fa-user-plus"></i> Add New Contact',body:`
-    <div class="fgrid"><div class="fgrp"><label class="flbl">Full Name</label><input class="finput" placeholder="Contact person name"></div><div class="fgrp"><label class="flbl">Agency</label><select class="finput">${agencyData.map(a=>`<option>${a.name}</option>`).join('')}</select></div></div>
-    <div class="fgrid"><div class="fgrp"><label class="flbl">Phone</label><input class="finput" placeholder="+91 XXXXX XXXXX"></div><div class="fgrp"><label class="flbl">Email</label><input class="finput" placeholder="email@domain.com"></div></div>
+  `,
+  contact: `
+    <div class="fgrid">
+      <div class="fgrp"><label class="flbl">Full Name</label><input class="finput" placeholder="Contact person name"></div>
+      <div class="fgrp"><label class="flbl">Agency</label><select class="finput">${agencyData.map(a=>`<option>${a.name}</option>`).join('')}</select></div>
+    </div>
+    <div class="fgrid">
+      <div class="fgrp"><label class="flbl">Phone</label><input class="finput" placeholder="+91 XXXXX XXXXX"></div>
+      <div class="fgrp"><label class="flbl">Email</label><input class="finput" placeholder="email@domain.com"></div>
+    </div>
     <div class="fgrp"><label class="flbl">Role / Designation</label><input class="finput" placeholder="e.g. Marketing Manager"></div>
     <div class="fgrp"><label class="flbl">Notes</label><textarea class="finput" rows="2" placeholder="Any notes about this contact…"></textarea></div>
-  `},
-  edit:{title:'<i class="fas fa-pen"></i> Edit Agency',body:null},
+  `,
+  edit: `
+    <div class="fgrid">
+      <div class="fgrp"><label class="flbl">Agency Name</label><input class="finput" placeholder="Agency name"></div>
+      <div class="fgrp"><label class="flbl">Status</label><select class="finput"><option>Active</option><option>Pending</option><option>No Response</option><option>Follow-up Needed</option></select></div>
+    </div>
+    <div class="fgrp"><label class="flbl">Notes</label><textarea class="finput" rows="3" placeholder="Update notes…"></textarea></div>
+  `
 };
 
-function openModal(type='agency'){
-  const cfg=modalConfigs[type]||modalConfigs.agency;
-  document.getElementById('modalTitle').innerHTML=cfg.title;
-  if(cfg.body) document.getElementById('modalBody').innerHTML=cfg.body;
-  else document.getElementById('modalBody').innerHTML=modalConfigs.agency.body||document.getElementById('modalBody').innerHTML;
+const modalTitles = {
+  agency:'<i class="fas fa-building"></i> Add New Agency',
+  meeting:'<i class="fas fa-video"></i> Schedule Meeting',
+  task:'<i class="fas fa-check-square"></i> Add New Task',
+  contact:'<i class="fas fa-user-plus"></i> Add New Contact',
+  edit:'<i class="fas fa-pen"></i> Edit Agency'
+};
+
+function openModal(type = 'agency') {
+  document.getElementById('modalTitle').innerHTML = modalTitles[type] || modalTitles.agency;
+  document.getElementById('modalBody').innerHTML = modalBodies[type] || modalBodies.agency;
   document.getElementById('modalBg').classList.add('show');
 }
-function closeModal(){document.getElementById('modalBg').classList.remove('show')}
-function saveItem(){
+
+function closeModal() {
+  document.getElementById('modalBg').classList.remove('show');
+}
+
+function saveItem() {
   closeModal();
-  // Show a brief success toast
   showToast('✓ Saved successfully!');
 }
 
 // ─── TOAST ───
-function showToast(msg){
-  const t=document.createElement('div');
-  t.style.cssText='position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);color:#10b981;padding:9px 20px;border-radius:8px;font-size:12.5px;font-weight:600;z-index:500;backdrop-filter:blur(10px);animation:fpop .3s ease';
-  t.textContent=msg;
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);color:#10b981;padding:9px 20px;border-radius:8px;font-size:12.5px;font-weight:600;z-index:500;backdrop-filter:blur(10px)';
+  t.textContent = msg;
   document.body.appendChild(t);
-  setTimeout(()=>{t.style.opacity='0';t.style.transition='.3s';setTimeout(()=>t.remove(),300)},2500);
+  setTimeout(() => { t.style.opacity = '0'; t.style.transition = '.3s'; setTimeout(() => t.remove(), 300); }, 2500);
 }
 
 // ─── FLOAT NOTIF ───
-function closeFloat(){
-  const n=document.getElementById('floatNotif');
-  n.style.transform='translateY(20px)';n.style.opacity='0';
-  setTimeout(()=>{n.style.display='none'},300);
+function closeFloat() {
+  const n = document.getElementById('floatNotif');
+  if (!n) return;
+  n.style.transform = 'translateY(20px)';
+  n.style.opacity = '0';
+  n.style.transition = '.3s';
+  setTimeout(() => { n.style.display = 'none'; }, 300);
 }
 
 // ─── VOICE ───
-let voiceTimer=null,voiceSecs=0;
-function toggleVoice(){
-  const m=document.getElementById('voiceModal');
-  if(m.classList.contains('show')){
-    stopVoice();
-  } else {
-    m.classList.add('show');
-    voiceSecs=0;
-    voiceTimer=setInterval(()=>{
-      voiceSecs++;
-      const m=Math.floor(voiceSecs/60);
-      const s=voiceSecs%60;
-      document.getElementById('voiceTimer').textContent=`${m}:${String(s).padStart(2,'0')}`;
-    },1000);
-  }
+let voiceTimer = null, voiceSecs = 0;
+
+function toggleVoice() {
+  const m = document.getElementById('voiceModal');
+  if (m.classList.contains('show')) { stopVoice(); return; }
+  m.classList.add('show');
+  voiceSecs = 0;
+  voiceTimer = setInterval(() => {
+    voiceSecs++;
+    const min = Math.floor(voiceSecs / 60);
+    const sec = voiceSecs % 60;
+    const el = document.getElementById('voiceTimer');
+    if (el) el.textContent = `${min}:${String(sec).padStart(2,'0')}`;
+  }, 1000);
 }
-function stopVoice(){
+
+function stopVoice() {
   clearInterval(voiceTimer);
   document.getElementById('voiceModal').classList.remove('show');
-  showToast('🎤 Voice note saved — 0:'+ String(voiceSecs).padStart(2,'0'));
+  showToast('🎤 Voice note saved — 0:' + String(voiceSecs).padStart(2,'0'));
 }
 
 // ─── GLOBAL SEARCH ───
-function globalSearch(q){
-  if(!q) return;
-  const results=agencyData.filter(a=>
-    a.name.toLowerCase().includes(q.toLowerCase())||
-    a.contact.toLowerCase().includes(q.toLowerCase())
+function globalSearch(q) {
+  if (!q || q.length < 2) return;
+  const results = agencyData.filter(a =>
+    a.name.toLowerCase().includes(q.toLowerCase()) ||
+    a.contact.toLowerCase().includes(q.toLowerCase()) ||
+    a.feedback.toLowerCase().includes(q.toLowerCase())
   );
-  if(results.length>0){
-    showSec('agencies');
-    buildAgencies(results);
-  }
+  showSec('agencies');
+  buildAgencies(results);
 }
+
+// Keyboard shortcut: Escape closes modal
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
 </script>
 </body>
 </html>
