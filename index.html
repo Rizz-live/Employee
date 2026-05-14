@@ -21,46 +21,36 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-
-/* ── NOISE OVERLAY ── */
 body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
-
-/* ── PAGE TRANSITIONS ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
 
-/* ═══════════════════════ LOGIN ═══════════════════════ */
+/* LOGIN */
 #loginPage{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:
-    radial-gradient(ellipse 60% 40% at 65% 25%, rgba(37,211,102,0.07) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 50% at 15% 80%, rgba(18,140,126,0.05) 0%, transparent 60%),
-    var(--bg);
+  background:radial-gradient(ellipse 60% 40% at 65% 25%, rgba(37,211,102,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 15% 80%, rgba(18,140,126,0.05) 0%, transparent 60%),var(--bg);
   position:relative;z-index:1;
 }
-.login-wrap{display:flex;flex-direction:column;align-items:center;gap:0;animation:fadeUp .55s ease}
+.login-wrap{display:flex;flex-direction:column;align-items:center;animation:fadeUp .55s ease}
 .login-card{
   background:var(--surface);border:1px solid var(--border);border-radius:24px;
   padding:52px 44px;width:440px;max-width:95vw;
   box-shadow:var(--shadow-lg),0 0 0 1px rgba(37,211,102,0.04) inset;
   position:relative;overflow:hidden;
 }
-.login-card::before{
-  content:'';position:absolute;top:-80px;right:-80px;width:200px;height:200px;
-  background:radial-gradient(circle,rgba(37,211,102,0.06),transparent 70%);
-  pointer-events:none;
-}
+.login-card::before{content:'';position:absolute;top:-80px;right:-80px;width:200px;height:200px;background:radial-gradient(circle,rgba(37,211,102,0.06),transparent 70%);pointer-events:none;}
 .login-logo{display:flex;align-items:center;gap:12px;margin-bottom:38px}
 .logo-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .login-logo .brand{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;background:linear-gradient(135deg,var(--accent) 30%,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .login-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin-bottom:6px;letter-spacing:-.02em}
 .login-sub{color:var(--muted);font-size:14px;margin-bottom:34px}
-.sync-note{
-  background:rgba(37,211,102,0.06);border:1px solid rgba(37,211,102,0.15);
-  border-radius:10px;padding:10px 14px;font-size:12px;color:var(--accent);
+.local-note{
+  background:rgba(77,171,247,0.06);border:1px solid rgba(77,171,247,0.18);
+  border-radius:10px;padding:10px 14px;font-size:12px;color:var(--info);
   margin-bottom:24px;display:flex;align-items:center;gap:8px;
 }
 .field{margin-bottom:18px}
@@ -89,220 +79,114 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
 }
 .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:8px}
 
-/* ═══════════════════════ APP ═══════════════════════ */
+/* APP */
 #appPage{display:none;min-height:100vh;position:relative;z-index:1}
 
-/* TOPBAR */
 .topbar{
   background:rgba(13,17,23,0.92);border-bottom:1px solid var(--border);
   padding:0 28px;height:68px;display:flex;align-items:center;justify-content:space-between;
   position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);
-  box-shadow:0 1px 0 rgba(37,211,102,0.05);
 }
 .topbar-brand{display:flex;align-items:center;gap:10px}
 .topbar-brand .brand-text{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .topbar-brand .version-tag{background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.2);color:var(--accent);font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;font-family:'Syne',sans-serif;letter-spacing:.06em}
 .topbar-right{display:flex;align-items:center;gap:10px}
 
-/* CLOCK */
-.clock-box{
-  background:var(--card);border:1px solid var(--border);border-radius:12px;
-  padding:7px 14px;min-width:195px;
-}
+.clock-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:7px 14px;min-width:195px;}
 .clock-row{display:flex;align-items:center;gap:8px}
 .clock-time{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;color:var(--accent);letter-spacing:.04em;flex:1;text-align:center}
 .clock-btns{display:flex;flex-direction:column;gap:2px}
-.clock-toggle{
-  background:var(--border);border:none;color:var(--muted);font-size:10px;font-weight:700;
-  font-family:'Syne',sans-serif;border-radius:5px;padding:3px 7px;cursor:pointer;transition:all .2s;
-}
+.clock-toggle{background:var(--border);border:none;color:var(--muted);font-size:10px;font-weight:700;font-family:'Syne',sans-serif;border-radius:5px;padding:3px 7px;cursor:pointer;transition:all .2s;}
 .clock-toggle:hover{background:var(--accent);color:#fff}
 .clock-toggle.active{background:var(--accent);color:#fff}
 .clock-date{font-size:10px;color:var(--muted);margin-top:2px;text-align:center}
 .clock-tz{font-size:9px;color:rgba(37,211,102,.45);text-align:center;margin-top:1px}
+.tz-select{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;cursor:pointer;max-width:185px;}
 
-.tz-select{
-  background:var(--card);border:1px solid var(--border);color:var(--text);
-  border-radius:9px;padding:6px 10px;font-family:'DM Sans',sans-serif;
-  font-size:12px;outline:none;cursor:pointer;max-width:185px;
+.storage-badge{
+  display:flex;align-items:center;gap:6px;font-size:11px;color:var(--info);
+  background:rgba(77,171,247,0.06);border:1px solid rgba(77,171,247,0.15);border-radius:8px;padding:6px 12px;
 }
+.storage-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
 
-/* TOPBAR BTNS */
-.btn-icon{
-  background:var(--card);border:1px solid var(--border);color:var(--text2);
-  border-radius:9px;padding:8px 12px;font-size:12px;cursor:pointer;
-  transition:all .2s;display:flex;align-items:center;gap:6px;font-family:'DM Sans',sans-serif;
-  white-space:nowrap;
-}
+.btn-icon{background:var(--card);border:1px solid var(--border);color:var(--text2);border-radius:9px;padding:8px 12px;font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;font-family:'DM Sans',sans-serif;white-space:nowrap;}
 .btn-icon:hover{border-color:var(--accent);color:var(--accent)}
 .btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:9px;padding:8px 16px;font-size:13px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
 .btn-logout:hover{border-color:var(--danger);color:var(--danger)}
 
-/* SYNC STATUS */
-.sync-status{
-  display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);
-  background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 12px;
-}
-.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
-.sync-dot.syncing{animation:pulse .8s ease infinite}
-.sync-dot.error{background:var(--danger)}
-
-/* MAIN */
 .main{max-width:1160px;margin:0 auto;padding:28px 24px}
 
-/* MSG BAR */
-.msg-bar{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  padding:18px 20px;margin-bottom:22px;display:flex;gap:14px;align-items:flex-start;
-}
+.msg-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:22px;display:flex;gap:14px;align-items:flex-start;}
 .msg-icon-label{padding-top:10px;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--accent);flex-shrink:0}
 .msg-icon-label span{font-size:9px;color:var(--muted);font-weight:600;letter-spacing:.07em;text-transform:uppercase}
-.msg-bar textarea{
-  flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;
-  padding:12px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;
-  outline:none;resize:vertical;min-height:52px;transition:border-color .2s;line-height:1.5;
-}
+.msg-bar textarea{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;resize:vertical;min-height:52px;transition:border-color .2s;line-height:1.5;}
 .msg-bar textarea:focus{border-color:var(--accent)}
 .msg-bar textarea::placeholder{color:var(--muted)}
 
-/* ACTIONS */
 .actions-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}
 .actions-left{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.btn-green{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;
-  border-radius:9px;padding:10px 18px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
-  cursor:pointer;display:flex;align-items:center;gap:6px;transition:opacity .2s,transform .15s;white-space:nowrap;
-  box-shadow:0 2px 12px rgba(37,211,102,0.2);
-}
+.btn-green{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:9px;padding:10px 18px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:opacity .2s,transform .15s;white-space:nowrap;box-shadow:0 2px 12px rgba(37,211,102,0.2);}
 .btn-green:hover{opacity:.85;transform:translateY(-1px)}
-.btn-outline{
-  background:transparent;border:1px solid var(--border);color:var(--text2);
-  border-radius:9px;padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:13px;
-  cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;white-space:nowrap;
-}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:9px;padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;white-space:nowrap;}
 .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
-.filter-select,.search-input{
-  background:var(--card);border:1px solid var(--border);color:var(--text);
-  border-radius:9px;padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;
-}
-.search-input{width:185px;cursor:text}
+.filter-select,.search-input{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;}
+.search-input{width:185px}
 .search-input:focus{border-color:var(--accent)}
 .search-input::placeholder{color:var(--muted)}
-.count-badge{
-  background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.18);
-  color:var(--accent);border-radius:20px;padding:5px 16px;font-size:12px;font-weight:700;
-  font-family:'Syne',sans-serif;white-space:nowrap;
-}
+.count-badge{background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.18);color:var(--accent);border-radius:20px;padding:5px 16px;font-size:12px;font-weight:700;font-family:'Syne',sans-serif;white-space:nowrap;}
 
-/* TABLE */
 .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.table-head{
-  display:grid;grid-template-columns:2fr 1.8fr 1.4fr 1.3fr 130px;
-  padding:13px 20px;background:var(--card);border-bottom:1px solid var(--border);
-  font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;
-}
-.contact-row{
-  display:grid;grid-template-columns:2fr 1.8fr 1.4fr 1.3fr 130px;
-  padding:14px 20px;border-bottom:1px solid var(--border);align-items:center;
-  transition:background .15s;animation:slideIn .25s ease;
-}
+.table-head{display:grid;grid-template-columns:2fr 1.8fr 1.4fr 1.3fr 130px;padding:13px 20px;background:var(--card);border-bottom:1px solid var(--border);font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;}
+.contact-row{display:grid;grid-template-columns:2fr 1.8fr 1.4fr 1.3fr 130px;padding:14px 20px;border-bottom:1px solid var(--border);align-items:center;transition:background .15s;animation:slideIn .25s ease;}
 .contact-row:last-child{border-bottom:none}
 .contact-row:hover{background:var(--accent-glow2)}
 .contact-name{font-weight:500;font-size:14px;color:var(--text)}
 .contact-number{font-size:13px;color:var(--text2)}
-.platform-badge{
-  font-size:11px;background:var(--card2);border:1px solid var(--border2);
-  border-radius:6px;padding:3px 10px;display:inline-block;color:var(--text2);
-}
+.platform-badge{font-size:11px;background:var(--card2);border:1px solid var(--border2);border-radius:6px;padding:3px 10px;display:inline-block;color:var(--text2);}
 .country-text{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px}
 .row-actions{display:flex;gap:7px}
-.btn-wa{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;
-  border-radius:7px;padding:7px 11px;font-size:12px;font-weight:600;cursor:pointer;
-  display:flex;align-items:center;gap:5px;transition:opacity .2s,transform .1s;
-  font-family:'DM Sans',sans-serif;
-}
+.btn-wa{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:7px;padding:7px 11px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:opacity .2s,transform .1s;font-family:'DM Sans',sans-serif;}
 .btn-wa:hover{opacity:.82;transform:scale(1.04)}
-.btn-del{
-  background:transparent;border:1px solid rgba(255,77,109,.2);color:var(--danger);
-  border-radius:7px;padding:7px 10px;font-size:12px;cursor:pointer;transition:all .2s;
-}
+.btn-del{background:transparent;border:1px solid rgba(255,77,109,.2);color:var(--danger);border-radius:7px;padding:7px 10px;font-size:12px;cursor:pointer;transition:all .2s;}
 .btn-del:hover{background:var(--danger-bg);border-color:var(--danger)}
 .empty-state{text-align:center;padding:70px 20px;color:var(--muted)}
 .empty-state svg{opacity:.25}
 .empty-state p{font-size:15px;margin-top:16px;color:var(--muted)}
 .empty-state small{font-size:12px;color:var(--muted2);margin-top:6px;display:block}
 
-/* MODALS */
-.modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(10px);
-  display:flex;align-items:center;justify-content:center;z-index:999;
-  opacity:0;pointer-events:none;transition:opacity .25s;
-}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:999;opacity:0;pointer-events:none;transition:opacity .25s;}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal{
-  background:var(--surface);border:1px solid var(--border);border-radius:22px;
-  padding:36px 32px;width:500px;max-width:96vw;max-height:90vh;overflow-y:auto;
-  box-shadow:var(--shadow-lg),0 0 0 1px rgba(37,211,102,0.04) inset;
-  transform:scale(.93) translateY(16px);transition:transform .28s cubic-bezier(0.34,1.56,0.64,1);
-}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:36px 32px;width:500px;max-width:96vw;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg),0 0 0 1px rgba(37,211,102,0.04) inset;transform:scale(.93) translateY(16px);transition:transform .28s cubic-bezier(0.34,1.56,0.64,1);}
 .modal-overlay.open .modal{transform:scale(1) translateY(0)}
 .modal h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:10px}
 .modal .field{margin-bottom:16px}
 .country-row{display:flex;gap:10px}
 .cc-select{width:155px;flex-shrink:0;cursor:pointer}
-.modal-input,.cc-select{
-  background:var(--card);border:1px solid var(--border);border-radius:10px;
-  padding:13px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;
-}
+.modal-input,.cc-select{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;}
 .modal-input{width:100%;transition:border-color .2s,box-shadow .2s}
 .modal-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
 .modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:26px}
-.btn-cancel{
-  background:transparent;border:1px solid var(--border);color:var(--muted);
-  border-radius:9px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:14px;
-  cursor:pointer;transition:all .2s;
-}
+.btn-cancel{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:9px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;transition:all .2s;}
 .btn-cancel:hover{border-color:var(--danger);color:var(--danger)}
 .divider-line{height:1px;background:var(--border);margin:20px 0}
 .modal-section-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
 .pw-change-done{color:var(--accent);font-size:13px;display:none;align-items:center;gap:6px;margin-top:8px}
 
-/* TOAST */
-.toast{
-  position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--accent);
-  color:var(--accent);border-radius:11px;padding:13px 20px;font-size:13px;font-weight:500;
-  z-index:9999;transform:translateY(60px);opacity:0;transition:all .32s ease;max-width:300px;
-  box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;
-}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--accent);color:var(--accent);border-radius:11px;padding:13px 20px;font-size:13px;font-weight:500;z-index:9999;transform:translateY(60px);opacity:0;transition:all .32s ease;max-width:300px;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;}
 .toast.show{transform:translateY(0);opacity:1}
 .toast.error{border-color:var(--danger);color:var(--danger)}
+.toast.warn{border-color:var(--warn);color:var(--warn)}
 
-/* FILE INPUT */
 #fileInput{display:none}
-
-/* PASSWORD STRENGTH */
 .pw-strength{height:3px;background:var(--border);border-radius:2px;margin-top:6px;overflow:hidden}
 .pw-strength-bar{height:100%;border-radius:2px;transition:width .3s,background .3s;width:0}
 
-/* LOADING */
-.loading-overlay{
-  position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;z-index:9998;gap:16px;
-}
-.loading-spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
-.loading-text{font-size:14px;color:var(--muted);font-family:'Syne',sans-serif}
-
-/* RESPONSIVE */
 @media(max-width:760px){
   .table-head,.contact-row{grid-template-columns:1.8fr 1.6fr 1fr 110px}
   .table-head>div:nth-child(4),.contact-row>div:nth-child(4){display:none}
-  .topbar{padding:0 16px}
-  .main{padding:18px 14px}
-  .clock-box{display:none}
-  .tz-select{display:none}
-  .login-card{padding:36px 24px}
-  .topbar-brand .version-tag{display:none}
+  .topbar{padding:0 16px}.main{padding:18px 14px}
+  .clock-box{display:none}.tz-select{display:none}
+  .login-card{padding:36px 24px}.topbar-brand .version-tag{display:none}
 }
 @media(max-width:520px){
   .table-head,.contact-row{grid-template-columns:2fr 1.5fr 110px}
@@ -311,12 +195,6 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
 </style>
 </head>
 <body>
-
-<!-- LOADING -->
-<div class="loading-overlay" id="loadingOverlay">
-  <div class="loading-spinner"></div>
-  <div class="loading-text">Connecting…</div>
-</div>
 
 <!-- LOGIN -->
 <div id="loginPage" style="display:none">
@@ -330,9 +208,9 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
       </div>
       <div class="login-title">Welcome back</div>
       <div class="login-sub">Sign in to manage your contacts</div>
-      <div class="sync-note">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span>Contacts sync automatically across all your devices</span>
+      <div class="local-note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" stroke-linecap="round"/></svg>
+        <span>Data is saved locally on this device (browser storage)</span>
       </div>
       <div class="login-err" id="loginErr">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -356,9 +234,9 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
       <span class="version-tag">PRO</span>
     </div>
     <div class="topbar-right">
-      <div class="sync-status" id="syncStatus">
-        <div class="sync-dot" id="syncDot"></div>
-        <span id="syncText">Synced</span>
+      <div class="storage-badge">
+        <div class="storage-dot"></div>
+        <span>Saved Locally</span>
       </div>
       <select class="tz-select" id="tzSelect" onchange="onTzChange()"></select>
       <div class="clock-box">
@@ -398,6 +276,10 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
         <button class="btn-outline" onclick="document.getElementById('fileInput').click()">
           <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 8l-4-4-4 4M12 4v12" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Import CSV
+        </button>
+        <button class="btn-outline" onclick="exportContacts()">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M8 12l4 4 4-4M12 4v12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Export CSV
         </button>
         <input type="file" id="fileInput" accept=".csv,.txt" onchange="importFile(event)"/>
         <select class="filter-select" id="countryFilter" onchange="renderContacts()">
@@ -452,7 +334,6 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
       Settings
     </h3>
 
-    <!-- Account Info -->
     <div class="modal-section-label">Account</div>
     <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:20px">
       <div style="font-size:13px;color:var(--muted)">Logged in as</div>
@@ -461,7 +342,6 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
 
     <div class="divider-line"></div>
 
-    <!-- Change Password -->
     <div class="modal-section-label">Change Password</div>
     <div class="field"><label>Current Password</label><input type="password" id="pw_current" placeholder="••••••••" class="modal-input"/></div>
     <div class="field">
@@ -478,10 +358,9 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
 
     <div class="divider-line"></div>
 
-    <!-- Danger zone -->
     <div class="modal-section-label" style="color:var(--danger)">Danger Zone</div>
     <button onclick="clearAllContacts()" style="background:var(--danger-bg);border:1px solid rgba(255,77,109,.25);color:var(--danger);border-radius:9px;padding:10px 18px;font-size:13px;cursor:pointer;width:100%;font-family:'DM Sans',sans-serif;transition:all .2s" onmouseover="this.style.background='rgba(255,77,109,0.15)'" onmouseout="this.style.background='var(--danger-bg)'">
-      🗑️ Delete All Contacts (from all devices)
+      🗑️ Delete All Contacts
     </button>
 
     <div class="modal-footer">
@@ -493,16 +372,18 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════════════
-//  CLOUD STORAGE via Anthropic API persistent storage
-//  Contacts stored under shared key so all devices sync
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+//  STORAGE: localStorage — works in any browser
+//  Data persists across refreshes on this device
+// ═══════════════════════════════════════════════
 
-// Default credentials (stored in cloud, can be changed)
+const LS_CONTACTS  = 'wamp_contacts_v3';
+const LS_CREDS     = 'wamp_credentials_v3';
+const LS_SESSION   = 'wamp_session_v3';
+const LS_CLOCK_FMT = 'wamp_clock_fmt';
+const LS_TZ        = 'wamp_tz';
+
 const DEFAULT_CREDS = {num:'1234567890', pass:'Zzz@1234'};
-const STORAGE_KEY_CONTACTS = 'wa_contacts_v2';
-const STORAGE_KEY_CREDS = 'wa_credentials_v2';
-const STORAGE_KEY_SESSION = 'wa_session_v1';
 
 const COUNTRIES=[
   {name:'India',code:'IN',dial:'+91',flag:'🇮🇳',tz:'Asia/Kolkata'},
@@ -566,89 +447,50 @@ const COUNTRIES=[
   {name:'Maldives',code:'MV',dial:'+960',flag:'🇲🇻',tz:'Indian/Maldives'},
 ];
 
-// ─── STATE ───────────────────────────────────────────
+// ─── STATE ────────────────────────────────────────────
 let contacts = [];
 let credentials = {...DEFAULT_CREDS};
-let clockFmt = parseInt(localStorage.getItem('wa_clock_fmt')||'24');
-let selectedTz = localStorage.getItem('wa_tz')||COUNTRIES[0].tz;
+let clockFmt = parseInt(localStorage.getItem(LS_CLOCK_FMT)||'24');
+let selectedTz = localStorage.getItem(LS_TZ)||COUNTRIES[0].tz;
 let clockInterval = null;
-let syncInterval = null;
-let isSyncing = false;
 
-// ─── STORAGE HELPERS (window.storage = artifact persistent storage) ───
-async function cloudGet(key){
-  try{
-    const r = await window.storage.get(key, true); // shared=true for cross-device
-    return r ? JSON.parse(r.value) : null;
-  }catch(e){ return null; }
-}
-async function cloudSet(key, val){
-  try{
-    await window.storage.set(key, JSON.stringify(val), true);
-    return true;
-  }catch(e){ return false; }
-}
-
-// ─── SESSION (localStorage for quick reload) ─────────
-function saveSession(num){ localStorage.setItem(STORAGE_KEY_SESSION, num); }
-function loadSession(){ return localStorage.getItem(STORAGE_KEY_SESSION); }
-function clearSession(){ localStorage.removeItem(STORAGE_KEY_SESSION); }
-
-// ─── SYNC STATUS UI ───────────────────────────────────
-function setSyncStatus(state, text){
-  const dot = document.getElementById('syncDot');
-  const txt = document.getElementById('syncText');
-  if(!dot) return;
-  dot.className = 'sync-dot' + (state==='syncing'?' syncing':(state==='error'?' error':''));
-  txt.textContent = text;
-}
+// ─── localStorage HELPERS ─────────────────────────────
+function lsGet(key){ try{ const v=localStorage.getItem(key); return v?JSON.parse(v):null; }catch(e){ return null; } }
+function lsSet(key,val){ try{ localStorage.setItem(key,JSON.stringify(val)); return true; }catch(e){ console.error('localStorage write failed',e); return false; } }
 
 // ─── INIT ─────────────────────────────────────────────
-async function appInit(){
-  document.getElementById('loadingOverlay').style.display='flex';
+function appInit(){
+  // Load credentials
+  const savedCreds = lsGet(LS_CREDS);
+  if(savedCreds && savedCreds.num && savedCreds.pass) credentials = savedCreds;
 
-  // Load credentials from cloud (or use defaults)
-  const cloudCreds = await cloudGet(STORAGE_KEY_CREDS);
-  if(cloudCreds) credentials = cloudCreds;
-
-  // Check for saved session
-  const savedSession = loadSession();
-  if(savedSession && savedSession === credentials.num){
-    // Auto-login
-    document.getElementById('loadingOverlay').style.display='none';
-    await showApp();
+  // Auto-login if session valid
+  const session = localStorage.getItem(LS_SESSION);
+  if(session && session === credentials.num){
+    showApp();
   } else {
-    document.getElementById('loadingOverlay').style.display='none';
     document.getElementById('loginPage').style.display='flex';
+    document.getElementById('appPage').style.display='none';
   }
 }
 
 // ─── LOGIN ────────────────────────────────────────────
-async function doLogin(){
+function doLogin(){
   const n = document.getElementById('loginNum').value.trim();
   const p = document.getElementById('loginPass').value.trim();
-  const btn = document.getElementById('loginBtn');
-  const errEl = document.getElementById('loginErr');
 
-  if(!n||!p){
-    showLoginErr('Please enter phone number and password');
-    return;
-  }
+  if(!n||!p){ showLoginErr('Phone number aur password dono daalna zaroori hai'); return; }
 
-  // Re-fetch credentials in case changed from another device
-  const cloudCreds = await cloudGet(STORAGE_KEY_CREDS);
-  if(cloudCreds) credentials = cloudCreds;
+  // Reload creds (in case changed)
+  const saved = lsGet(LS_CREDS);
+  if(saved && saved.num && saved.pass) credentials = saved;
 
   if(n === credentials.num && p === credentials.pass){
-    errEl.style.display='none';
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>Loading…';
-    saveSession(n);
-    await showApp();
-    btn.disabled = false;
-    btn.innerHTML = 'Sign In →';
+    document.getElementById('loginErr').style.display='none';
+    localStorage.setItem(LS_SESSION, n);
+    showApp();
   } else {
-    showLoginErr('Incorrect number or password. Try again.');
+    showLoginErr('Number ya password galat hai. Dobara try karein.');
   }
 }
 
@@ -656,29 +498,20 @@ function showLoginErr(msg){
   const el = document.getElementById('loginErr');
   document.getElementById('loginErrText').textContent = msg;
   el.style.display='flex';
-  el.style.animation='none';
-  setTimeout(()=>el.style.animation='',10);
 }
 
-document.addEventListener('DOMContentLoaded',()=>{
-  const passInput = document.getElementById('loginPass');
-  if(passInput) passInput.addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
-});
-
-// ─── SHOW APP ────────────────────────────────────────
-async function showApp(){
+// ─── SHOW APP ─────────────────────────────────────────
+function showApp(){
   document.getElementById('loginPage').style.display='none';
   document.getElementById('appPage').style.display='block';
+  loadContacts();
   initClockUI();
-  await loadContacts();
-  startAutoSync();
 }
 
 // ─── LOGOUT ──────────────────────────────────────────
 function doLogout(){
-  clearSession();
+  localStorage.removeItem(LS_SESSION);
   clearInterval(clockInterval);
-  clearInterval(syncInterval);
   document.getElementById('loginPage').style.display='flex';
   document.getElementById('appPage').style.display='none';
   document.getElementById('loginNum').value='';
@@ -686,57 +519,31 @@ function doLogout(){
   document.getElementById('loginErr').style.display='none';
 }
 
-// ─── CONTACTS CLOUD SYNC ─────────────────────────────
-async function loadContacts(){
-  setSyncStatus('syncing','Syncing…');
-  isSyncing = true;
-  const data = await cloudGet(STORAGE_KEY_CONTACTS);
-  if(data && Array.isArray(data)){
-    contacts = data;
-  }
-  isSyncing = false;
-  setSyncStatus('ok','Synced');
+// ─── CONTACTS: LOAD / SAVE ────────────────────────────
+function loadContacts(){
+  const data = lsGet(LS_CONTACTS);
+  contacts = Array.isArray(data) ? data : [];
   populateCountryFilter();
   renderContacts();
 }
 
-async function saveContacts(){
-  setSyncStatus('syncing','Saving…');
-  const ok = await cloudSet(STORAGE_KEY_CONTACTS, contacts);
-  setSyncStatus(ok?'ok':'error', ok?'Synced':'Sync failed');
+function saveContacts(){
+  const ok = lsSet(LS_CONTACTS, contacts);
+  if(!ok) showToast('Save failed — localStorage unavailable!', true);
   populateCountryFilter();
   renderContacts();
+  return ok;
 }
 
-function startAutoSync(){
-  // Re-sync from cloud every 30 seconds (to pick up changes from other devices)
-  syncInterval = setInterval(async ()=>{
-    if(isSyncing) return;
-    isSyncing = true;
-    setSyncStatus('syncing','Syncing…');
-    const data = await cloudGet(STORAGE_KEY_CONTACTS);
-    if(data && Array.isArray(data)){
-      const oldLen = contacts.length;
-      contacts = data;
-      if(contacts.length !== oldLen){
-        populateCountryFilter();
-        renderContacts();
-      }
-    }
-    isSyncing = false;
-    setSyncStatus('ok','Synced');
-  }, 30000);
-}
-
-// ─── CONTACTS RENDER ─────────────────────────────────
+// ─── RENDER CONTACTS ─────────────────────────────────
 function renderContacts(){
   const fc = document.getElementById('countryFilter').value;
-  const q = document.getElementById('searchInput').value.toLowerCase();
+  const q  = document.getElementById('searchInput').value.toLowerCase();
   let list = contacts;
   if(fc) list = list.filter(c=>c.countryCode===fc);
-  if(q) list = list.filter(c=>
-    c.name.toLowerCase().includes(q) ||
-    c.number.includes(q) ||
+  if(q)  list = list.filter(c=>
+    c.name.toLowerCase().includes(q)||
+    c.number.includes(q)||
     (c.platform||'').toLowerCase().includes(q)
   );
   document.getElementById('countBadge').textContent = list.length+' Contact'+(list.length!==1?'s':'');
@@ -744,20 +551,21 @@ function renderContacts(){
   if(!list.length){
     el.innerHTML=`<div class="empty-state">
       <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <p>No contacts found</p>
-      <small>Add a contact or import CSV to get started</small>
+      <p>Koi contact nahi mila</p>
+      <small>Add Contact ya Import CSV karein</small>
     </div>`;
     return;
   }
   el.innerHTML = list.map(c=>{
     const country = COUNTRIES.find(x=>x.code===c.countryCode)||{flag:'🌍',name:'Unknown'};
-    const fullNum = (c.dialCode+c.number).replace(/\s/g,'').replace('+','');
+    const fullNum = (c.dialCode+c.number).replace(/[\s+]/g,'');
     const msg = encodeURIComponent(document.getElementById('msgTemplate').value||'');
     const waUrl = 'https://wa.me/'+fullNum+(msg?'?text='+msg:'');
-    const idx = contacts.indexOf(c);
+    // find real index in contacts array (not filtered)
+    const realIdx = contacts.indexOf(c);
     return `<div class="contact-row">
       <div class="contact-name">${esc(c.name)}</div>
-      <div class="contact-number">${c.dialCode} ${c.number}</div>
+      <div class="contact-number">${esc(c.dialCode)} ${esc(c.number)}</div>
       <div><span class="platform-badge">${esc(c.platform)||'—'}</span></div>
       <div class="country-text">${country.flag} ${country.name}</div>
       <div class="row-actions">
@@ -767,7 +575,7 @@ function renderContacts(){
             WA
           </button>
         </a>
-        <button class="btn-del" onclick="deleteContact(${idx})" title="Delete">✕</button>
+        <button class="btn-del" onclick="deleteContact(${realIdx})" title="Delete">✕</button>
       </div>
     </div>`;
   }).join('');
@@ -782,8 +590,7 @@ function populateCountryFilter(){
   const used = new Set(contacts.map(c=>c.countryCode));
   COUNTRIES.filter(c=>used.has(c.code)).forEach(c=>{
     const opt = document.createElement('option');
-    opt.value = c.code;
-    opt.textContent = c.flag+' '+c.name;
+    opt.value = c.code; opt.textContent = c.flag+' '+c.name;
     sel.appendChild(opt);
   });
   if(cur) sel.value = cur;
@@ -793,6 +600,7 @@ function populateCountryFilter(){
 function openAddModal(){
   document.getElementById('addModal').classList.add('open');
   populateCCSelect();
+  setTimeout(()=>document.getElementById('f_name').focus(), 300);
 }
 function closeAddModal(){
   document.getElementById('addModal').classList.remove('open');
@@ -801,7 +609,7 @@ function closeAddModal(){
 
 function populateCCSelect(){
   const sel = document.getElementById('f_cc');
-  sel.innerHTML = '';
+  sel.innerHTML='';
   COUNTRIES.forEach((c,i)=>{
     const opt = document.createElement('option');
     opt.value = i;
@@ -810,47 +618,46 @@ function populateCCSelect(){
   });
 }
 
-async function saveContact(){
-  const name = document.getElementById('f_name').value.trim();
-  const num = document.getElementById('f_num').value.trim().replace(/\D/g,'');
+function saveContact(){
+  const name     = document.getElementById('f_name').value.trim();
+  const num      = document.getElementById('f_num').value.trim().replace(/\D/g,'');
   const platform = document.getElementById('f_platform').value.trim();
-  const ci = parseInt(document.getElementById('f_cc').value);
-  const c = COUNTRIES[ci];
-  if(!name||!num){ showToast('Name and number required!',true); return; }
+  const ci       = parseInt(document.getElementById('f_cc').value);
+  const c        = COUNTRIES[ci];
+  if(!name || !num){ showToast('Name aur number zaroori hai!', true); return; }
   contacts.push({name, number:num, dialCode:c.dial, countryCode:c.code, platform});
-  closeAddModal();
-  showToast('Contact saved!');
-  await saveContacts();
+  const ok = saveContacts();
+  if(ok){
+    closeAddModal();
+    showToast('✅ Contact save ho gaya!');
+  }
 }
 
-async function deleteContact(idx){
-  if(!confirm('Delete this contact?')) return;
-  contacts.splice(idx,1);
-  showToast('Contact deleted');
-  await saveContacts();
+function deleteContact(idx){
+  if(!confirm('Is contact ko delete karein?')) return;
+  contacts.splice(idx, 1);
+  saveContacts();
+  showToast('Contact delete ho gaya');
 }
 
-async function clearAllContacts(){
-  if(!confirm('Delete ALL contacts? This affects all devices and cannot be undone.')) return;
+function clearAllContacts(){
+  if(!confirm('Saare contacts delete karein? Yeh wapas nahi aayenge.')) return;
   contacts = [];
-  await saveContacts();
-  showToast('All contacts cleared');
+  saveContacts();
+  showToast('Saare contacts delete ho gaye');
   closeSettings();
 }
 
-// ─── CSV IMPORT ──────────────────────────────────────
+// ─── CSV IMPORT ───────────────────────────────────────
 function importFile(e){
-  const file = e.target.files[0];
-  if(!file) return;
+  const file = e.target.files[0]; if(!file) return;
   const reader = new FileReader();
-  reader.onload = async ev => {
-    parseCSV(ev.target.result);
-  };
+  reader.onload = ev => parseCSV(ev.target.result);
   reader.readAsText(file);
   e.target.value='';
 }
 
-async function parseCSV(text){
+function parseCSV(text){
   const lines = text.trim().split('\n');
   let added = 0;
   lines.forEach((line,i)=>{
@@ -865,11 +672,27 @@ async function parseCSV(text){
     });
     if(name){ contacts.push({name,number,dialCode:dial,countryCode:cc,platform}); added++; }
   });
-  await saveContacts();
-  showToast('Imported '+added+' contacts!');
+  saveContacts();
+  showToast('Import ho gaye: '+added+' contacts!');
 }
 
-// ─── SETTINGS ────────────────────────────────────────
+// ─── CSV EXPORT ───────────────────────────────────────
+function exportContacts(){
+  if(!contacts.length){ showToast('Export ke liye koi contact nahi hai', true); return; }
+  const rows = ['Name,Number,Platform,Country'];
+  contacts.forEach(c=>{
+    const country = COUNTRIES.find(x=>x.code===c.countryCode)||{name:'Unknown'};
+    rows.push(`"${c.name}","${c.dialCode}${c.number}","${c.platform||''}","${country.name}"`);
+  });
+  const blob = new Blob([rows.join('\n')], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'wa_contacts_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+  showToast('CSV export ho gaya!');
+}
+
+// ─── SETTINGS ─────────────────────────────────────────
 function openSettings(){
   document.getElementById('settingsUserNum').textContent = credentials.num;
   ['pw_current','pw_new','pw_confirm'].forEach(id=>document.getElementById(id).value='');
@@ -877,9 +700,7 @@ function openSettings(){
   document.getElementById('pwBar').style.width='0';
   document.getElementById('settingsModal').classList.add('open');
 }
-function closeSettings(){
-  document.getElementById('settingsModal').classList.remove('open');
-}
+function closeSettings(){ document.getElementById('settingsModal').classList.remove('open'); }
 
 function checkPwStrength(){
   const pw = document.getElementById('pw_new').value;
@@ -890,30 +711,25 @@ function checkPwStrength(){
   if(/[A-Z]/.test(pw)) score++;
   if(/[0-9]/.test(pw)) score++;
   if(/[^A-Za-z0-9]/.test(pw)) score++;
-  const pct = (score/5)*100;
-  bar.style.width = pct+'%';
-  bar.style.background = score<=1?'var(--danger)':score<=3?'var(--warn)':'var(--accent)';
+  bar.style.width=(score/5*100)+'%';
+  bar.style.background=score<=1?'var(--danger)':score<=3?'var(--warn)':'var(--accent)';
 }
 
-async function changePassword(){
-  const cur = document.getElementById('pw_current').value;
-  const nw = document.getElementById('pw_new').value;
+function changePassword(){
+  const cur  = document.getElementById('pw_current').value;
+  const nw   = document.getElementById('pw_new').value;
   const conf = document.getElementById('pw_confirm').value;
-  if(cur !== credentials.pass){ showToast('Current password is incorrect',true); return; }
-  if(nw.length<6){ showToast('New password must be at least 6 characters',true); return; }
-  if(nw !== conf){ showToast('New passwords do not match',true); return; }
+  if(cur !== credentials.pass){ showToast('Purana password galat hai', true); return; }
+  if(nw.length<6){ showToast('Naya password kam se kam 6 characters ka hona chahiye', true); return; }
+  if(nw !== conf){ showToast('Dono passwords match nahi kar rahe', true); return; }
   credentials.pass = nw;
-  const ok = await cloudSet(STORAGE_KEY_CREDS, credentials);
-  if(ok){
-    document.getElementById('pwDone').style.display='flex';
-    ['pw_current','pw_new','pw_confirm'].forEach(id=>document.getElementById(id).value='');
-    showToast('Password updated successfully!');
-  } else {
-    showToast('Failed to save, try again',true);
-  }
+  lsSet(LS_CREDS, credentials);
+  document.getElementById('pwDone').style.display='flex';
+  ['pw_current','pw_new','pw_confirm'].forEach(id=>document.getElementById(id).value='');
+  showToast('Password change ho gaya!');
 }
 
-// ─── CLOCK ───────────────────────────────────────────
+// ─── CLOCK ────────────────────────────────────────────
 function initClockUI(){
   populateTzSelect();
   setFmt(clockFmt);
@@ -923,56 +739,60 @@ function initClockUI(){
 
 function updateClock(){
   const now = new Date();
-  const opts12={timeZone:selectedTz,hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true};
-  const opts24={timeZone:selectedTz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false};
-  const dateOpts={timeZone:selectedTz,weekday:'short',year:'numeric',month:'short',day:'numeric'};
-  document.getElementById('clockTime').textContent = now.toLocaleTimeString('en-US',clockFmt===12?opts12:opts24);
-  document.getElementById('clockDate').textContent = now.toLocaleDateString('en-US',dateOpts);
-  document.getElementById('clockTz').textContent = '📍 '+selectedTz.split('/').pop().replace(/_/g,' ');
+  const o12={timeZone:selectedTz,hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true};
+  const o24={timeZone:selectedTz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false};
+  const od ={timeZone:selectedTz,weekday:'short',year:'numeric',month:'short',day:'numeric'};
+  document.getElementById('clockTime').textContent = now.toLocaleTimeString('en-US',clockFmt===12?o12:o24);
+  document.getElementById('clockDate').textContent = now.toLocaleDateString('en-US',od);
+  document.getElementById('clockTz').textContent   = '📍 '+selectedTz.split('/').pop().replace(/_/g,' ');
 }
 
 function setFmt(f){
-  clockFmt = f;
-  localStorage.setItem('wa_clock_fmt',f);
+  clockFmt=f; localStorage.setItem(LS_CLOCK_FMT,f);
   document.getElementById('btn12').classList.toggle('active',f===12);
   document.getElementById('btn24').classList.toggle('active',f===24);
   updateClock();
 }
 
 function onTzChange(){
-  selectedTz = document.getElementById('tzSelect').value;
-  localStorage.setItem('wa_tz',selectedTz);
+  selectedTz=document.getElementById('tzSelect').value;
+  localStorage.setItem(LS_TZ,selectedTz);
   updateClock();
 }
 
 function populateTzSelect(){
-  const sel = document.getElementById('tzSelect');
-  sel.innerHTML = '';
+  const sel=document.getElementById('tzSelect');
+  sel.innerHTML='';
   COUNTRIES.forEach(c=>{
-    const opt = document.createElement('option');
-    opt.value = c.tz;
-    opt.textContent = c.flag+' '+c.name;
-    if(c.tz===selectedTz) opt.selected = true;
+    const opt=document.createElement('option');
+    opt.value=c.tz; opt.textContent=c.flag+' '+c.name;
+    if(c.tz===selectedTz) opt.selected=true;
     sel.appendChild(opt);
   });
 }
 
-// ─── TOAST ───────────────────────────────────────────
-function showToast(msg, err){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast'+(err?' error':'');
+// ─── TOAST ────────────────────────────────────────────
+function showToast(msg, err, warn){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast'+(err?' error':warn?' warn':'');
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 3000);
+  setTimeout(()=>t.classList.remove('show'),3000);
 }
 
-// ─── CLOSE MODALS ON OUTSIDE CLICK ───────────────────
-document.addEventListener('click', e=>{
+// ─── MODAL CLOSE ON BACKDROP ─────────────────────────
+document.addEventListener('click',e=>{
   if(e.target.id==='addModal') closeAddModal();
   if(e.target.id==='settingsModal') closeSettings();
 });
 
-// ─── START ───────────────────────────────────────────
+// ─── ENTER TO LOGIN ───────────────────────────────────
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('loginPass').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+  document.getElementById('loginNum').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+});
+
+// ─── START ────────────────────────────────────────────
 appInit();
 </script>
 </body>
