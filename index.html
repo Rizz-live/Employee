@@ -3,1429 +3,506 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StreamFlow — Agency Manager</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<title>WA Contact Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#060b17;--bg2:#0a1020;--bg3:rgba(255,255,255,0.035);--bg4:rgba(255,255,255,0.065);
-  --glass:rgba(8,16,32,0.92);--border:rgba(255,255,255,0.07);--border2:rgba(80,160,255,0.2);
-  --blue:#3b91ff;--cyan:#00d4ff;--purple:#8b5cf6;--emerald:#10b981;--rose:#f43f5e;--amber:#f59e0b;--pink:#ec4899;
-  --text:#dce8ff;--text2:#6b7fa0;--text3:#2e3d5a;
-  --sidebar:240px;--topbar:58px;--r:12px;--r2:8px;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:14px}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow:hidden}
-body::before{content:'';position:fixed;inset:0;background:
-  radial-gradient(ellipse 900px 700px at 15% 5%,rgba(30,80,200,0.10) 0%,transparent 65%),
-  radial-gradient(ellipse 700px 600px at 85% 85%,rgba(120,60,220,0.09) 0%,transparent 65%);
-  pointer-events:none;z-index:0}
-::-webkit-scrollbar{width:3px;height:3px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(59,145,255,0.25);border-radius:2px}
-.app{display:flex;height:100vh;overflow:hidden;position:relative;z-index:1}
-
-/* SIDEBAR */
-.sidebar{width:var(--sidebar);min-width:var(--sidebar);height:100vh;background:var(--glass);border-right:1px solid var(--border);display:flex;flex-direction:column;backdrop-filter:blur(24px);position:relative;z-index:50}
-.s-logo{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--border)}
-.s-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;box-shadow:0 0 18px rgba(59,145,255,0.3)}
-.s-logo-txt{font-family:'Syne',sans-serif;font-weight:800;font-size:15px}
-.s-logo-txt span{color:var(--cyan)}
-.s-user{display:flex;align-items:center;gap:9px;padding:11px 14px;margin:10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2)}
-.s-avatar{width:30px;height:30px;background:linear-gradient(135deg,var(--purple),var(--pink));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
-.s-name{font-size:11.5px;font-weight:600}
-.s-role{font-size:10px;color:var(--text2)}
-.s-online{width:7px;height:7px;background:var(--emerald);border-radius:50%;margin-left:auto;box-shadow:0 0 7px var(--emerald);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-.s-nav{flex:1;overflow-y:auto;padding:6px 0}
-.s-sec{font-size:9.5px;font-weight:600;letter-spacing:.1em;color:var(--text3);text-transform:uppercase;padding:10px 18px 3px}
-.nav-item{display:flex;align-items:center;gap:9px;padding:8px 14px;margin:1px 8px;border-radius:var(--r2);cursor:pointer;transition:.15s;color:var(--text2);font-size:12.5px;font-weight:500;position:relative;user-select:none}
-.nav-item:hover{background:var(--bg4);color:var(--text)}
-.nav-item.active{background:rgba(59,145,255,0.11);color:var(--blue);border:1px solid rgba(59,145,255,0.18)}
-.nav-item.active::before{content:'';position:absolute;left:-1px;top:50%;transform:translateY(-50%);width:3px;height:55%;background:var(--blue);border-radius:0 2px 2px 0}
-.nav-item i{width:15px;font-size:12px;text-align:center}
-.nbadge{margin-left:auto;border-radius:20px;font-size:9px;font-weight:700;padding:2px 6px;min-width:17px;text-align:center}
-.nbadge.red{background:rgba(244,63,94,.18);color:var(--rose)}
-.nbadge.blue{background:rgba(59,145,255,.18);color:var(--blue)}
-.nbadge.amber{background:rgba(245,158,11,.18);color:var(--amber)}
-
-/* MAIN */
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
-.topbar{height:var(--topbar);display:flex;align-items:center;gap:10px;padding:0 18px;background:rgba(6,11,23,.85);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);flex-shrink:0;z-index:30}
-.tb-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px}
-.tb-sub{font-family:'DM Sans';font-weight:400;font-size:12.5px;color:var(--text2);margin-left:7px}
-.tb-search{display:flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:6px 12px;width:260px;transition:.2s;margin-left:auto}
-.tb-search:focus-within{border-color:var(--blue)}
-.tb-search input{background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12.5px;width:100%}
-.tb-search input::placeholder{color:var(--text3)}
-.tb-actions{display:flex;align-items:center;gap:7px}
-.tb-btn{width:32px;height:32px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;color:var(--text2);font-size:12px}
-.tb-btn:hover{background:var(--bg4);color:var(--text)}
-.add-btn{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:var(--r2);padding:7px 15px;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap;box-shadow:0 2px 12px rgba(59,145,255,.25)}
-.add-btn:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(59,145,255,.4)}
-
-/* CONTENT */
-.content{flex:1;overflow-y:auto;padding:18px}
-
-/* TABS */
-.tabs{display:flex;gap:3px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:3px;margin-bottom:18px;width:fit-content;flex-wrap:wrap}
-.tab{padding:6px 15px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);transition:.15s;white-space:nowrap}
-.tab.active{background:rgba(59,145,255,.14);color:var(--blue)}
-
-/* SECTION */
-.section{display:none}
-.section.active{display:block}
-
-/* CARD */
-.card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-.card-hd{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid var(--border)}
-.card-title{font-family:'Syne',sans-serif;font-size:12.5px;font-weight:700}
-.card-body{padding:13px 15px}
-
-/* STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
-.stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer;transition:.2s}
-.stat:hover{background:var(--bg4);transform:translateY(-2px)}
-.stat-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:12px}
-.stat-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;line-height:1;margin-bottom:4px;letter-spacing:-1px}
-.stat-lbl{font-size:10.5px;color:var(--text2);font-weight:500}
-
-/* TABLE */
-.t-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:13px;flex-wrap:wrap}
-.t-search{display:flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:6px 11px;flex:1;min-width:180px;transition:.2s}
-.t-search:focus-within{border-color:var(--blue)}
-.t-search input{background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;width:100%}
-.t-btn{display:flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:6px 11px;color:var(--text2);font-size:11.5px;cursor:pointer;transition:.15s;white-space:nowrap}
-.t-btn:hover{background:var(--bg4);color:var(--text)}
-.status-pills{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-.spill{padding:4px 12px;border-radius:20px;font-size:10.5px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);transition:.15s;user-select:none}
-.spill:hover{background:var(--bg4)}
-.spill.sel{color:var(--blue);border-color:rgba(59,145,255,.3);background:rgba(59,145,255,.1)}
-.dtable{width:100%;border-collapse:collapse}
-.dtable th{text-align:left;padding:9px 13px;font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer}
-.dtable th:hover{color:var(--text2)}
-.dtable td{padding:11px 13px;font-size:12px;border-bottom:1px solid var(--border);vertical-align:middle}
-.dtable tr:last-child td{border-bottom:none}
-.dtable tbody tr{transition:background .12s}
-.dtable tbody tr:hover{background:var(--bg4)}
-.ag-name{font-weight:600;font-size:12.5px}
-.ag-sub{font-size:10px;color:var(--text2);margin-top:1px}
-.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;font-size:9.5px;font-weight:600;white-space:nowrap}
-.badge::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
-.b-active{background:rgba(16,185,129,.12);color:#10b981}
-.b-pending{background:rgba(245,158,11,.12);color:#f59e0b}
-.b-noresponse{background:rgba(244,63,94,.12);color:#f43f5e}
-.b-approved{background:rgba(59,145,255,.12);color:#3b91ff}
-.b-review{background:rgba(139,92,246,.12);color:#8b5cf6}
-.b-followup{background:rgba(0,212,255,.12);color:#00d4ff}
-.pdot-row{display:inline-flex;align-items:center;gap:4px;font-size:11px}
-.pdot{width:7px;height:7px;border-radius:50%}
-.ph{background:var(--rose)}
-.pm{background:var(--amber)}
-.pl{background:var(--emerald)}
-.act-btns{display:flex;gap:4px}
-.act-btn{width:28px;height:28px;border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.13s;font-size:10px;background:var(--bg3);border:1px solid var(--border);color:var(--text2)}
-.act-btn:hover{background:rgba(59,145,255,.13);color:var(--blue);border-color:rgba(59,145,255,.28)}
-.act-btn.del:hover{background:rgba(244,63,94,.13);color:var(--rose);border-color:rgba(244,63,94,.28)}
-.act-btn.wa:hover{background:rgba(37,211,102,.12);color:#25d366;border-color:rgba(37,211,102,.25)}
-.act-btn.call-btn:hover{background:rgba(16,185,129,.12);color:var(--emerald);border-color:rgba(16,185,129,.25)}
-
-/* EMPTY STATE */
-.empty-state{text-align:center;padding:60px 20px;color:var(--text3)}
-.empty-state i{font-size:42px;margin-bottom:14px;display:block;opacity:.4}
-.empty-state h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text2);margin-bottom:6px}
-.empty-state p{font-size:12px;margin-bottom:18px;line-height:1.6}
-
-/* MEETINGS */
-.mtg-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:13px;display:flex;gap:11px;align-items:flex-start;transition:.18s;cursor:pointer;position:relative;overflow:hidden;margin-bottom:9px}
-.mtg-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--mc,var(--blue))}
-.mtg-card:hover{background:var(--bg4)}
-.mtg-time-blk{background:rgba(59,145,255,.08);border:1px solid rgba(59,145,255,.15);border-radius:8px;padding:7px 9px;text-align:center;flex-shrink:0;min-width:52px}
-.mtg-t{font-family:'Syne',sans-serif;font-size:12.5px;font-weight:700;color:var(--blue)}
-.mtg-ap{font-size:9px;color:var(--text2)}
-.mtg-info{flex:1;min-width:0}
-.mtg-agency{font-size:12.5px;font-weight:600;margin-bottom:3px}
-.mtg-type{font-size:11px;color:var(--text2);margin-bottom:4px}
-.mtg-join-btn{padding:6px 13px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:5px;color:#fff;font-size:11px;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap;flex-shrink:0}
-.mtg-join-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(59,145,255,.35)}
-.mtg-del-btn{padding:5px 9px;background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.2);border-radius:5px;color:var(--rose);font-size:10px;cursor:pointer;transition:.15s;white-space:nowrap;flex-shrink:0;margin-top:4px}
-.mtg-del-btn:hover{background:rgba(244,63,94,.2)}
-.mtg-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
-.mtg-stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:14px;text-align:center}
-.mtg-stat-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:2px}
-.mtg-stat-lbl{font-size:10px;color:var(--text2)}
-
-/* KANBAN */
-.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.kb-col{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-.kb-hd{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-bottom:1px solid var(--border)}
-.kb-lbl{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600}
-.kb-dot{width:7px;height:7px;border-radius:50%}
-.kb-cnt{background:var(--bg3);border:1px solid var(--border);border-radius:20px;font-size:10px;color:var(--text2);padding:1px 7px}
-.kb-body{padding:9px;display:flex;flex-direction:column;gap:7px;min-height:200px;max-height:500px;overflow-y:auto}
-.task-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:11px;cursor:pointer;transition:.18s;position:relative}
-.task-card:hover{background:var(--bg4);border-color:var(--border2);transform:translateY(-2px)}
-.task-pbar{position:absolute;top:0;left:0;right:0;height:2px;border-radius:8px 8px 0 0}
-.task-title{font-size:12px;font-weight:600;margin-bottom:4px;line-height:1.4}
-.task-ag{font-size:10px;color:var(--text2);margin-bottom:6px}
-.task-ft{display:flex;align-items:center;justify-content:space-between;gap:6px}
-.task-due{font-size:10px;color:var(--text3)}
-.task-del{font-size:10px;color:var(--text3);cursor:pointer;padding:2px 4px;border-radius:3px;transition:.1s}
-.task-del:hover{color:var(--rose)}
-.kb-add{padding:8px;text-align:center;color:var(--text3);font-size:11px;cursor:pointer;border:1px dashed rgba(255,255,255,.08);border-radius:6px;transition:.13s}
-.kb-add:hover{color:var(--blue);border-color:rgba(59,145,255,.3);background:rgba(59,145,255,.04)}
-
-/* FOLLOW-UPS */
-.fu-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:13px}
-.fu-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:11px 13px;display:flex;align-items:center;gap:11px;transition:.16s;cursor:pointer;margin-bottom:7px;position:relative;overflow:hidden}
-.fu-item:hover{background:var(--bg4)}
-.fu-item.urg{border-left:3px solid var(--rose)}
-.fu-item.warn{border-left:3px solid var(--amber)}
-.fu-item.norm{border-left:3px solid var(--blue)}
-.fu-ico{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.fu-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
-.fu-time{font-size:10px;color:var(--text3);white-space:nowrap}
-.fu-rem{padding:3px 9px;background:rgba(59,145,255,.1);border:1px solid rgba(59,145,255,.18);border-radius:5px;color:var(--blue);font-size:10px;cursor:pointer;transition:.13s}
-.fu-rem:hover{background:rgba(59,145,255,.2)}
-.fu-wa{padding:3px 9px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.2);border-radius:5px;color:#25d366;font-size:10px;cursor:pointer;transition:.13s}
-.fu-wa:hover{background:rgba(37,211,102,.2)}
-.fu-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:13px}
-.fu-sum-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:11px;text-align:center}
-.fu-sum-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:2px}
-.fu-sum-lbl{font-size:10px;color:var(--text2)}
-
-/* REPORT */
-.rpt-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:22px}
-.rpt-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
-.rpt-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800}
-.rpt-date{font-size:11px;color:var(--text2);margin-bottom:3px}
-.rpt-btns{display:flex;gap:8px;flex-wrap:wrap}
-.copy-btn{display:flex;align-items:center;gap:7px;background:rgba(59,145,255,.1);border:1px solid rgba(59,145,255,.28);border-radius:var(--r2);padding:7px 15px;color:var(--blue);font-size:12px;font-weight:600;cursor:pointer;transition:.18s}
-.copy-btn:hover{background:rgba(59,145,255,.18)}
-.share-btn{display:flex;align-items:center;gap:7px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.28);border-radius:var(--r2);padding:7px 15px;color:#25d366;font-size:12px;font-weight:600;cursor:pointer;transition:.18s}
-.share-btn:hover{background:rgba(37,211,102,.18)}
-.rpt-preview{background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:var(--r2);padding:16px;font-family:'Courier New',monospace;font-size:12px;line-height:1.9;color:var(--text2);white-space:pre-wrap;max-height:300px;overflow-y:auto}
-
-/* CONTACTS */
-.contacts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.contact-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:18px;text-align:center;transition:.2s;cursor:pointer;position:relative;overflow:hidden}
-.contact-card:hover{background:var(--bg4);border-color:var(--border2);transform:translateY(-3px)}
-.cc-avatar{width:52px;height:52px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;border:2px solid}
-.cc-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:2px}
-.cc-role{font-size:11px;color:var(--text2);margin-bottom:3px}
-.cc-agency{font-size:10px;color:var(--text3);margin-bottom:10px}
-.cc-btns{display:flex;gap:5px;justify-content:center;flex-wrap:wrap}
-.cc-btn{padding:5px 12px;border-radius:6px;font-size:11px;cursor:pointer;transition:.13s;border:1px solid var(--border);background:var(--bg3);color:var(--text2);display:flex;align-items:center;gap:4px}
-.cc-btn:hover{background:var(--bg4);color:var(--text)}
-.cc-btn.wa{background:rgba(37,211,102,.1);border-color:rgba(37,211,102,.2);color:#25d366}
-.cc-btn.call{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.2);color:var(--emerald)}
-.cc-btn.del{background:rgba(244,63,94,.1);border-color:rgba(244,63,94,.2);color:var(--rose)}
-
-/* SETTINGS */
-.settings-layout{display:grid;grid-template-columns:200px 1fr;gap:14px}
-.settings-nav{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:10px}
-.sn-item{padding:9px 12px;border-radius:var(--r2);cursor:pointer;font-size:12.5px;color:var(--text2);transition:.13s;display:flex;align-items:center;gap:8px;font-weight:500}
-.sn-item:hover{background:var(--bg4);color:var(--text)}
-.sn-item.active{background:rgba(59,145,255,.1);color:var(--blue)}
-.settings-content{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:22px}
-.settings-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:16px}
-.setting-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)}
-.setting-row:last-child{border-bottom:none}
-.setting-lbl{font-size:12.5px;font-weight:600;margin-bottom:2px}
-.setting-desc{font-size:10.5px;color:var(--text2)}
-.toggle{width:38px;height:20px;background:var(--bg4);border-radius:10px;position:relative;cursor:pointer;transition:.2s;flex-shrink:0;border:1px solid var(--border)}
-.toggle.on{background:rgba(59,145,255,.25);border-color:rgba(59,145,255,.4)}
-.toggle::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:var(--text3);top:2px;left:2px;transition:.2s}
-.toggle.on::after{background:var(--blue);left:20px}
-
-/* MODAL */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:300;display:none;align-items:center;justify-content:center}
-.modal-bg.show{display:flex}
-.modal{background:#08121e;border:1px solid var(--border2);border-radius:var(--r);width:520px;max-width:95vw;max-height:90vh;overflow:hidden;box-shadow:0 28px 80px rgba(0,0,0,.85);animation:min .32s cubic-bezier(.34,1.56,.64,1)}
-@keyframes min{from{opacity:0;transform:scale(.87)}to{opacity:1;transform:scale(1)}}
-.modal-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);background:rgba(59,145,255,.04)}
-.modal-ttl{font-family:'Syne',sans-serif;font-size:14.5px;font-weight:700;display:flex;align-items:center;gap:8px}
-.modal-ttl i{color:var(--blue)}
-.modal-x{width:27px;height:27px;border-radius:5px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:11px;transition:.13s}
-.modal-x:hover{color:var(--text)}
-.modal-body{padding:18px;overflow-y:auto;max-height:62vh}
-.fgrp{margin-bottom:13px}
-.flbl{font-size:10.5px;font-weight:600;color:var(--text2);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.05em}
-.finput{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--r2);padding:9px 11px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12.5px;outline:none;transition:.16s}
-.finput:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(59,145,255,.1)}
-.finput::placeholder{color:var(--text3)}
-select.finput option{background:#08121e;color:var(--text)}
-.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.modal-ft{padding:13px 18px;border-top:1px solid var(--border);display:flex;gap:7px;justify-content:flex-end}
-.btn-cancel{padding:8px 18px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:.15s}
-.btn-cancel:hover{background:var(--bg4);color:var(--text)}
-.btn-save{padding:8px 18px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:var(--r2);color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
-.btn-save:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(59,145,255,.35)}
-
-/* CONFIRM DIALOG */
-.confirm-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);z-index:400;display:none;align-items:center;justify-content:center}
-.confirm-bg.show{display:flex}
-.confirm-box{background:#08121e;border:1px solid rgba(244,63,94,.3);border-radius:var(--r);padding:24px;width:360px;max-width:95vw;text-align:center;animation:min .25s ease}
-.confirm-icon{font-size:32px;color:var(--rose);margin-bottom:12px}
-.confirm-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px}
-.confirm-msg{font-size:12px;color:var(--text2);margin-bottom:18px;line-height:1.5}
-.confirm-btns{display:flex;gap:8px;justify-content:center}
-.confirm-del{padding:8px 20px;background:var(--rose);border:none;border-radius:var(--r2);color:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
-.confirm-del:hover{background:#e0304d}
-.confirm-cancel{padding:8px 20px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);color:var(--text2);font-size:12px;cursor:pointer;transition:.15s}
-.confirm-cancel:hover{background:var(--bg4);color:var(--text)}
-
-/* TOAST */
-.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);padding:10px 22px;border-radius:8px;font-size:12.5px;font-weight:600;z-index:500;backdrop-filter:blur(10px);transition:opacity .3s;pointer-events:none}
-.toast.success{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);color:var(--emerald)}
-.toast.error{background:rgba(244,63,94,.15);border:1px solid rgba(244,63,94,.35);color:var(--rose)}
-.toast.info{background:rgba(59,145,255,.15);border:1px solid rgba(59,145,255,.35);color:var(--blue)}
-
-/* TIMELINE */
-.tl-item{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid var(--border)}
-.tl-item:last-child{border-bottom:none}
-.tl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px}
-.tl-title{font-size:11.5px;font-weight:500;margin-bottom:2px}
-.tl-meta{font-size:10px;color:var(--text2)}
-.tl-time{font-size:10px;color:var(--text3);white-space:nowrap}
-
-/* SIDEBAR BOTTOM */
-.s-bottom{border-top:1px solid var(--border);padding:10px}
-.quick-row{display:flex;gap:6px;margin-bottom:6px}
-.qbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:7px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:.15s;color:var(--text2);font-size:11px}
-.qbtn:hover{background:var(--bg4);color:var(--text)}
-.qbtn.wa:hover{color:#25d366;border-color:rgba(37,211,102,.25)}
+:root{--bg:#07090f;--surface:#0e1219;--card:#131923;--border:#1a2235;--accent:#25d366;--accent2:#128c7e;--accent-glow:rgba(37,211,102,0.12);--text:#dde4f0;--muted:#5a6a88;--danger:#ff4d6d;--warn:#ffd60a;--radius:14px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+#loginPage{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 60% 30%,rgba(37,211,102,0.07) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(18,140,126,0.05) 0%,transparent 50%),var(--bg)}
+.login-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:52px 44px;width:420px;box-shadow:0 40px 80px rgba(0,0,0,0.6);animation:fadeUp .5s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:36px}
+.login-logo span{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.login-card h2{font-family:'Syne',sans-serif;font-size:26px;font-weight:700;margin-bottom:6px}
+.login-card>p{color:var(--muted);font-size:14px;margin-bottom:32px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+.field input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:border-color .2s,box-shadow .2s}
+.field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.btn-primary{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:10px;padding:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;transition:opacity .2s,transform .15s;letter-spacing:.03em}
+.btn-primary:hover{opacity:.88;transform:translateY(-1px)}
+.login-err{background:rgba(255,77,109,0.1);border:1px solid rgba(255,77,109,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--danger);margin-bottom:16px;display:none}
+#appPage{display:none;min-height:100vh}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;height:70px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(16px)}
+.topbar-brand{display:flex;align-items:center;gap:12px}
+.topbar-brand span{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.clock-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:8px 16px;display:flex;flex-direction:column;align-items:center;min-width:200px;position:relative}
+.clock-row{display:flex;align-items:center;gap:10px;width:100%}
+.clock-time{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--accent);letter-spacing:.05em;flex:1;text-align:center}
+.clock-toggle{background:var(--border);border:none;color:var(--muted);font-size:11px;font-weight:700;font-family:'Syne',sans-serif;border-radius:6px;padding:3px 8px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.clock-toggle:hover,.clock-toggle.active{background:var(--accent);color:#fff}
+.clock-date{font-size:11px;color:var(--muted);margin-top:2px;text-align:center;width:100%}
+.clock-tz{font-size:10px;color:rgba(37,211,102,.5);text-align:center;margin-top:1px}
+.tz-select{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;cursor:pointer;max-width:200px}
+.btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:8px 18px;font-size:13px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.btn-logout:hover{border-color:var(--danger);color:var(--danger)}
+.main{max-width:1140px;margin:0 auto;padding:32px 24px}
+.section-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.msg-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;margin-bottom:24px;display:flex;gap:14px;align-items:flex-start}
+.msg-bar textarea{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;resize:vertical;min-height:56px;transition:border-color .2s}
+.msg-bar textarea:focus{border-color:var(--accent)}
+.msg-bar textarea::placeholder{color:var(--muted)}
+.msg-icon{padding-top:12px;color:var(--accent);font-size:13px;font-weight:600;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:4px}
+.actions-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.actions-left{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn-green{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:9px;padding:10px 18px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:opacity .2s,transform .15s;white-space:nowrap}
+.btn-green:hover{opacity:.85;transform:translateY(-1px)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);border-radius:9px;padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;white-space:nowrap}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.filter-select,.search-input{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;cursor:pointer}
+.search-input{width:190px;cursor:text}
+.search-input:focus{border-color:var(--accent)}
+.search-input::placeholder{color:var(--muted)}
+.count-badge{background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.2);color:var(--accent);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:700;font-family:'Syne',sans-serif;white-space:nowrap}
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.table-head{display:grid;grid-template-columns:2fr 2fr 1.5fr 1.2fr 130px;padding:14px 20px;background:var(--card);border-bottom:1px solid var(--border);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.contact-row{display:grid;grid-template-columns:2fr 2fr 1.5fr 1.2fr 130px;padding:15px 20px;border-bottom:1px solid var(--border);align-items:center;transition:background .15s;animation:rowIn .3s ease}
+@keyframes rowIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+.contact-row:last-child{border-bottom:none}
+.contact-row:hover{background:rgba(37,211,102,.03)}
+.contact-name{font-weight:500;font-size:14px;color:var(--text)}
+.contact-number{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.flag{font-size:15px}
+.platform-badge{font-size:11px;background:var(--card);border:1px solid var(--border);border-radius:5px;padding:3px 9px;display:inline-block;color:var(--muted)}
+.country-text{font-size:12px;color:var(--muted)}
+.row-actions{display:flex;gap:7px}
+.btn-wa{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border:none;border-radius:7px;padding:7px 11px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:opacity .2s,transform .1s;font-family:'DM Sans',sans-serif}
+.btn-wa:hover{opacity:.82;transform:scale(1.04)}
+.btn-del{background:transparent;border:1px solid rgba(255,77,109,.25);color:var(--danger);border-radius:7px;padding:7px 10px;font-size:12px;cursor:pointer;transition:all .2s}
+.btn-del:hover{background:rgba(255,77,109,.1);border-color:var(--danger)}
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-state p{font-size:15px;margin-top:14px}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:999;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px 32px;width:490px;max-width:95vw;box-shadow:0 40px 80px rgba(0,0,0,.65);transform:scale(.93) translateY(14px);transition:transform .25s ease}
+.modal-overlay.open .modal{transform:scale(1) translateY(0)}
+.modal h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:10px;color:var(--text)}
+.modal .field{margin-bottom:16px}
+.country-row{display:flex;gap:10px}
+.cc-select,.modal-input{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none}
+.cc-select{width:150px;cursor:pointer}
+.modal-input{width:100%;transition:border-color .2s}
+.modal-input:focus{border-color:var(--accent)}
+.modal-footer{display:flex;justify-content:flex-end;gap:12px;margin-top:24px}
+.btn-cancel{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:9px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;transition:all .2s}
+.btn-cancel:hover{border-color:var(--danger);color:var(--danger)}
+#fileInput{display:none}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--accent);color:var(--accent);border-radius:10px;padding:12px 20px;font-size:13px;font-weight:500;z-index:9999;transform:translateY(60px);opacity:0;transition:all .3s ease;max-width:280px}
+.toast.show{transform:translateY(0);opacity:1}
+.divider{height:1px;background:var(--border);margin:6px 0}
 </style>
 </head>
 <body>
-<div class="app">
 
-<!-- SIDEBAR -->
-<aside class="sidebar">
-  <div class="s-logo">
-    <div class="s-logo-icon"><i class="fas fa-bolt"></i></div>
-    <div class="s-logo-txt">Stream<span>Flow</span></div>
-  </div>
-  <div class="s-user">
-    <div class="s-avatar" id="userInitials">AK</div>
-    <div><div class="s-name" id="userName">Arjun Kapoor</div><div class="s-role">Agency Manager</div></div>
-    <div class="s-online"></div>
-  </div>
-  <nav class="s-nav">
-    <div class="s-sec">Overview</div>
-    <div class="nav-item active" data-sec="dashboard"><i class="fas fa-chart-line"></i>Dashboard</div>
-    <div class="nav-item" data-sec="agencies"><i class="fas fa-building"></i>Agencies<span class="nbadge red" id="agencyCount">0</span></div>
-    <div class="nav-item" data-sec="contacts"><i class="fas fa-address-book"></i>Contacts</div>
-    <div class="s-sec">Work</div>
-    <div class="nav-item" data-sec="meetings"><i class="fas fa-video"></i>Meetings<span class="nbadge blue" id="meetingCount">0</span></div>
-    <div class="nav-item" data-sec="followups"><i class="fas fa-reply"></i>Follow-ups<span class="nbadge amber" id="followupCount">0</span></div>
-    <div class="nav-item" data-sec="tasks"><i class="fas fa-check-square"></i>Daily Tasks</div>
-    <div class="s-sec">Insights</div>
-    <div class="nav-item" data-sec="report"><i class="fas fa-file-alt"></i>Reports</div>
-    <div class="nav-item" data-sec="settings"><i class="fas fa-cog"></i>Settings</div>
-  </nav>
-  <div class="s-bottom">
-    <div class="quick-row">
-      <div class="qbtn wa" id="waQuickBtn"><i class="fab fa-whatsapp"></i>WhatsApp</div>
+<div id="loginPage">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg width="40" height="40" viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="url(#lg)"/><path d="M20 8C13.37 8 8 13.37 8 20c0 2.13.55 4.14 1.52 5.88L8 32l6.3-1.49A11.94 11.94 0 0020 32c6.63 0 12-5.37 12-12S26.63 8 20 8zm6.4 16.56c-.26.74-1.52 1.38-2.08 1.46-.56.08-1.28.12-2.06-.13-.48-.15-1.1-.35-1.9-.69-3.34-1.44-5.52-4.82-5.68-5.05-.16-.23-1.3-1.73-1.3-3.3 0-1.57.82-2.34 1.12-2.66.3-.32.65-.4.87-.4h.62c.2 0 .47-.07.73.56.27.65.92 2.24.99 2.4.08.16.13.35.03.56-.1.22-.15.35-.3.54-.15.19-.32.42-.45.57-.15.17-.31.35-.13.68.18.33.8 1.32 1.72 2.13 1.18 1.05 2.18 1.38 2.51 1.54.33.16.52.13.72-.08.2-.21.85-.99 1.07-1.33.22-.34.44-.28.74-.17.3.11 1.9.9 2.23 1.06.33.16.55.24.63.37.08.13.08.78-.18 1.52z" fill="white"/><defs><linearGradient id="lg" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#25d366"/><stop offset="1" stop-color="#128c7e"/></linearGradient></defs></svg>
+      <span>WA Manager</span>
     </div>
+    <h2>Welcome back</h2>
+    <p>Sign in to manage your contacts</p>
+    <div class="login-err" id="loginErr">Incorrect number or password. Try again.</div>
+    <div class="field"><label>Phone Number</label><input type="text" id="loginNum" placeholder="1234567890" autocomplete="off"/></div>
+    <div class="field"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••" autocomplete="off"/></div>
+    <button class="btn-primary" onclick="doLogin()">Sign In →</button>
   </div>
-</aside>
+</div>
 
-<!-- MAIN -->
-<div class="main">
+<div id="appPage">
   <div class="topbar">
-    <div class="tb-title" id="pageTitle">Dashboard<span class="tb-sub" id="pageSub">Good morning 👋</span></div>
-    <div class="tb-search">
-      <i class="fas fa-search" style="color:var(--text3);font-size:11px"></i>
-      <input type="text" placeholder="Search agencies, meetings…" id="globalSearchInput" oninput="globalSearch(this.value)">
+    <div class="topbar-brand">
+      <svg width="30" height="30" viewBox="0 0 40 40"><rect width="40" height="40" rx="8" fill="url(#lg2)"/><path d="M20 8C13.37 8 8 13.37 8 20c0 2.13.55 4.14 1.52 5.88L8 32l6.3-1.49A11.94 11.94 0 0020 32c6.63 0 12-5.37 12-12S26.63 8 20 8zm6.4 16.56c-.26.74-1.52 1.38-2.08 1.46-.56.08-1.28.12-2.06-.13-.48-.15-1.1-.35-1.9-.69-3.34-1.44-5.52-4.82-5.68-5.05-.16-.23-1.3-1.73-1.3-3.3 0-1.57.82-2.34 1.12-2.66.3-.32.65-.4.87-.4h.62c.2 0 .47-.07.73.56.27.65.92 2.24.99 2.4.08.16.13.35.03.56-.1.22-.15.35-.3.54-.15.19-.32.42-.45.57-.15.17-.31.35-.13.68.18.33.8 1.32 1.72 2.13 1.18 1.05 2.18 1.38 2.51 1.54.33.16.52.13.72-.08.2-.21.85-.99 1.07-1.33.22-.34.44-.28.74-.17.3.11 1.9.9 2.23 1.06.33.16.55.24.63.37.08.13.08.78-.18 1.52z" fill="white"/><defs><linearGradient id="lg2" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#25d366"/><stop offset="1" stop-color="#128c7e"/></linearGradient></defs></svg>
+      <span>WA Manager Pro</span>
     </div>
-    <div class="tb-actions">
-      <div class="tb-btn" title="Add Agency" onclick="openModal('agency')"><i class="fas fa-plus"></i></div>
-      <button class="add-btn" onclick="openModal('agency')"><i class="fas fa-plus"></i>Add Agency</button>
+    <div class="topbar-right">
+      <select class="tz-select" id="tzSelect" onchange="onTzChange()"></select>
+      <div class="clock-box">
+        <div class="clock-row">
+          <div class="clock-time" id="clockTime">--:--:--</div>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <button class="clock-toggle" id="btn12" onclick="setFmt(12)">12H</button>
+            <button class="clock-toggle" id="btn24" onclick="setFmt(24)">24H</button>
+          </div>
+        </div>
+        <div class="clock-date" id="clockDate"></div>
+        <div class="clock-tz" id="clockTz"></div>
+      </div>
+      <button class="btn-logout" onclick="doLogout()">Logout</button>
     </div>
   </div>
 
-  <div style="flex:1;overflow:hidden;display:flex">
-    <div class="content" style="flex:1;overflow-y:auto">
-
-      <!-- TABS -->
-      <div class="tabs" id="mainTabs">
-        <div class="tab active" data-sec="dashboard">Dashboard</div>
-        <div class="tab" data-sec="agencies">Agencies</div>
-        <div class="tab" data-sec="contacts">Contacts</div>
-        <div class="tab" data-sec="meetings">Meetings</div>
-        <div class="tab" data-sec="tasks">Tasks</div>
-        <div class="tab" data-sec="followups">Follow-ups</div>
-        <div class="tab" data-sec="report">Report</div>
+  <div class="main">
+    <div class="msg-bar">
+      <div class="msg-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#25d366" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.05em">MSG</span>
       </div>
+      <textarea id="msgTemplate" placeholder="Type your WhatsApp message template here… Click WA on any contact to open chat with this message pre-filled."></textarea>
+    </div>
 
-      <!-- DASHBOARD -->
-      <div id="sec-dashboard" class="section active">
-        <div class="stats-grid">
-          <div class="stat" onclick="showSec('agencies')">
-            <div class="stat-icon" style="background:rgba(59,145,255,.12);color:var(--blue)"><i class="fas fa-building"></i></div>
-            <div class="stat-val" id="statTotal">0</div><div class="stat-lbl">Total Agencies</div>
-          </div>
-          <div class="stat" onclick="showSec('agencies')">
-            <div class="stat-icon" style="background:rgba(16,185,129,.12);color:var(--emerald)"><i class="fas fa-circle-check"></i></div>
-            <div class="stat-val" id="statActive">0</div><div class="stat-lbl">Active</div>
-          </div>
-          <div class="stat" onclick="showSec('followups')">
-            <div class="stat-icon" style="background:rgba(245,158,11,.12);color:var(--amber)"><i class="fas fa-clock"></i></div>
-            <div class="stat-val" id="statFollowup">0</div><div class="stat-lbl">Follow-ups Pending</div>
-          </div>
-          <div class="stat" onclick="showSec('meetings')">
-            <div class="stat-icon" style="background:rgba(139,92,246,.12);color:var(--purple)"><i class="fas fa-video"></i></div>
-            <div class="stat-val" id="statMeetings">0</div><div class="stat-lbl">Meetings Scheduled</div>
-          </div>
-        </div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px">
-          <div class="card">
-            <div class="card-hd"><div class="card-title"><i class="fas fa-timeline" style="color:var(--emerald);margin-right:6px;font-size:11px"></i>Recent Activity</div></div>
-            <div class="card-body" id="dashActivity">
-              <div class="empty-state" style="padding:30px 20px">
-                <i class="fas fa-stream"></i>
-                <p>No activity yet. Start by adding an agency!</p>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-hd"><div class="card-title"><i class="fas fa-fire" style="color:var(--rose);margin-right:6px;font-size:11px"></i>Urgent Follow-ups</div><div style="font-size:11px;color:var(--blue);cursor:pointer" onclick="showSec('followups')">View All →</div></div>
-            <div class="card-body" id="dashFollowups">
-              <div class="empty-state" style="padding:30px 20px">
-                <i class="fas fa-inbox"></i>
-                <p>No pending follow-ups. You're all caught up!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-hd"><div class="card-title"><i class="fas fa-video" style="color:var(--purple);margin-right:6px;font-size:11px"></i>Today's Meetings</div><div style="font-size:11px;color:var(--blue);cursor:pointer" onclick="showSec('meetings')">View All →</div></div>
-          <div class="card-body" id="dashMeetings">
-            <div class="empty-state" style="padding:25px 20px">
-              <i class="fas fa-calendar-xmark"></i>
-              <p>No meetings today. <span style="color:var(--blue);cursor:pointer" onclick="openModal('meeting')">Schedule one?</span></p>
-            </div>
-          </div>
-        </div>
+    <div class="actions-row">
+      <div class="actions-left">
+        <button class="btn-green" onclick="openAddModal()">
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>
+          Add Contact
+        </button>
+        <button class="btn-outline" onclick="document.getElementById('fileInput').click()">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 8l-4-4-4 4M12 4v12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Import CSV
+        </button>
+        <input type="file" id="fileInput" accept=".csv,.txt" onchange="importFile(event)"/>
+        <select class="filter-select" id="countryFilter" onchange="renderContacts()">
+          <option value="">🌍 All Countries</option>
+        </select>
+        <input class="search-input" id="searchInput" placeholder="🔍 Search…" oninput="renderContacts()"/>
       </div>
+      <span class="count-badge" id="countBadge">0 Contacts</span>
+    </div>
 
-      <!-- AGENCIES -->
-      <div id="sec-agencies" class="section">
-        <div class="status-pills" id="statusPills">
-          <div class="spill sel" data-filter="all" onclick="filterByStatus('all',this)">All</div>
-          <div class="spill" data-filter="active" onclick="filterByStatus('active',this)">Active</div>
-          <div class="spill" data-filter="pending" onclick="filterByStatus('pending',this)">Pending</div>
-          <div class="spill" data-filter="noresponse" onclick="filterByStatus('noresponse',this)">No Response</div>
-          <div class="spill" data-filter="approved" onclick="filterByStatus('approved',this)">Approved</div>
-          <div class="spill" data-filter="followup" onclick="filterByStatus('followup',this)">Follow-up</div>
-        </div>
-        <div class="t-toolbar">
-          <div class="t-search"><i class="fas fa-search" style="color:var(--text3);font-size:10.5px"></i><input type="text" placeholder="Search by name, contact, notes…" oninput="renderAgencies()" id="agSearch"></div>
-          <div class="t-btn" onclick="exportCSV()"><i class="fas fa-download"></i>Export CSV</div>
-          <button class="add-btn" onclick="openModal('agency')"><i class="fas fa-plus"></i>Add Agency</button>
-        </div>
-        <div class="card">
-          <div style="overflow-x:auto">
-            <table class="dtable">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Agency</th>
-                  <th>Contact</th>
-                  <th>Phone</th>
-                  <th>Status</th>
-                  <th>Priority</th>
-                  <th>Next Follow-up</th>
-                  <th>Notes</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="agTable"></tbody>
-            </table>
-          </div>
-        </div>
+    <div class="table-wrap">
+      <div class="table-head">
+        <div>Agency / Name</div>
+        <div>Number</div>
+        <div>Platform</div>
+        <div>Country</div>
+        <div>Actions</div>
       </div>
-
-      <!-- CONTACTS -->
-      <div id="sec-contacts" class="section">
-        <div class="t-toolbar" style="margin-bottom:16px">
-          <div class="t-search" style="max-width:280px"><i class="fas fa-search" style="color:var(--text3);font-size:10.5px"></i><input type="text" placeholder="Search contacts…" oninput="renderContacts(this.value)" id="contactSearch"></div>
-          <button class="add-btn" onclick="openModal('agency')" style="margin-left:auto"><i class="fas fa-user-plus"></i>Add Contact</button>
-        </div>
-        <div class="contacts-grid" id="contactsGrid"></div>
-      </div>
-
-      <!-- MEETINGS -->
-      <div id="sec-meetings" class="section">
-        <div class="mtg-stats">
-          <div class="mtg-stat"><div class="mtg-stat-val" id="mtgTotal" style="color:var(--blue)">0</div><div class="mtg-stat-lbl">Total Meetings</div></div>
-          <div class="mtg-stat"><div class="mtg-stat-val" id="mtgUpcoming" style="color:var(--amber)">0</div><div class="mtg-stat-lbl">Upcoming</div></div>
-          <div class="mtg-stat"><div class="mtg-stat-val" id="mtgDone" style="color:var(--emerald)">0</div><div class="mtg-stat-lbl">Completed</div></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700">All Meetings</div>
-          <button class="add-btn" onclick="openModal('meeting')"><i class="fas fa-plus"></i>Schedule Meeting</button>
-        </div>
-        <div id="mtgList"></div>
-      </div>
-
-      <!-- TASKS -->
-      <div id="sec-tasks" class="section">
-        <div class="t-toolbar" style="margin-bottom:14px">
-          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700">Kanban Board</div>
-          <button class="add-btn" onclick="openModal('task')" style="margin-left:auto"><i class="fas fa-plus"></i>Add Task</button>
-        </div>
-        <div class="kanban" id="kanban"></div>
-      </div>
-
-      <!-- FOLLOW-UPS -->
-      <div id="sec-followups" class="section">
-        <div class="fu-summary">
-          <div class="fu-sum-card"><div class="fu-sum-val" id="fuUrgent" style="color:var(--rose)">0</div><div class="fu-sum-lbl">Urgent (5+ days)</div></div>
-          <div class="fu-sum-card"><div class="fu-sum-val" id="fuTotal" style="color:var(--amber)">0</div><div class="fu-sum-lbl">Total Pending</div></div>
-          <div class="fu-sum-card"><div class="fu-sum-val" id="fuActive" style="color:var(--emerald)">0</div><div class="fu-sum-lbl">Active Agencies</div></div>
-        </div>
-        <div class="fu-grid">
-          <div class="card">
-            <div class="card-hd"><div class="card-title"><i class="fas fa-reply" style="color:var(--amber);margin-right:6px;font-size:11px"></i>Pending Follow-ups</div></div>
-            <div class="card-body" id="fuList"></div>
-          </div>
-          <div class="card">
-            <div class="card-hd"><div class="card-title"><i class="fas fa-comments" style="color:var(--blue);margin-right:6px;font-size:11px"></i>Communication Log</div></div>
-            <div class="card-body" id="commLog"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- REPORT -->
-      <div id="sec-report" class="section">
-        <div class="rpt-card">
-          <div class="rpt-hd">
-            <div><div class="rpt-date" id="rptDate"></div><div class="rpt-title">📋 Daily Work Report</div></div>
-            <div class="rpt-btns">
-              <button class="share-btn" onclick="shareOnWhatsApp()"><i class="fab fa-whatsapp"></i>Share on WA</button>
-              <button class="copy-btn" onclick="copyReport()"><i class="fas fa-copy"></i>Copy Report</button>
-            </div>
-          </div>
-          <div class="rpt-preview" id="rptPreview"></div>
-        </div>
-      </div>
-
-      <!-- SETTINGS -->
-      <div id="sec-settings" class="section">
-        <div class="settings-layout">
-          <div class="settings-nav">
-            <div class="sn-item active"><i class="fas fa-user"></i>Profile</div>
-            <div class="sn-item"><i class="fas fa-bell"></i>Notifications</div>
-            <div class="sn-item"><i class="fas fa-shield-alt"></i>Privacy</div>
-          </div>
-          <div class="settings-content">
-            <div class="settings-title">Profile Settings</div>
-            <div class="fgrid" style="margin-bottom:14px">
-              <div class="fgrp"><label class="flbl">Your Name</label><input class="finput" id="settingName" placeholder="Your full name"></div>
-              <div class="fgrp"><label class="flbl">WhatsApp Number</label><input class="finput" id="settingWA" placeholder="+91 XXXXX XXXXX"></div>
-            </div>
-            <div class="fgrid" style="margin-bottom:18px">
-              <div class="fgrp"><label class="flbl">Email</label><input class="finput" id="settingEmail" placeholder="you@email.com"></div>
-              <div class="fgrp"><label class="flbl">Role</label><input class="finput" id="settingRole" placeholder="Agency Manager"></div>
-            </div>
-            <div class="settings-title" style="margin-bottom:12px">Preferences</div>
-            <div class="setting-row">
-              <div><div class="setting-lbl">Auto Follow-up Reminders</div><div class="setting-desc">Mark agencies as follow-up when no next date set</div></div>
-              <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-            </div>
-            <div class="setting-row">
-              <div><div class="setting-lbl">WhatsApp Integration</div><div class="setting-desc">Open WhatsApp when clicking contact buttons</div></div>
-              <div class="toggle on" onclick="this.classList.toggle('on')"></div>
-            </div>
-            <div style="margin-top:18px;display:flex;gap:8px">
-              <button class="btn-save" onclick="saveSettings()"><i class="fas fa-save"></i>Save Changes</button>
-              <button class="btn-cancel">Cancel</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <div id="contactList"></div>
     </div>
   </div>
 </div>
-</div>
 
-<!-- MODAL -->
-<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+<div class="modal-overlay" id="addModal">
   <div class="modal">
-    <div class="modal-hd">
-      <div class="modal-ttl" id="modalTitle"></div>
-      <div class="modal-x" onclick="closeModal()"><i class="fas fa-times"></i></div>
+    <h3>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#25d366" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#25d366" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Add New Contact
+    </h3>
+    <div class="field"><label>Agency Name / Username</label><input type="text" id="f_name" placeholder="e.g. Acme Corp or @johnsmith" class="modal-input"/></div>
+    <div class="field">
+      <label>Phone Number</label>
+      <div class="country-row">
+        <select class="cc-select" id="f_cc"></select>
+        <input type="text" id="f_num" placeholder="9876543210" class="modal-input"/>
+      </div>
     </div>
-    <div class="modal-body" id="modalBody"></div>
-    <div class="modal-ft">
+    <div class="field"><label>Platform</label><input type="text" id="f_platform" placeholder="Instagram, Telegram, LinkedIn…" class="modal-input"/></div>
+    <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save" id="modalSaveBtn"><i class="fas fa-save"></i><span id="modalSaveLbl">Save</span></button>
+      <button class="btn-green" onclick="saveContact()" style="width:auto;padding:10px 28px;">Save Contact</button>
     </div>
   </div>
 </div>
 
-<!-- CONFIRM DIALOG -->
-<div class="confirm-bg" id="confirmBg">
-  <div class="confirm-box">
-    <div class="confirm-icon"><i class="fas fa-trash"></i></div>
-    <div class="confirm-title" id="confirmTitle">Delete?</div>
-    <div class="confirm-msg" id="confirmMsg">Are you sure?</div>
-    <div class="confirm-btns">
-      <button class="confirm-cancel" onclick="closeConfirm()">Cancel</button>
-      <button class="confirm-del" id="confirmOkBtn">Delete</button>
-    </div>
-  </div>
-</div>
+<div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════
-// DATA STORE - all stored in localStorage
-// ═══════════════════════════════════════════════
+const CREDS={num:'1234567890',pass:'Zzz@1234'};
 
-function load(key, def) {
-  try { const d = localStorage.getItem(key); return d ? JSON.parse(d) : def; } 
-  catch(e) { return def; }
-}
-function save(key, val) {
-  try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {}
-}
-
-let agencies = load('sf_agencies', []);
-let meetings = load('sf_meetings', []);
-let tasks    = load('sf_tasks', { 'Pending': [], 'In Progress': [], 'Completed': [], 'Waiting': [] });
-let activity = load('sf_activity', []);
-let settings = load('sf_settings', { name: 'Arjun Kapoor', wa: '', email: '', role: 'Agency Manager' });
-
-// Status config
-const statusMap = { active:'b-active', pending:'b-pending', noresponse:'b-noresponse', approved:'b-approved', review:'b-review', followup:'b-followup' };
-const statusLbl = { active:'Active', pending:'Pending', noresponse:'No Response', approved:'Approved', review:'Review', followup:'Follow-up' };
-const statusColors = { active:'var(--emerald)', pending:'var(--amber)', noresponse:'var(--rose)', approved:'var(--blue)', review:'var(--purple)', followup:'var(--cyan)' };
-
-// ═══════════════════════════════════════════════
-// SECTION NAVIGATION
-// ═══════════════════════════════════════════════
-
-const tabSecs = ['dashboard','agencies','contacts','meetings','tasks','followups','report'];
-const pageTitles = { dashboard:'Dashboard', agencies:'Agencies', contacts:'Contacts', meetings:'Meetings', tasks:'Daily Tasks', followups:'Follow-ups', report:'Reports', settings:'Settings' };
-let currentSection = 'dashboard';
-let currentFilter = 'all';
-
-function showSec(name) {
-  document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-  const t = document.getElementById('sec-' + name);
-  if (t) t.classList.add('active');
-  document.getElementById('pageTitle').innerHTML = (pageTitles[name] || name) + '<span class="tb-sub" id="pageSub"></span>';
-  document.querySelectorAll('.nav-item[data-sec]').forEach(n => n.classList.toggle('active', n.dataset.sec === name));
-  document.querySelectorAll('#mainTabs .tab[data-sec]').forEach(tab => tab.classList.toggle('active', tab.dataset.sec === name));
-  document.getElementById('mainTabs').style.display = tabSecs.includes(name) ? '' : 'none';
-  currentSection = name;
-  refreshSection(name);
-}
-
-function refreshSection(name) {
-  if (name === 'dashboard') renderDashboard();
-  if (name === 'agencies')  renderAgencies();
-  if (name === 'contacts')  renderContacts();
-  if (name === 'meetings')  renderMeetings();
-  if (name === 'tasks')     renderKanban();
-  if (name === 'followups') renderFollowups();
-  if (name === 'report')    renderReport();
-  updateBadges();
-}
-
-// ═══════════════════════════════════════════════
-// BADGES & COUNTS
-// ═══════════════════════════════════════════════
-
-function updateBadges() {
-  document.getElementById('agencyCount').textContent  = agencies.length;
-  document.getElementById('meetingCount').textContent = meetings.length;
-  const fu = agencies.filter(a => a.status === 'noresponse' || a.status === 'followup').length;
-  document.getElementById('followupCount').textContent = fu;
-  // Settings profile
-  document.getElementById('userName').textContent = settings.name || 'You';
-  const initials = (settings.name || 'U').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
-  document.getElementById('userInitials').textContent = initials;
-  // WA quick btn
-  document.getElementById('waQuickBtn').onclick = () => {
-    if (settings.wa) window.open('https://wa.me/' + settings.wa.replace(/\D/g,''), '_blank');
-    else { openModal('agency'); toast('Set your WhatsApp in Settings first', 'info'); }
-  };
-}
-
-// ═══════════════════════════════════════════════
-// DASHBOARD
-// ═══════════════════════════════════════════════
-
-function renderDashboard() {
-  document.getElementById('statTotal').textContent    = agencies.length;
-  document.getElementById('statActive').textContent   = agencies.filter(a=>a.status==='active').length;
-  document.getElementById('statFollowup').textContent = agencies.filter(a=>a.status==='noresponse'||a.status==='followup').length;
-  document.getElementById('statMeetings').textContent = meetings.length;
-
-  // Activity
-  const actEl = document.getElementById('dashActivity');
-  if (activity.length === 0) {
-    actEl.innerHTML = '<div class="empty-state" style="padding:30px 20px"><i class="fas fa-stream"></i><p>No activity yet. Start by adding an agency!</p></div>';
-  } else {
-    actEl.innerHTML = activity.slice(0, 7).map(a => `
-      <div class="tl-item">
-        <div class="tl-dot" style="background:${a.color || 'var(--blue)'}"></div>
-        <div style="flex:1"><div class="tl-title">${a.title}</div><div class="tl-meta">${a.meta}</div></div>
-        <div class="tl-time">${a.time}</div>
-      </div>`).join('');
-  }
-
-  // Urgent followups on dash
-  const fuEl = document.getElementById('dashFollowups');
-  const urgent = agencies.filter(a => a.status === 'noresponse' || a.status === 'followup');
-  if (urgent.length === 0) {
-    fuEl.innerHTML = '<div class="empty-state" style="padding:25px 20px"><i class="fas fa-inbox"></i><p>No pending follow-ups!</p></div>';
-  } else {
-    fuEl.innerHTML = urgent.slice(0,5).map(a => `
-      <div class="fu-item ${a.status==='noresponse'?'urg':'norm'}" style="margin-bottom:7px">
-        <div class="fu-ico" style="background:rgba(59,145,255,.1);color:var(--blue)"><i class="fas fa-reply"></i></div>
-        <div style="flex:1;min-width:0">
-          <div style="font-size:12px;font-weight:600">${a.name}</div>
-          <div style="font-size:10px;color:var(--text2)">${a.contact} · ${statusLbl[a.status]}</div>
-        </div>
-        ${a.phone ? `<div class="fu-wa" onclick="openWA('${a.phone}')"><i class="fab fa-whatsapp"></i> WA</div>` : ''}
-      </div>`).join('');
-  }
-
-  // Today's meetings on dash
-  const mtgEl = document.getElementById('dashMeetings');
-  const today = new Date().toISOString().split('T')[0];
-  const todayMtg = meetings.filter(m => m.date === today);
-  if (todayMtg.length === 0) {
-    mtgEl.innerHTML = '<div class="empty-state" style="padding:20px"><i class="fas fa-calendar-xmark"></i><p>No meetings today. <span style="color:var(--blue);cursor:pointer" onclick="openModal(\'meeting\')">Schedule one?</span></p></div>';
-  } else {
-    mtgEl.innerHTML = todayMtg.map(m => `
-      <div class="tl-item">
-        <div class="tl-dot" style="background:var(--purple)"></div>
-        <div style="flex:1"><div class="tl-title">${m.time} — ${m.agency}</div><div class="tl-meta">${m.type} · ${m.platform}${m.link?' · <a href="'+m.link+'" target="_blank" style="color:var(--blue)">Join</a>':''}</div></div>
-      </div>`).join('');
-  }
-}
-
-// ═══════════════════════════════════════════════
-// AGENCIES
-// ═══════════════════════════════════════════════
-
-function renderAgencies() {
-  const q = (document.getElementById('agSearch')?.value || '').toLowerCase();
-  let list = agencies;
-  if (currentFilter !== 'all') list = list.filter(a => a.status === currentFilter);
-  if (q) list = list.filter(a =>
-    a.name.toLowerCase().includes(q) ||
-    (a.contact||'').toLowerCase().includes(q) ||
-    (a.notes||'').toLowerCase().includes(q)
-  );
-
-  // Update pills counts
-  document.querySelector('[data-filter="all"]').textContent = `All (${agencies.length})`;
-  document.querySelector('[data-filter="active"]').textContent = `Active (${agencies.filter(a=>a.status==='active').length})`;
-  document.querySelector('[data-filter="pending"]').textContent = `Pending (${agencies.filter(a=>a.status==='pending').length})`;
-  document.querySelector('[data-filter="noresponse"]').textContent = `No Response (${agencies.filter(a=>a.status==='noresponse').length})`;
-  document.querySelector('[data-filter="approved"]').textContent = `Approved (${agencies.filter(a=>a.status==='approved').length})`;
-  document.querySelector('[data-filter="followup"]').textContent = `Follow-up (${agencies.filter(a=>a.status==='followup').length})`;
-
-  const tbody = document.getElementById('agTable');
-  if (!tbody) return;
-
-  if (list.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="9">
-      <div class="empty-state">
-        <i class="fas fa-building"></i>
-        <h3>No agencies yet</h3>
-        <p>Add your first agency to get started tracking your work.</p>
-        <button class="add-btn" onclick="openModal('agency')" style="margin:0 auto"><i class="fas fa-plus"></i>Add Agency</button>
-      </div>
-    </td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = list.map((a, i) => {
-    const idx = agencies.indexOf(a);
-    const prioClass = a.priority==='high'?'ph':a.priority==='medium'?'pm':'pl';
-    const prioLbl   = a.priority==='high'?'High':a.priority==='medium'?'Medium':'Low';
-    return `
-    <tr>
-      <td style="color:var(--text3);font-size:11px">${String(i+1).padStart(2,'0')}</td>
-      <td>
-        <div class="ag-name">${a.name}</div>
-        <div class="ag-sub">${a.type||'Agency'}</div>
-      </td>
-      <td>
-        <div style="font-size:11.5px;font-weight:500">${a.contact||'—'}</div>
-        <div style="font-size:10px;color:var(--text3)">${a.email||''}</div>
-      </td>
-      <td style="color:var(--text2);font-size:11px">${a.phone||'—'}</td>
-      <td><span class="badge ${statusMap[a.status]||'b-pending'}">${statusLbl[a.status]||a.status}</span></td>
-      <td><div class="pdot-row"><div class="pdot ${prioClass}"></div>${prioLbl}</div></td>
-      <td style="color:var(--blue);font-size:11px;font-weight:500">${a.nextFollowup||'—'}</td>
-      <td style="color:var(--text2);font-size:11px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${a.notes||''}">${a.notes||'—'}</td>
-      <td>
-        <div class="act-btns">
-          ${a.phone ? `<div class="act-btn call-btn" title="Call" onclick="callPhone('${a.phone}')"><i class="fas fa-phone"></i></div>` : ''}
-          ${a.phone ? `<div class="act-btn wa" title="WhatsApp" onclick="openWA('${a.phone}')"><i class="fab fa-whatsapp"></i></div>` : ''}
-          <div class="act-btn" title="Edit" onclick="editAgency(${idx})"><i class="fas fa-pen"></i></div>
-          <div class="act-btn del" title="Delete" onclick="deleteAgency(${idx})"><i class="fas fa-trash"></i></div>
-        </div>
-      </td>
-    </tr>`;
-  }).join('');
-}
-
-function filterByStatus(status, el) {
-  currentFilter = status;
-  document.querySelectorAll('.spill').forEach(p => p.classList.remove('sel'));
-  el.classList.add('sel');
-  renderAgencies();
-}
-
-function editAgency(idx) {
-  const a = agencies[idx];
-  openModal('agency', a, idx);
-}
-
-function deleteAgency(idx) {
-  const a = agencies[idx];
-  confirmDialog(`Delete "${a.name}"?`, `This will permanently remove ${a.name} from your list. This cannot be undone.`, () => {
-    logActivity(`Deleted agency — ${a.name}`, 'Removed from system', 'var(--rose)');
-    agencies.splice(idx, 1);
-    save('sf_agencies', agencies);
-    toast(`Deleted ${a.name}`, 'error');
-    renderAgencies();
-    updateBadges();
-  });
-}
-
-// ═══════════════════════════════════════════════
-// CONTACTS
-// ═══════════════════════════════════════════════
-
-const ccColors = ['#3b91ff','#8b5cf6','#10b981','#f59e0b','#ec4899','#00d4ff','#f43f5e','#a78bfa'];
-
-function renderContacts(q) {
-  q = (q || document.getElementById('contactSearch')?.value || '').toLowerCase();
-  let list = agencies.filter(a =>
-    !q || a.name.toLowerCase().includes(q) || (a.contact||'').toLowerCase().includes(q)
-  );
-
-  const grid = document.getElementById('contactsGrid');
-  if (!grid) return;
-
-  if (list.length === 0) {
-    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;padding:60px 20px">
-      <i class="fas fa-address-book"></i>
-      <h3>No contacts yet</h3>
-      <p>Contacts are created automatically when you add agencies with contact info.</p>
-      <button class="add-btn" onclick="openModal('agency')" style="margin:0 auto"><i class="fas fa-plus"></i>Add Agency</button>
-    </div>`;
-    return;
-  }
-
-  grid.innerHTML = list.map((a, i) => {
-    const color = ccColors[i % ccColors.length];
-    const initials = (a.contact||a.name).split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
-    return `
-    <div class="contact-card">
-      <div class="cc-avatar" style="background:${color}18;color:${color};border-color:${color}33">${initials}</div>
-      <div class="cc-name">${a.contact||a.name}</div>
-      <div class="cc-role">${a.type||'Agency'}</div>
-      <div class="cc-agency">${a.name}</div>
-      <div class="cc-btns">
-        ${a.phone?`<div class="cc-btn call" onclick="callPhone('${a.phone}')"><i class="fas fa-phone" style="font-size:9px"></i>Call</div>`:''}
-        ${a.phone?`<div class="cc-btn wa" onclick="openWA('${a.phone}')"><i class="fab fa-whatsapp" style="font-size:10px"></i>WA</div>`:''}
-        ${a.email?`<div class="cc-btn" onclick="window.open('mailto:${a.email}','_blank')"><i class="fas fa-envelope" style="font-size:9px"></i>Email</div>`:''}
-        <div class="cc-btn del" onclick="deleteAgency(${agencies.indexOf(a)})"><i class="fas fa-trash" style="font-size:9px"></i></div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-// ═══════════════════════════════════════════════
-// MEETINGS
-// ═══════════════════════════════════════════════
-
-function renderMeetings() {
-  document.getElementById('mtgTotal').textContent    = meetings.length;
-  document.getElementById('mtgUpcoming').textContent = meetings.filter(m=>m.status!=='completed').length;
-  document.getElementById('mtgDone').textContent     = meetings.filter(m=>m.status==='completed').length;
-
-  const el = document.getElementById('mtgList');
-  if (!el) return;
-
-  if (meetings.length === 0) {
-    el.innerHTML = `<div class="empty-state">
-      <i class="fas fa-calendar-xmark"></i>
-      <h3>No meetings scheduled</h3>
-      <p>Schedule your first meeting with an agency.</p>
-      <button class="add-btn" onclick="openModal('meeting')" style="margin:0 auto"><i class="fas fa-plus"></i>Schedule Meeting</button>
-    </div>`;
-    return;
-  }
-
-  const sorted = [...meetings].sort((a,b) => a.date > b.date ? 1 : -1);
-  el.innerHTML = sorted.map((m, i) => {
-    const idx = meetings.indexOf(m);
-    const colors = ['#3b91ff','#8b5cf6','#10b981','#f59e0b','#ec4899','#00d4ff'];
-    const col = colors[i % colors.length];
-    const isCompleted = m.status === 'completed';
-    return `
-    <div class="mtg-card" style="--mc:${col};opacity:${isCompleted?.7:1}">
-      <div class="mtg-time-blk">
-        <div class="mtg-t">${m.time||'TBD'}</div>
-        <div class="mtg-ap">${m.date||''}</div>
-      </div>
-      <div class="mtg-info" style="flex:1">
-        <div class="mtg-agency">${m.agency}</div>
-        <div class="mtg-type">${m.type||'Meeting'} · ${m.platform||'Zoom'}</div>
-        ${m.notes?`<div style="font-size:10px;color:var(--text3)">${m.notes}</div>`:''}
-        <span class="badge ${isCompleted?'b-approved':'b-pending'}" style="margin-top:4px;display:inline-flex">${isCompleted?'Completed':'Upcoming'}</span>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0">
-        ${m.link?`<button class="mtg-join-btn" onclick="window.open('${m.link}','_blank')"><i class="fas fa-video" style="font-size:9px;margin-right:3px"></i>Join</button>`:''}
-        ${!isCompleted?`<div class="mtg-del-btn" onclick="markMeetingDone(${idx})"><i class="fas fa-check" style="font-size:9px;margin-right:3px"></i>Done</div>`:''}
-        <div class="mtg-del-btn" onclick="deleteMeeting(${idx})" style="background:rgba(244,63,94,.1);border-color:rgba(244,63,94,.2);color:var(--rose)"><i class="fas fa-trash" style="font-size:9px"></i></div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function markMeetingDone(idx) {
-  meetings[idx].status = 'completed';
-  logActivity(`Meeting completed — ${meetings[idx].agency}`, meetings[idx].type, 'var(--emerald)');
-  save('sf_meetings', meetings);
-  renderMeetings();
-  toast('Meeting marked as completed!', 'success');
-}
-
-function deleteMeeting(idx) {
-  const m = meetings[idx];
-  confirmDialog(`Delete meeting with "${m.agency}"?`, 'This will remove the meeting from your schedule.', () => {
-    meetings.splice(idx, 1);
-    save('sf_meetings', meetings);
-    renderMeetings();
-    updateBadges();
-    toast('Meeting deleted', 'error');
-  });
-}
-
-// ═══════════════════════════════════════════════
-// TASKS / KANBAN
-// ═══════════════════════════════════════════════
-
-const kbCols = [
-  { key:'Pending',    color:'#f59e0b' },
-  { key:'In Progress',color:'#3b91ff' },
-  { key:'Completed',  color:'#10b981' },
-  { key:'Waiting',    color:'#8b5cf6' },
+const COUNTRIES=[
+  {name:'India',code:'IN',dial:'+91',flag:'🇮🇳',tz:'Asia/Kolkata'},
+  {name:'United States',code:'US',dial:'+1',flag:'🇺🇸',tz:'America/New_York'},
+  {name:'United Kingdom',code:'GB',dial:'+44',flag:'🇬🇧',tz:'Europe/London'},
+  {name:'Australia',code:'AU',dial:'+61',flag:'🇦🇺',tz:'Australia/Sydney'},
+  {name:'Canada',code:'CA',dial:'+1',flag:'🇨🇦',tz:'America/Toronto'},
+  {name:'Germany',code:'DE',dial:'+49',flag:'🇩🇪',tz:'Europe/Berlin'},
+  {name:'France',code:'FR',dial:'+33',flag:'🇫🇷',tz:'Europe/Paris'},
+  {name:'United Arab Emirates',code:'AE',dial:'+971',flag:'🇦🇪',tz:'Asia/Dubai'},
+  {name:'Saudi Arabia',code:'SA',dial:'+966',flag:'🇸🇦',tz:'Asia/Riyadh'},
+  {name:'Pakistan',code:'PK',dial:'+92',flag:'🇵🇰',tz:'Asia/Karachi'},
+  {name:'Bangladesh',code:'BD',dial:'+880',flag:'🇧🇩',tz:'Asia/Dhaka'},
+  {name:'Nepal',code:'NP',dial:'+977',flag:'🇳🇵',tz:'Asia/Kathmandu'},
+  {name:'Sri Lanka',code:'LK',dial:'+94',flag:'🇱🇰',tz:'Asia/Colombo'},
+  {name:'Singapore',code:'SG',dial:'+65',flag:'🇸🇬',tz:'Asia/Singapore'},
+  {name:'Malaysia',code:'MY',dial:'+60',flag:'🇲🇾',tz:'Asia/Kuala_Lumpur'},
+  {name:'Indonesia',code:'ID',dial:'+62',flag:'🇮🇩',tz:'Asia/Jakarta'},
+  {name:'Philippines',code:'PH',dial:'+63',flag:'🇵🇭',tz:'Asia/Manila'},
+  {name:'South Africa',code:'ZA',dial:'+27',flag:'🇿🇦',tz:'Africa/Johannesburg'},
+  {name:'Nigeria',code:'NG',dial:'+234',flag:'🇳🇬',tz:'Africa/Lagos'},
+  {name:'Kenya',code:'KE',dial:'+254',flag:'🇰🇪',tz:'Africa/Nairobi'},
+  {name:'Brazil',code:'BR',dial:'+55',flag:'🇧🇷',tz:'America/Sao_Paulo'},
+  {name:'Mexico',code:'MX',dial:'+52',flag:'🇲🇽',tz:'America/Mexico_City'},
+  {name:'Japan',code:'JP',dial:'+81',flag:'🇯🇵',tz:'Asia/Tokyo'},
+  {name:'China',code:'CN',dial:'+86',flag:'🇨🇳',tz:'Asia/Shanghai'},
+  {name:'Russia',code:'RU',dial:'+7',flag:'🇷🇺',tz:'Europe/Moscow'},
+  {name:'Italy',code:'IT',dial:'+39',flag:'🇮🇹',tz:'Europe/Rome'},
+  {name:'Spain',code:'ES',dial:'+34',flag:'🇪🇸',tz:'Europe/Madrid'},
+  {name:'Turkey',code:'TR',dial:'+90',flag:'🇹🇷',tz:'Europe/Istanbul'},
+  {name:'Egypt',code:'EG',dial:'+20',flag:'🇪🇬',tz:'Africa/Cairo'},
+  {name:'Thailand',code:'TH',dial:'+66',flag:'🇹🇭',tz:'Asia/Bangkok'},
+  {name:'South Korea',code:'KR',dial:'+82',flag:'🇰🇷',tz:'Asia/Seoul'},
+  {name:'Vietnam',code:'VN',dial:'+84',flag:'🇻🇳',tz:'Asia/Ho_Chi_Minh'},
+  {name:'Myanmar',code:'MM',dial:'+95',flag:'🇲🇲',tz:'Asia/Rangoon'},
+  {name:'Afghanistan',code:'AF',dial:'+93',flag:'🇦🇫',tz:'Asia/Kabul'},
+  {name:'Argentina',code:'AR',dial:'+54',flag:'🇦🇷',tz:'America/Argentina/Buenos_Aires'},
+  {name:'Colombia',code:'CO',dial:'+57',flag:'🇨🇴',tz:'America/Bogota'},
+  {name:'Peru',code:'PE',dial:'+51',flag:'🇵🇪',tz:'America/Lima'},
+  {name:'Chile',code:'CL',dial:'+56',flag:'🇨🇱',tz:'America/Santiago'},
+  {name:'Ghana',code:'GH',dial:'+233',flag:'🇬🇭',tz:'Africa/Accra'},
+  {name:'Ethiopia',code:'ET',dial:'+251',flag:'🇪🇹',tz:'Africa/Addis_Ababa'},
+  {name:'Tanzania',code:'TZ',dial:'+255',flag:'🇹🇿',tz:'Africa/Dar_es_Salaam'},
+  {name:'Portugal',code:'PT',dial:'+351',flag:'🇵🇹',tz:'Europe/Lisbon'},
+  {name:'Netherlands',code:'NL',dial:'+31',flag:'🇳🇱',tz:'Europe/Amsterdam'},
+  {name:'Belgium',code:'BE',dial:'+32',flag:'🇧🇪',tz:'Europe/Brussels'},
+  {name:'Sweden',code:'SE',dial:'+46',flag:'🇸🇪',tz:'Europe/Stockholm'},
+  {name:'Norway',code:'NO',dial:'+47',flag:'🇳🇴',tz:'Europe/Oslo'},
+  {name:'Switzerland',code:'CH',dial:'+41',flag:'🇨🇭',tz:'Europe/Zurich'},
+  {name:'Poland',code:'PL',dial:'+48',flag:'🇵🇱',tz:'Europe/Warsaw'},
+  {name:'Ukraine',code:'UA',dial:'+380',flag:'🇺🇦',tz:'Europe/Kiev'},
+  {name:'Greece',code:'GR',dial:'+30',flag:'🇬🇷',tz:'Europe/Athens'},
+  {name:'New Zealand',code:'NZ',dial:'+64',flag:'🇳🇿',tz:'Pacific/Auckland'},
+  {name:'Israel',code:'IL',dial:'+972',flag:'🇮🇱',tz:'Asia/Jerusalem'},
+  {name:'Jordan',code:'JO',dial:'+962',flag:'🇯🇴',tz:'Asia/Amman'},
+  {name:'Kuwait',code:'KW',dial:'+965',flag:'🇰🇼',tz:'Asia/Kuwait'},
+  {name:'Qatar',code:'QA',dial:'+974',flag:'🇶🇦',tz:'Asia/Qatar'},
+  {name:'Bahrain',code:'BH',dial:'+973',flag:'🇧🇭',tz:'Asia/Bahrain'},
+  {name:'Oman',code:'OM',dial:'+968',flag:'🇴🇲',tz:'Asia/Muscat'},
+  {name:'Morocco',code:'MA',dial:'+212',flag:'🇲🇦',tz:'Africa/Casablanca'},
+  {name:'Algeria',code:'DZ',dial:'+213',flag:'🇩🇿',tz:'Africa/Algiers'},
+  {name:'Tunisia',code:'TN',dial:'+216',flag:'🇹🇳',tz:'Africa/Tunis'},
+  {name:'Sudan',code:'SD',dial:'+249',flag:'🇸🇩',tz:'Africa/Khartoum'},
+  {name:'Iraq',code:'IQ',dial:'+964',flag:'🇮🇶',tz:'Asia/Baghdad'},
+  {name:'Iran',code:'IR',dial:'+98',flag:'🇮🇷',tz:'Asia/Tehran'},
+  {name:'Cambodia',code:'KH',dial:'+855',flag:'🇰🇭',tz:'Asia/Phnom_Penh'},
+  {name:'Laos',code:'LA',dial:'+856',flag:'🇱🇦',tz:'Asia/Vientiane'},
+  {name:'Mongolia',code:'MN',dial:'+976',flag:'🇲🇳',tz:'Asia/Ulaanbaatar'},
+  {name:'Kazakhstan',code:'KZ',dial:'+7',flag:'🇰🇿',tz:'Asia/Almaty'},
+  {name:'Uzbekistan',code:'UZ',dial:'+998',flag:'🇺🇿',tz:'Asia/Tashkent'},
+  {name:'Azerbaijan',code:'AZ',dial:'+994',flag:'🇦🇿',tz:'Asia/Baku'},
+  {name:'Armenia',code:'AM',dial:'+374',flag:'🇦🇲',tz:'Asia/Yerevan'},
+  {name:'Georgia',code:'GE',dial:'+995',flag:'🇬🇪',tz:'Asia/Tbilisi'},
+  {name:'Czech Republic',code:'CZ',dial:'+420',flag:'🇨🇿',tz:'Europe/Prague'},
+  {name:'Hungary',code:'HU',dial:'+36',flag:'🇭🇺',tz:'Europe/Budapest'},
+  {name:'Romania',code:'RO',dial:'+40',flag:'🇷🇴',tz:'Europe/Bucharest'},
+  {name:'Bulgaria',code:'BG',dial:'+359',flag:'🇧🇬',tz:'Europe/Sofia'},
+  {name:'Serbia',code:'RS',dial:'+381',flag:'🇷🇸',tz:'Europe/Belgrade'},
+  {name:'Croatia',code:'HR',dial:'+385',flag:'🇭🇷',tz:'Europe/Zagreb'},
+  {name:'Slovakia',code:'SK',dial:'+421',flag:'🇸🇰',tz:'Europe/Bratislava'},
+  {name:'Denmark',code:'DK',dial:'+45',flag:'🇩🇰',tz:'Europe/Copenhagen'},
+  {name:'Finland',code:'FI',dial:'+358',flag:'🇫🇮',tz:'Europe/Helsinki'},
+  {name:'Austria',code:'AT',dial:'+43',flag:'🇦🇹',tz:'Europe/Vienna'},
+  {name:'Ireland',code:'IE',dial:'+353',flag:'🇮🇪',tz:'Europe/Dublin'},
+  {name:'Maldives',code:'MV',dial:'+960',flag:'🇲🇻',tz:'Indian/Maldives'},
+  {name:'Bhutan',code:'BT',dial:'+975',flag:'🇧🇹',tz:'Asia/Thimphu'},
+  {name:'Uganda',code:'UG',dial:'+256',flag:'🇺🇬',tz:'Africa/Kampala'},
+  {name:'Zambia',code:'ZM',dial:'+260',flag:'🇿🇲',tz:'Africa/Lusaka'},
+  {name:'Zimbabwe',code:'ZW',dial:'+263',flag:'🇿🇼',tz:'Africa/Harare'},
+  {name:'Cameroon',code:'CM',dial:'+237',flag:'🇨🇲',tz:'Africa/Douala'},
+  {name:'Senegal',code:'SN',dial:'+221',flag:'🇸🇳',tz:'Africa/Dakar'},
+  {name:'Ivory Coast',code:'CI',dial:'+225',flag:'🇨🇮',tz:'Africa/Abidjan'},
+  {name:'Jamaica',code:'JM',dial:'+1876',flag:'🇯🇲',tz:'America/Jamaica'},
+  {name:'Trinidad & Tobago',code:'TT',dial:'+1868',flag:'🇹🇹',tz:'America/Port_of_Spain'},
+  {name:'Venezuela',code:'VE',dial:'+58',flag:'🇻🇪',tz:'America/Caracas'},
+  {name:'Ecuador',code:'EC',dial:'+593',flag:'🇪🇨',tz:'America/Guayaquil'},
+  {name:'Bolivia',code:'BO',dial:'+591',flag:'🇧🇴',tz:'America/La_Paz'},
+  {name:'Paraguay',code:'PY',dial:'+595',flag:'🇵🇾',tz:'America/Asuncion'},
+  {name:'Uruguay',code:'UY',dial:'+598',flag:'🇺🇾',tz:'America/Montevideo'},
+  {name:'Costa Rica',code:'CR',dial:'+506',flag:'🇨🇷',tz:'America/Costa_Rica'},
+  {name:'Panama',code:'PA',dial:'+507',flag:'🇵🇦',tz:'America/Panama'},
+  {name:'Cuba',code:'CU',dial:'+53',flag:'🇨🇺',tz:'America/Havana'},
+  {name:'Dominican Republic',code:'DO',dial:'+1809',flag:'🇩🇴',tz:'America/Santo_Domingo'},
 ];
 
-function renderKanban() {
-  const el = document.getElementById('kanban');
-  if (!el) return;
-  el.innerHTML = kbCols.map(col => `
-    <div class="kb-col">
-      <div class="kb-hd">
-        <div class="kb-lbl"><div class="kb-dot" style="background:${col.color}"></div>${col.key}</div>
-        <div class="kb-cnt">${(tasks[col.key]||[]).length}</div>
-      </div>
-      <div class="kb-body">
-        ${(tasks[col.key]||[]).length === 0
-          ? '<div style="text-align:center;padding:20px;color:var(--text3);font-size:11px">No tasks</div>'
-          : (tasks[col.key]).map((t,i) => `
-              <div class="task-card">
-                <div class="task-pbar" style="background:${t.priority==='high'?'var(--rose)':t.priority==='medium'?'var(--amber)':'var(--emerald)'}"></div>
-                <div class="task-title">${t.title}</div>
-                ${t.agency?`<div class="task-ag"><i class="fas fa-building" style="font-size:9px;color:var(--text3);margin-right:3px"></i>${t.agency}</div>`:''}
-                <div class="task-ft">
-                  <div class="task-due">${t.due?'Due: '+t.due:''}</div>
-                  <div class="task-del" onclick="deleteTask('${col.key}',${i})" title="Delete"><i class="fas fa-trash" style="font-size:10px"></i></div>
-                </div>
-              </div>`).join('')
-        }
-        <div class="kb-add" onclick="openModal('task','${col.key}')"><i class="fas fa-plus" style="margin-right:4px;font-size:9px"></i>Add task</div>
-      </div>
-    </div>`).join('');
+let contacts=JSON.parse(localStorage.getItem('wa_contacts_pro')||'[]');
+let clockFmt=parseInt(localStorage.getItem('wa_clock_fmt')||'24');
+let selectedTz=localStorage.getItem('wa_tz')||COUNTRIES[0].tz;
+let clockInterval=null;
+
+function updateClock(){
+  const now=new Date();
+  const opts12={timeZone:selectedTz,hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true};
+  const opts24={timeZone:selectedTz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false};
+  const timeStr=now.toLocaleTimeString('en-US',clockFmt===12?opts12:opts24);
+  const dateStr=now.toLocaleDateString('en-US',{timeZone:selectedTz,weekday:'long',year:'numeric',month:'short',day:'numeric'});
+  const tzName=selectedTz.split('/').pop().replace(/_/g,' ');
+  document.getElementById('clockTime').textContent=timeStr;
+  document.getElementById('clockDate').textContent=dateStr;
+  document.getElementById('clockTz').textContent='📍 '+tzName;
 }
 
-function deleteTask(col, idx) {
-  tasks[col].splice(idx, 1);
-  save('sf_tasks', tasks);
-  renderKanban();
+function setFmt(f){
+  clockFmt=f;
+  localStorage.setItem('wa_clock_fmt',f);
+  document.getElementById('btn12').classList.toggle('active',f===12);
+  document.getElementById('btn24').classList.toggle('active',f===24);
+  updateClock();
 }
 
-// ═══════════════════════════════════════════════
-// FOLLOW-UPS
-// ═══════════════════════════════════════════════
-
-function renderFollowups() {
-  const pending = agencies.filter(a => a.status === 'noresponse' || a.status === 'followup' || a.status === 'pending');
-  const urgent  = pending.filter(a => a.status === 'noresponse');
-  document.getElementById('fuUrgent').textContent = urgent.length;
-  document.getElementById('fuTotal').textContent  = pending.length;
-  document.getElementById('fuActive').textContent = agencies.filter(a=>a.status==='active').length;
-
-  const fuEl = document.getElementById('fuList');
-  if (fuEl) {
-    if (pending.length === 0) {
-      fuEl.innerHTML = '<div class="empty-state" style="padding:30px 20px"><i class="fas fa-inbox"></i><p>No follow-ups pending. Great job!</p></div>';
-    } else {
-      fuEl.innerHTML = pending.map(a => {
-        const idx = agencies.indexOf(a);
-        const isUrg = a.status === 'noresponse';
-        return `
-        <div class="fu-item ${isUrg?'urg':'norm'}">
-          <div class="fu-ico" style="background:${isUrg?'rgba(244,63,94,.12)':'rgba(59,145,255,.12)'};color:${isUrg?'var(--rose)':'var(--blue)'}">
-            <i class="fas fa-${isUrg?'exclamation-triangle':'reply'}"></i>
-          </div>
-          <div style="flex:1;min-width:0">
-            <div style="font-size:12px;font-weight:600">${a.name}</div>
-            <div style="font-size:10px;color:var(--text2)">${a.contact||''} · <span class="badge ${statusMap[a.status]}" style="font-size:9px">${statusLbl[a.status]}</span></div>
-            ${a.notes?`<div style="font-size:10px;color:var(--text3);margin-top:2px">${a.notes}</div>`:''}
-          </div>
-          <div class="fu-right">
-            ${a.nextFollowup?`<div class="fu-time">${a.nextFollowup}</div>`:''}
-            <div style="display:flex;gap:4px;margin-top:4px">
-              ${a.phone?`<div class="fu-wa" onclick="openWA('${a.phone}')"><i class="fab fa-whatsapp"></i></div>`:''}
-              <div class="fu-rem" onclick="editAgency(${idx})">Edit</div>
-            </div>
-          </div>
-        </div>`;
-      }).join('');
-    }
-  }
-
-  // Comm log from activity
-  const logEl = document.getElementById('commLog');
-  if (logEl) {
-    if (activity.length === 0) {
-      logEl.innerHTML = '<div class="empty-state" style="padding:30px 20px"><i class="fas fa-comments"></i><p>No communication logged yet.</p></div>';
-    } else {
-      logEl.innerHTML = activity.slice(0,8).map(a => `
-        <div class="tl-item">
-          <div class="tl-dot" style="background:${a.color||'var(--blue)'}"></div>
-          <div style="flex:1"><div class="tl-title">${a.title}</div><div class="tl-meta">${a.meta}</div></div>
-          <div class="tl-time">${a.time}</div>
-        </div>`).join('');
-    }
-  }
+function onTzChange(){
+  selectedTz=document.getElementById('tzSelect').value;
+  localStorage.setItem('wa_tz',selectedTz);
+  updateClock();
 }
 
-// ═══════════════════════════════════════════════
-// REPORT
-// ═══════════════════════════════════════════════
-
-function renderReport() {
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-IN', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  document.getElementById('rptDate').textContent = dateStr;
-
-  const active   = agencies.filter(a=>a.status==='active');
-  const pending  = agencies.filter(a=>a.status==='noresponse'||a.status==='followup'||a.status==='pending');
-  const approved = agencies.filter(a=>a.status==='approved');
-  const today    = now.toISOString().split('T')[0];
-  const todayMtg = meetings.filter(m=>m.date===today);
-  const allTasks = Object.values(tasks).flat();
-  const doneTasks = tasks['Completed']||[];
-
-  const report = `📋 DAILY WORK REPORT — ${dateStr}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📊 AGENCY OVERVIEW:
-  • Total Agencies: ${agencies.length}
-  • Active: ${active.length}
-  • Pending Follow-up: ${pending.length}
-  • Approved/Closed: ${approved.length}
-
-${todayMtg.length>0?`📅 TODAY'S MEETINGS (${todayMtg.length}):
-${todayMtg.map(m=>`  • ${m.time} — ${m.agency} (${m.type}, ${m.platform})`).join('\n')}
-`:'📅 MEETINGS: None scheduled today\n'}
-${doneTasks.length>0?`✅ COMPLETED TASKS (${doneTasks.length}):
-${doneTasks.map(t=>`  • ${t.title}${t.agency?' ('+t.agency+')':''}`).join('\n')}
-`:'✅ COMPLETED TASKS: None yet\n'}
-${pending.length>0?`⏳ PENDING FOLLOW-UPS (${pending.length}):
-${pending.map(a=>`  • ${a.name} — ${a.contact||''} — ${statusLbl[a.status]}`).join('\n')}
-`:'⏳ PENDING FOLLOW-UPS: All clear!\n'}
-${activity.length>0?`📝 RECENT ACTIVITY:
-${activity.slice(0,5).map(a=>`  • ${a.title} — ${a.meta}`).join('\n')}
-`:''}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Generated by StreamFlow`;
-
-  document.getElementById('rptPreview').textContent = report;
-}
-
-function copyReport() {
-  const text = document.getElementById('rptPreview')?.textContent || '';
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => toast('Report copied!', 'success'));
-  } else {
-    const ta = document.createElement('textarea');
-    ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
-    toast('Report copied!', 'success');
-  }
-}
-
-function shareOnWhatsApp() {
-  const text = document.getElementById('rptPreview')?.textContent || '';
-  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
-}
-
-// ═══════════════════════════════════════════════
-// MODALS
-// ═══════════════════════════════════════════════
-
-let modalMode = null;
-let modalEditIdx = -1;
-let modalTaskCol = null;
-
-function openModal(type, dataOrCol, editIdx) {
-  modalMode = type;
-  modalEditIdx = -1;
-  modalTaskCol = null;
-
-  if (type === 'agency') {
-    const isEdit = typeof editIdx === 'number';
-    const a = isEdit ? dataOrCol : null;
-    modalEditIdx = isEdit ? editIdx : -1;
-    document.getElementById('modalTitle').innerHTML = `<i class="fas fa-building"></i> ${isEdit?'Edit':'Add'} Agency`;
-    document.getElementById('modalSaveLbl').textContent = isEdit ? 'Save Changes' : 'Add Agency';
-    document.getElementById('modalBody').innerHTML = `
-      <div class="fgrid">
-        <div class="fgrp"><label class="flbl">Agency Name *</label><input class="finput" id="f_name" placeholder="e.g. BrightStream Media" value="${a?a.name||'':''}"></div>
-        <div class="fgrp"><label class="flbl">Agency Type</label><input class="finput" id="f_type" placeholder="e.g. Digital Agency, Media House" value="${a?a.type||'':''}"></div>
-      </div>
-      <div class="fgrid">
-        <div class="fgrp"><label class="flbl">Contact Person</label><input class="finput" id="f_contact" placeholder="Full name" value="${a?a.contact||'':''}"></div>
-        <div class="fgrp"><label class="flbl">Phone / WhatsApp *</label><input class="finput" id="f_phone" placeholder="+91 XXXXX XXXXX" value="${a?a.phone||'':''}"></div>
-      </div>
-      <div class="fgrid">
-        <div class="fgrp"><label class="flbl">Email</label><input class="finput" id="f_email" placeholder="email@agency.com" value="${a?a.email||'':''}"></div>
-        <div class="fgrp"><label class="flbl">Status</label>
-          <select class="finput" id="f_status">
-            <option value="active" ${a&&a.status==='active'?'selected':''}>Active</option>
-            <option value="pending" ${a&&a.status==='pending'?'selected':''}>Pending</option>
-            <option value="noresponse" ${a&&a.status==='noresponse'?'selected':''}>No Response</option>
-            <option value="followup" ${a&&a.status==='followup'?'selected':''}>Follow-up Needed</option>
-            <option value="approved" ${a&&a.status==='approved'?'selected':''}>Approved</option>
-            <option value="review" ${a&&a.status==='review'?'selected':''}>Review Pending</option>
-          </select>
-        </div>
-      </div>
-      <div class="fgrid">
-        <div class="fgrp"><label class="flbl">Priority</label>
-          <select class="finput" id="f_priority">
-            <option value="high" ${a&&a.priority==='high'?'selected':''}>High</option>
-            <option value="medium" ${a&&a.priority==='medium'?'selected':''}>Medium</option>
-            <option value="low" ${a&&a.priority==='low'?'selected':''}>Low</option>
-          </select>
-        </div>
-        <div class="fgrp"><label class="flbl">Next Follow-up Date</label><input class="finput" id="f_next" type="date" value="${a?a.nextFollowup||'':''}"></div>
-      </div>
-      <div class="fgrp"><label class="flbl">Deal / Package Value</label><input class="finput" id="f_value" placeholder="e.g. ₹1.2L, ₹85,000" value="${a?a.value||'':''}"></div>
-      <div class="fgrp"><label class="flbl">Notes / Feedback</label><textarea class="finput" id="f_notes" rows="3" placeholder="Any notes, feedback or observations…">${a?a.notes||'':''}</textarea></div>
-    `;
-  }
-
-  else if (type === 'meeting') {
-    document.getElementById('modalTitle').innerHTML = `<i class="fas fa-video"></i> Schedule Meeting`;
-    document.getElementById('modalSaveLbl').textContent = 'Save Meeting';
-    const agList = agencies.length > 0
-      ? agencies.map(a=>`<option>${a.name}</option>`).join('')
-      : '<option>— Add agencies first —</option>';
-    document.getElementById('modalBody').innerHTML = `
-      <div class="fgrid">
-        <div class="fgrp"><label class="flbl">Agency *</label>
-          <select class="finput" id="f_magency">${agList}</select>
-        </div>
-        <div class="fgrp"><label class="flbl">Meeting Type</label>
-          <select class="finput" id="f_mtype">
-            <option>Strategy Call</option><option>Proposal Review</option><option>Discovery Call</option>
-            <option>Contract Discussion</option><option>Pricing Discussion</option><option>Follow-up Call</option><option>Other</option>
-          </select>
-        </div>
-      </div>
-      <div class="fgrid">
-        <div class="fgrp"><label class="flbl">Date *</label><input class="finput" id="f_mdate" type="date" value="${new Date().toISOString().split('T')[0]}"></div>
-        <div class="fgrp"><label class="flbl">Time</label><input class="finput" id="f_mtime" type="time" value="10:00"></div>
-      </div>
-      <div class="fgrid">
-        <div class="fgrp"><label class="flbl">Platform</label>
-          <select class="finput" id="f_mplatform">
-            <option>Zoom</option><option>Google Meet</option><option>Phone Call</option><option>In-person</option><option>Teams</option>
-          </select>
-        </div>
-        <div class="fgrp"><label class="flbl">Duration</label>
-          <select class="finput" id="f_mduration">
-            <option>30 min</option><option>45 min</option><option>1 hour</option><option>1.5 hours</option><option>2 hours</option>
-          </select>
-        </div>
-      </div>
-      <div class="fgrp"><label class="flbl">Meeting Link (Zoom/Meet URL)</label><input class="finput" id="f_mlink" placeholder="https://zoom.us/j/..."></div>
-      <div class="fgrp"><label class="flbl">Agenda / Notes</label><textarea class="finput" id="f_mnotes" rows="3" placeholder="Discussion points, agenda…"></textarea></div>
-    `;
-  }
-
-  else if (type === 'task') {
-    modalTaskCol = (typeof dataOrCol === 'string') ? dataOrCol : 'Pending';
-    document.getElementById('modalTitle').innerHTML = `<i class="fas fa-check-square"></i> Add Task`;
-    document.getElementById('modalSaveLbl').textContent = 'Add Task';
-    const agList = ['Internal', ...agencies.map(a=>a.name)].map(n=>`<option>${n}</option>`).join('');
-    document.getElementById('modalBody').innerHTML = `
-      <div class="fgrp"><label class="flbl">Task Title *</label><input class="finput" id="f_ttitle" placeholder="What needs to be done?"></div>
-      <div class="fgrid">
-        <div class="fgrp"><label class="flbl">Agency</label><select class="finput" id="f_tagency">${agList}</select></div>
-        <div class="fgrp"><label class="flbl">Priority</label>
-          <select class="finput" id="f_tpriority">
-            <option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option>
-          </select>
-        </div>
-      </div>
-      <div class="fgrid">
-        <div class="fgrp"><label class="flbl">Column</label>
-          <select class="finput" id="f_tcol">
-            <option ${modalTaskCol==='Pending'?'selected':''}>Pending</option>
-            <option ${modalTaskCol==='In Progress'?'selected':''}>In Progress</option>
-            <option ${modalTaskCol==='Completed'?'selected':''}>Completed</option>
-            <option ${modalTaskCol==='Waiting'?'selected':''}>Waiting</option>
-          </select>
-        </div>
-        <div class="fgrp"><label class="flbl">Due Date</label><input class="finput" id="f_tdue" type="date"></div>
-      </div>
-    `;
-  }
-
-  document.getElementById('modalBg').classList.add('show');
-  // Focus first input
-  setTimeout(() => { const inp = document.querySelector('#modalBody .finput'); if(inp) inp.focus(); }, 100);
-}
-
-function closeModal() {
-  document.getElementById('modalBg').classList.remove('show');
-  modalMode = null; modalEditIdx = -1; modalTaskCol = null;
-}
-
-document.getElementById('modalSaveBtn').onclick = saveModal;
-
-function saveModal() {
-  if (modalMode === 'agency') saveAgency();
-  else if (modalMode === 'meeting') saveMeeting();
-  else if (modalMode === 'task') saveTask();
-}
-
-function saveAgency() {
-  const name = document.getElementById('f_name').value.trim();
-  if (!name) { toast('Agency name is required', 'error'); document.getElementById('f_name').focus(); return; }
-
-  const a = {
-    name,
-    type:        document.getElementById('f_type').value.trim(),
-    contact:     document.getElementById('f_contact').value.trim(),
-    phone:       document.getElementById('f_phone').value.trim(),
-    email:       document.getElementById('f_email').value.trim(),
-    status:      document.getElementById('f_status').value,
-    priority:    document.getElementById('f_priority').value,
-    nextFollowup:document.getElementById('f_next').value,
-    value:       document.getElementById('f_value').value.trim(),
-    notes:       document.getElementById('f_notes').value.trim(),
-    createdAt:   new Date().toISOString(),
-  };
-
-  if (modalEditIdx >= 0) {
-    agencies[modalEditIdx] = { ...agencies[modalEditIdx], ...a };
-    logActivity(`Updated — ${a.name}`, `Status: ${statusLbl[a.status]}`, statusColors[a.status]);
-    toast(`Updated ${a.name}`, 'success');
-  } else {
-    agencies.unshift(a);
-    logActivity(`New agency added — ${a.name}`, `${a.contact||''} · ${statusLbl[a.status]}`, statusColors[a.status]);
-    toast(`${a.name} added!`, 'success');
-  }
-
-  save('sf_agencies', agencies);
-  closeModal();
-  renderAgencies();
-  updateBadges();
-}
-
-function saveMeeting() {
-  const agency = document.getElementById('f_magency')?.value;
-  const date   = document.getElementById('f_mdate')?.value;
-  if (!agency || !date) { toast('Agency and date are required', 'error'); return; }
-
-  const m = {
-    agency,
-    type:     document.getElementById('f_mtype').value,
-    date,
-    time:     document.getElementById('f_mtime').value,
-    platform: document.getElementById('f_mplatform').value,
-    duration: document.getElementById('f_mduration').value,
-    link:     document.getElementById('f_mlink').value.trim(),
-    notes:    document.getElementById('f_mnotes').value.trim(),
-    status:   'upcoming',
-    createdAt:new Date().toISOString(),
-  };
-
-  meetings.unshift(m);
-  logActivity(`Meeting scheduled — ${agency}`, `${m.type} · ${m.date} ${m.time}`, 'var(--purple)');
-  save('sf_meetings', meetings);
-  toast('Meeting scheduled!', 'success');
-  closeModal();
-  renderMeetings();
-  updateBadges();
-}
-
-function saveTask() {
-  const title = document.getElementById('f_ttitle')?.value.trim();
-  if (!title) { toast('Task title is required', 'error'); return; }
-
-  const col = document.getElementById('f_tcol').value;
-  const t = {
-    title,
-    agency:   document.getElementById('f_tagency').value,
-    priority: document.getElementById('f_tpriority').value,
-    due:      document.getElementById('f_tdue').value,
-    createdAt:new Date().toISOString(),
-  };
-
-  if (!tasks[col]) tasks[col] = [];
-  tasks[col].unshift(t);
-  save('sf_tasks', tasks);
-  toast('Task added!', 'success');
-  closeModal();
-  renderKanban();
-}
-
-// ═══════════════════════════════════════════════
-// SETTINGS
-// ═══════════════════════════════════════════════
-
-function loadSettings() {
-  document.getElementById('settingName').value  = settings.name || '';
-  document.getElementById('settingWA').value    = settings.wa   || '';
-  document.getElementById('settingEmail').value = settings.email|| '';
-  document.getElementById('settingRole').value  = settings.role || '';
-}
-
-function saveSettings() {
-  settings.name  = document.getElementById('settingName').value.trim();
-  settings.wa    = document.getElementById('settingWA').value.trim();
-  settings.email = document.getElementById('settingEmail').value.trim();
-  settings.role  = document.getElementById('settingRole').value.trim();
-  save('sf_settings', settings);
-  updateBadges();
-  toast('Settings saved!', 'success');
-}
-
-// ═══════════════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════════════
-
-function openWA(phone) {
-  const num = phone.replace(/\D/g,'');
-  window.open('https://wa.me/' + num, '_blank');
-}
-
-function callPhone(phone) {
-  window.open('tel:' + phone, '_blank');
-}
-
-function logActivity(title, meta, color) {
-  const now = new Date();
-  const time = now.toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'});
-  activity.unshift({ title, meta, color: color||'var(--blue)', time });
-  if (activity.length > 50) activity.pop();
-  save('sf_activity', activity);
-}
-
-function globalSearch(q) {
-  if (!q || q.length < 2) return;
-  showSec('agencies');
-  setTimeout(() => {
-    document.getElementById('agSearch').value = q;
-    renderAgencies();
-  }, 50);
-}
-
-// ═══════════════════════════════════════════════
-// CONFIRM DIALOG
-// ═══════════════════════════════════════════════
-
-let confirmCallback = null;
-
-function confirmDialog(title, msg, cb) {
-  document.getElementById('confirmTitle').textContent = title;
-  document.getElementById('confirmMsg').textContent   = msg;
-  confirmCallback = cb;
-  document.getElementById('confirmBg').classList.add('show');
-}
-
-function closeConfirm() {
-  document.getElementById('confirmBg').classList.remove('show');
-  confirmCallback = null;
-}
-
-document.getElementById('confirmOkBtn').onclick = () => {
-  if (confirmCallback) confirmCallback();
-  closeConfirm();
-};
-
-// ═══════════════════════════════════════════════
-// TOAST
-// ═══════════════════════════════════════════════
-
-function toast(msg, type='success') {
-  const t = document.createElement('div');
-  t.className = `toast ${type}`;
-  t.textContent = (type==='success'?'✓ ':type==='error'?'✕ ':'ℹ ') + msg;
-  document.body.appendChild(t);
-  setTimeout(() => { t.style.opacity='0'; setTimeout(()=>t.remove(),300); }, 2800);
-}
-
-// ═══════════════════════════════════════════════
-// KEYBOARD
-// ═══════════════════════════════════════════════
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeModal(); closeConfirm(); }
-  if ((e.ctrlKey||e.metaKey) && e.key==='k') { e.preventDefault(); document.getElementById('globalSearchInput').focus(); }
-});
-
-// ═══════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Nav
-  document.querySelectorAll('.nav-item[data-sec]').forEach(n => {
-    n.addEventListener('click', () => showSec(n.dataset.sec));
+function populateTzSelect(){
+  const sel=document.getElementById('tzSelect');
+  sel.innerHTML='';
+  COUNTRIES.forEach(c=>{
+    const opt=document.createElement('option');
+    opt.value=c.tz;
+    opt.textContent=c.flag+' '+c.name;
+    if(c.tz===selectedTz)opt.selected=true;
+    sel.appendChild(opt);
   });
-  document.querySelectorAll('#mainTabs .tab[data-sec]').forEach(t => {
-    t.addEventListener('click', () => showSec(t.dataset.sec));
-  });
+}
 
-  // Settings nav decoration
-  document.querySelectorAll('.sn-item').forEach(n => {
-    n.addEventListener('click', () => {
-      document.querySelectorAll('.sn-item').forEach(x=>x.classList.remove('active'));
-      n.classList.add('active');
+function doLogin(){
+  const n=document.getElementById('loginNum').value.trim();
+  const p=document.getElementById('loginPass').value.trim();
+  if(n===CREDS.num&&p===CREDS.pass){
+    document.getElementById('loginPage').style.display='none';
+    document.getElementById('appPage').style.display='block';
+    initApp();
+  }else{
+    document.getElementById('loginErr').style.display='block';
+  }
+}
+document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+function doLogout(){
+  document.getElementById('loginPage').style.display='flex';
+  document.getElementById('appPage').style.display='none';
+  document.getElementById('loginNum').value='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('loginErr').style.display='none';
+  clearInterval(clockInterval);
+}
+
+function initApp(){
+  populateTzSelect();
+  populateCCSelect();
+  populateCountryFilter();
+  renderContacts();
+  setFmt(clockFmt);
+  updateClock();
+  clockInterval=setInterval(updateClock,1000);
+}
+
+function populateCCSelect(){
+  const sel=document.getElementById('f_cc');
+  sel.innerHTML='';
+  COUNTRIES.forEach((c,i)=>{
+    const opt=document.createElement('option');
+    opt.value=i;
+    opt.textContent=c.flag+' '+c.dial;
+    sel.appendChild(opt);
+  });
+}
+
+function populateCountryFilter(){
+  const sel=document.getElementById('countryFilter');
+  while(sel.options.length>1)sel.remove(1);
+  const used=new Set(contacts.map(c=>c.countryCode));
+  COUNTRIES.filter(c=>used.has(c.code)).forEach(c=>{
+    const opt=document.createElement('option');
+    opt.value=c.code;
+    opt.textContent=c.flag+' '+c.name;
+    sel.appendChild(opt);
+  });
+}
+
+function renderContacts(){
+  const fc=document.getElementById('countryFilter').value;
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  let list=contacts;
+  if(fc)list=list.filter(c=>c.countryCode===fc);
+  if(q)list=list.filter(c=>c.name.toLowerCase().includes(q)||c.number.includes(q)||(c.platform||'').toLowerCase().includes(q));
+  document.getElementById('countBadge').textContent=list.length+' Contact'+(list.length!==1?'s':'');
+  const el=document.getElementById('contactList');
+  if(!list.length){
+    el.innerHTML='<div class="empty-state"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".3"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg><p>No contacts yet — add one or import CSV.</p></div>';
+    return;
+  }
+  el.innerHTML=list.map(c=>{
+    const country=COUNTRIES.find(x=>x.code===c.countryCode)||{flag:'🌍',name:'Unknown'};
+    const fullNum=(c.dialCode+c.number).replace(/\s/g,'').replace('+','');
+    const msg=encodeURIComponent(document.getElementById('msgTemplate').value||'');
+    const waUrl='https://wa.me/'+fullNum+(msg?'?text='+msg:'');
+    const idx=contacts.indexOf(c);
+    return`<div class="contact-row">
+      <div class="contact-name">${esc(c.name)}</div>
+      <div class="contact-number"><span class="flag">${country.flag}</span><span>${c.dialCode} ${c.number}</span></div>
+      <div><span class="platform-badge">${esc(c.platform)||'—'}</span></div>
+      <div class="country-text">${country.flag} ${country.name}</div>
+      <div class="row-actions">
+        <a href="${waUrl}" target="_blank" style="text-decoration:none"><button class="btn-wa"><svg width="12" height="12" viewBox="0 0 20 20" fill="white"><path d="M10 2C5.58 2 2 5.58 2 10c0 1.52.42 2.95 1.14 4.18L2 18l3.95-1.1A8 8 0 1010 2zm4.56 11.47c-.19.54-1.1 1-1.5 1.06-.4.06-.93.09-1.49-.09-.35-.11-.8-.26-1.37-.5-2.41-1.04-3.99-3.48-4.11-3.64-.12-.17-.94-1.25-.94-2.38 0-1.14.6-1.69.81-1.92.22-.23.47-.29.63-.29h.45c.14 0 .34-.05.53.4.19.47.66 1.62.72 1.74.06.12.09.25.02.4-.07.16-.11.25-.22.39-.11.14-.23.3-.33.41-.11.12-.22.25-.09.49.13.24.58.95 1.24 1.54.85.76 1.58 1 1.82 1.11.24.11.37.09.52-.06.14-.15.61-.71.77-.96.16-.24.32-.2.54-.12.22.08 1.37.65 1.61.77.24.12.4.17.46.27.06.1.06.57-.13 1.1z"/></svg>WA</button></a>
+        <button class="btn-del" onclick="deleteContact(${idx})">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function openAddModal(){document.getElementById('addModal').classList.add('open');}
+function closeModal(){
+  document.getElementById('addModal').classList.remove('open');
+  ['f_name','f_num','f_platform'].forEach(id=>document.getElementById(id).value='');
+}
+
+function saveContact(){
+  const name=document.getElementById('f_name').value.trim();
+  const num=document.getElementById('f_num').value.trim();
+  const platform=document.getElementById('f_platform').value.trim();
+  const ci=parseInt(document.getElementById('f_cc').value);
+  const c=COUNTRIES[ci];
+  if(!name||!num){showToast('⚠️ Name and number required!',true);return;}
+  contacts.push({name,number:num,dialCode:c.dial,countryCode:c.code,platform});
+  saveData();closeModal();showToast('✅ Contact saved!');
+}
+
+function deleteContact(idx){
+  contacts.splice(idx,1);
+  saveData();showToast('🗑️ Contact deleted');
+}
+
+function saveData(){
+  localStorage.setItem('wa_contacts_pro',JSON.stringify(contacts));
+  populateCountryFilter();renderContacts();
+}
+
+function importFile(e){
+  const file=e.target.files[0];if(!file)return;
+  const ext=file.name.split('.').pop().toLowerCase();
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    if(ext==='csv'||ext==='txt')parseCSV(ev.target.result);
+    else showToast('⚠️ Use CSV or TXT file',true);
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+
+function parseCSV(text){
+  const lines=text.trim().split('\n');
+  let added=0;
+  lines.forEach((line,i)=>{
+    if(i===0&&line.toLowerCase().includes('name'))return;
+    const parts=line.split(',').map(s=>s.trim().replace(/^"|"$/g,''));
+    if(parts.length<2)return;
+    const name=parts[0],rawNum=parts[1]||'',platform=parts[2]||'';
+    let dial='+91',cc='IN',number=rawNum;
+    COUNTRIES.forEach(c=>{
+      if(rawNum.startsWith(c.dial)){dial=c.dial;cc=c.code;number=rawNum.slice(c.dial.length);}
     });
+    if(name){contacts.push({name,number,dialCode:dial,countryCode:cc,platform});added++;}
   });
+  saveData();showToast('✅ Imported '+added+' contacts!');
+}
 
-  loadSettings();
-  updateBadges();
-  renderDashboard();
-  showSec('dashboard');
-});
+function showToast(msg,err){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.borderColor=err?'var(--danger)':'var(--accent)';
+  t.style.color=err?'var(--danger)':'var(--accent)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+document.getElementById('addModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
 </script>
 </body>
 </html>
