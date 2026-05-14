@@ -3,126 +3,368 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WA Contact Manager</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>WA Contact Manager Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#07090f;--surface:#0e1219;--card:#131923;--border:#1a2235;--accent:#25d366;--accent2:#128c7e;--accent-glow:rgba(37,211,102,0.12);--text:#dde4f0;--muted:#5a6a88;--danger:#ff4d6d;--warn:#ffd60a;--radius:14px}
+:root{
+  --bg:#07090f;--surface:#0d1117;--card:#131923;--card2:#192030;
+  --border:#1c2840;--border2:#243050;
+  --accent:#25d366;--accent2:#128c7e;--accent3:#0a6b5e;
+  --accent-glow:rgba(37,211,102,0.1);--accent-glow2:rgba(37,211,102,0.06);
+  --text:#dde4f0;--text2:#a8b8d0;--muted:#5a6a88;--muted2:#3a4a60;
+  --danger:#ff4d6d;--danger-bg:rgba(255,77,109,0.08);
+  --warn:#ffd60a;--info:#4dabf7;
+  --radius:14px;--radius-sm:8px;--radius-lg:20px;
+  --shadow:0 8px 32px rgba(0,0,0,0.5);
+  --shadow-lg:0 24px 64px rgba(0,0,0,0.7);
+}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
-#loginPage{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 60% 30%,rgba(37,211,102,0.07) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(18,140,126,0.05) 0%,transparent 50%),var(--bg)}
-.login-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:52px 44px;width:420px;box-shadow:0 40px 80px rgba(0,0,0,0.6);animation:fadeUp .5s ease}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ── NOISE OVERLAY ── */
+body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+
+/* ── PAGE TRANSITIONS ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:36px}
-.login-logo span{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.login-card h2{font-family:'Syne',sans-serif;font-size:26px;font-weight:700;margin-bottom:6px}
-.login-card>p{color:var(--muted);font-size:14px;margin-bottom:32px}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+
+/* ═══════════════════════ LOGIN ═══════════════════════ */
+#loginPage{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(ellipse 60% 40% at 65% 25%, rgba(37,211,102,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 15% 80%, rgba(18,140,126,0.05) 0%, transparent 60%),
+    var(--bg);
+  position:relative;z-index:1;
+}
+.login-wrap{display:flex;flex-direction:column;align-items:center;gap:0;animation:fadeUp .55s ease}
+.login-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:24px;
+  padding:52px 44px;width:440px;max-width:95vw;
+  box-shadow:var(--shadow-lg),0 0 0 1px rgba(37,211,102,0.04) inset;
+  position:relative;overflow:hidden;
+}
+.login-card::before{
+  content:'';position:absolute;top:-80px;right:-80px;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(37,211,102,0.06),transparent 70%);
+  pointer-events:none;
+}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:38px}
+.logo-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.login-logo .brand{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;background:linear-gradient(135deg,var(--accent) 30%,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.login-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin-bottom:6px;letter-spacing:-.02em}
+.login-sub{color:var(--muted);font-size:14px;margin-bottom:34px}
+.sync-note{
+  background:rgba(37,211,102,0.06);border:1px solid rgba(37,211,102,0.15);
+  border-radius:10px;padding:10px 14px;font-size:12px;color:var(--accent);
+  margin-bottom:24px;display:flex;align-items:center;gap:8px;
+}
 .field{margin-bottom:18px}
-.field label{display:block;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
-.field input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:border-color .2s,box-shadow .2s}
-.field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
-.btn-primary{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:10px;padding:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;transition:opacity .2s,transform .15s;letter-spacing:.03em}
-.btn-primary:hover{opacity:.88;transform:translateY(-1px)}
-.login-err{background:rgba(255,77,109,0.1);border:1px solid rgba(255,77,109,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--danger);margin-bottom:16px;display:none}
-#appPage{display:none;min-height:100vh}
-.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;height:70px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(16px)}
-.topbar-brand{display:flex;align-items:center;gap:12px}
-.topbar-brand span{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.topbar-right{display:flex;align-items:center;gap:12px}
-.clock-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:8px 16px;display:flex;flex-direction:column;align-items:center;min-width:200px;position:relative}
-.clock-row{display:flex;align-items:center;gap:10px;width:100%}
-.clock-time{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--accent);letter-spacing:.05em;flex:1;text-align:center}
-.clock-toggle{background:var(--border);border:none;color:var(--muted);font-size:11px;font-weight:700;font-family:'Syne',sans-serif;border-radius:6px;padding:3px 8px;cursor:pointer;transition:all .2s;white-space:nowrap}
-.clock-toggle:hover,.clock-toggle.active{background:var(--accent);color:#fff}
-.clock-date{font-size:11px;color:var(--muted);margin-top:2px;text-align:center;width:100%}
-.clock-tz{font-size:10px;color:rgba(37,211,102,.5);text-align:center;margin-top:1px}
-.tz-select{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;cursor:pointer;max-width:200px}
-.btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:8px 18px;font-size:13px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.field input,.modal-input,.cc-select{
+  width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:13px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;
+  outline:none;transition:border-color .2s,box-shadow .2s;
+}
+.field input:focus,.modal-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.field input::placeholder,.modal-input::placeholder{color:var(--muted)}
+.btn-primary{
+  width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;border:none;border-radius:11px;padding:15px;
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;
+  margin-top:8px;transition:opacity .2s,transform .15s,box-shadow .2s;letter-spacing:.02em;
+  box-shadow:0 4px 20px rgba(37,211,102,0.25);
+}
+.btn-primary:hover{opacity:.88;transform:translateY(-1px);box-shadow:0 8px 28px rgba(37,211,102,0.35)}
+.btn-primary:active{transform:translateY(0)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.login-err{
+  background:var(--danger-bg);border:1px solid rgba(255,77,109,0.25);
+  border-radius:9px;padding:11px 14px;font-size:13px;color:var(--danger);
+  margin-bottom:16px;display:none;align-items:center;gap:8px;
+}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:8px}
+
+/* ═══════════════════════ APP ═══════════════════════ */
+#appPage{display:none;min-height:100vh;position:relative;z-index:1}
+
+/* TOPBAR */
+.topbar{
+  background:rgba(13,17,23,0.92);border-bottom:1px solid var(--border);
+  padding:0 28px;height:68px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);
+  box-shadow:0 1px 0 rgba(37,211,102,0.05);
+}
+.topbar-brand{display:flex;align-items:center;gap:10px}
+.topbar-brand .brand-text{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.topbar-brand .version-tag{background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.2);color:var(--accent);font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;font-family:'Syne',sans-serif;letter-spacing:.06em}
+.topbar-right{display:flex;align-items:center;gap:10px}
+
+/* CLOCK */
+.clock-box{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:7px 14px;min-width:195px;
+}
+.clock-row{display:flex;align-items:center;gap:8px}
+.clock-time{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;color:var(--accent);letter-spacing:.04em;flex:1;text-align:center}
+.clock-btns{display:flex;flex-direction:column;gap:2px}
+.clock-toggle{
+  background:var(--border);border:none;color:var(--muted);font-size:10px;font-weight:700;
+  font-family:'Syne',sans-serif;border-radius:5px;padding:3px 7px;cursor:pointer;transition:all .2s;
+}
+.clock-toggle:hover{background:var(--accent);color:#fff}
+.clock-toggle.active{background:var(--accent);color:#fff}
+.clock-date{font-size:10px;color:var(--muted);margin-top:2px;text-align:center}
+.clock-tz{font-size:9px;color:rgba(37,211,102,.45);text-align:center;margin-top:1px}
+
+.tz-select{
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  border-radius:9px;padding:6px 10px;font-family:'DM Sans',sans-serif;
+  font-size:12px;outline:none;cursor:pointer;max-width:185px;
+}
+
+/* TOPBAR BTNS */
+.btn-icon{
+  background:var(--card);border:1px solid var(--border);color:var(--text2);
+  border-radius:9px;padding:8px 12px;font-size:12px;cursor:pointer;
+  transition:all .2s;display:flex;align-items:center;gap:6px;font-family:'DM Sans',sans-serif;
+  white-space:nowrap;
+}
+.btn-icon:hover{border-color:var(--accent);color:var(--accent)}
+.btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:9px;padding:8px 16px;font-size:13px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
 .btn-logout:hover{border-color:var(--danger);color:var(--danger)}
-.main{max-width:1140px;margin:0 auto;padding:32px 24px}
-.section-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
-.msg-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;margin-bottom:24px;display:flex;gap:14px;align-items:flex-start}
-.msg-bar textarea{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;resize:vertical;min-height:56px;transition:border-color .2s}
+
+/* SYNC STATUS */
+.sync-status{
+  display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);
+  background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 12px;
+}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.sync-dot.syncing{animation:pulse .8s ease infinite}
+.sync-dot.error{background:var(--danger)}
+
+/* MAIN */
+.main{max-width:1160px;margin:0 auto;padding:28px 24px}
+
+/* MSG BAR */
+.msg-bar{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 20px;margin-bottom:22px;display:flex;gap:14px;align-items:flex-start;
+}
+.msg-icon-label{padding-top:10px;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--accent);flex-shrink:0}
+.msg-icon-label span{font-size:9px;color:var(--muted);font-weight:600;letter-spacing:.07em;text-transform:uppercase}
+.msg-bar textarea{
+  flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:12px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;
+  outline:none;resize:vertical;min-height:52px;transition:border-color .2s;line-height:1.5;
+}
 .msg-bar textarea:focus{border-color:var(--accent)}
 .msg-bar textarea::placeholder{color:var(--muted)}
-.msg-icon{padding-top:12px;color:var(--accent);font-size:13px;font-weight:600;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:4px}
-.actions-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+
+/* ACTIONS */
+.actions-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}
 .actions-left{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.btn-green{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:9px;padding:10px 18px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:opacity .2s,transform .15s;white-space:nowrap}
+.btn-green{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;
+  border-radius:9px;padding:10px 18px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;gap:6px;transition:opacity .2s,transform .15s;white-space:nowrap;
+  box-shadow:0 2px 12px rgba(37,211,102,0.2);
+}
 .btn-green:hover{opacity:.85;transform:translateY(-1px)}
-.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);border-radius:9px;padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;white-space:nowrap}
+.btn-outline{
+  background:transparent;border:1px solid var(--border);color:var(--text2);
+  border-radius:9px;padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:13px;
+  cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;white-space:nowrap;
+}
 .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
-.filter-select,.search-input{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;cursor:pointer}
-.search-input{width:190px;cursor:text}
+.filter-select,.search-input{
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  border-radius:9px;padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;
+}
+.search-input{width:185px;cursor:text}
 .search-input:focus{border-color:var(--accent)}
 .search-input::placeholder{color:var(--muted)}
-.count-badge{background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.2);color:var(--accent);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:700;font-family:'Syne',sans-serif;white-space:nowrap}
+.count-badge{
+  background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.18);
+  color:var(--accent);border-radius:20px;padding:5px 16px;font-size:12px;font-weight:700;
+  font-family:'Syne',sans-serif;white-space:nowrap;
+}
+
+/* TABLE */
 .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.table-head{display:grid;grid-template-columns:2fr 2fr 1.5fr 1.2fr 130px;padding:14px 20px;background:var(--card);border-bottom:1px solid var(--border);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
-.contact-row{display:grid;grid-template-columns:2fr 2fr 1.5fr 1.2fr 130px;padding:15px 20px;border-bottom:1px solid var(--border);align-items:center;transition:background .15s;animation:rowIn .3s ease}
-@keyframes rowIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+.table-head{
+  display:grid;grid-template-columns:2fr 1.8fr 1.4fr 1.3fr 130px;
+  padding:13px 20px;background:var(--card);border-bottom:1px solid var(--border);
+  font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;
+}
+.contact-row{
+  display:grid;grid-template-columns:2fr 1.8fr 1.4fr 1.3fr 130px;
+  padding:14px 20px;border-bottom:1px solid var(--border);align-items:center;
+  transition:background .15s;animation:slideIn .25s ease;
+}
 .contact-row:last-child{border-bottom:none}
-.contact-row:hover{background:rgba(37,211,102,.03)}
+.contact-row:hover{background:var(--accent-glow2)}
 .contact-name{font-weight:500;font-size:14px;color:var(--text)}
-.contact-number{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
-.flag{font-size:15px}
-.platform-badge{font-size:11px;background:var(--card);border:1px solid var(--border);border-radius:5px;padding:3px 9px;display:inline-block;color:var(--muted)}
-.country-text{font-size:12px;color:var(--muted)}
+.contact-number{font-size:13px;color:var(--text2)}
+.platform-badge{
+  font-size:11px;background:var(--card2);border:1px solid var(--border2);
+  border-radius:6px;padding:3px 10px;display:inline-block;color:var(--text2);
+}
+.country-text{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px}
 .row-actions{display:flex;gap:7px}
-.btn-wa{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border:none;border-radius:7px;padding:7px 11px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:opacity .2s,transform .1s;font-family:'DM Sans',sans-serif}
+.btn-wa{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;
+  border-radius:7px;padding:7px 11px;font-size:12px;font-weight:600;cursor:pointer;
+  display:flex;align-items:center;gap:5px;transition:opacity .2s,transform .1s;
+  font-family:'DM Sans',sans-serif;
+}
 .btn-wa:hover{opacity:.82;transform:scale(1.04)}
-.btn-del{background:transparent;border:1px solid rgba(255,77,109,.25);color:var(--danger);border-radius:7px;padding:7px 10px;font-size:12px;cursor:pointer;transition:all .2s}
-.btn-del:hover{background:rgba(255,77,109,.1);border-color:var(--danger)}
-.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
-.empty-state p{font-size:15px;margin-top:14px}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:999;opacity:0;pointer-events:none;transition:opacity .25s}
+.btn-del{
+  background:transparent;border:1px solid rgba(255,77,109,.2);color:var(--danger);
+  border-radius:7px;padding:7px 10px;font-size:12px;cursor:pointer;transition:all .2s;
+}
+.btn-del:hover{background:var(--danger-bg);border-color:var(--danger)}
+.empty-state{text-align:center;padding:70px 20px;color:var(--muted)}
+.empty-state svg{opacity:.25}
+.empty-state p{font-size:15px;margin-top:16px;color:var(--muted)}
+.empty-state small{font-size:12px;color:var(--muted2);margin-top:6px;display:block}
+
+/* MODALS */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;z-index:999;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px 32px;width:490px;max-width:95vw;box-shadow:0 40px 80px rgba(0,0,0,.65);transform:scale(.93) translateY(14px);transition:transform .25s ease}
+.modal{
+  background:var(--surface);border:1px solid var(--border);border-radius:22px;
+  padding:36px 32px;width:500px;max-width:96vw;max-height:90vh;overflow-y:auto;
+  box-shadow:var(--shadow-lg),0 0 0 1px rgba(37,211,102,0.04) inset;
+  transform:scale(.93) translateY(16px);transition:transform .28s cubic-bezier(0.34,1.56,0.64,1);
+}
 .modal-overlay.open .modal{transform:scale(1) translateY(0)}
-.modal h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:10px;color:var(--text)}
+.modal h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:10px}
 .modal .field{margin-bottom:16px}
 .country-row{display:flex;gap:10px}
-.cc-select,.modal-input{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none}
-.cc-select{width:150px;cursor:pointer}
-.modal-input{width:100%;transition:border-color .2s}
-.modal-input:focus{border-color:var(--accent)}
-.modal-footer{display:flex;justify-content:flex-end;gap:12px;margin-top:24px}
-.btn-cancel{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:9px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;transition:all .2s}
+.cc-select{width:155px;flex-shrink:0;cursor:pointer}
+.modal-input,.cc-select{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:13px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;
+}
+.modal-input{width:100%;transition:border-color .2s,box-shadow .2s}
+.modal-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:26px}
+.btn-cancel{
+  background:transparent;border:1px solid var(--border);color:var(--muted);
+  border-radius:9px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:14px;
+  cursor:pointer;transition:all .2s;
+}
 .btn-cancel:hover{border-color:var(--danger);color:var(--danger)}
-#fileInput{display:none}
-.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--accent);color:var(--accent);border-radius:10px;padding:12px 20px;font-size:13px;font-weight:500;z-index:9999;transform:translateY(60px);opacity:0;transition:all .3s ease;max-width:280px}
+.divider-line{height:1px;background:var(--border);margin:20px 0}
+.modal-section-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.pw-change-done{color:var(--accent);font-size:13px;display:none;align-items:center;gap:6px;margin-top:8px}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--accent);
+  color:var(--accent);border-radius:11px;padding:13px 20px;font-size:13px;font-weight:500;
+  z-index:9999;transform:translateY(60px);opacity:0;transition:all .32s ease;max-width:300px;
+  box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;
+}
 .toast.show{transform:translateY(0);opacity:1}
-.divider{height:1px;background:var(--border);margin:6px 0}
+.toast.error{border-color:var(--danger);color:var(--danger)}
+
+/* FILE INPUT */
+#fileInput{display:none}
+
+/* PASSWORD STRENGTH */
+.pw-strength{height:3px;background:var(--border);border-radius:2px;margin-top:6px;overflow:hidden}
+.pw-strength-bar{height:100%;border-radius:2px;transition:width .3s,background .3s;width:0}
+
+/* LOADING */
+.loading-overlay{
+  position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;z-index:9998;gap:16px;
+}
+.loading-spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+.loading-text{font-size:14px;color:var(--muted);font-family:'Syne',sans-serif}
+
+/* RESPONSIVE */
+@media(max-width:760px){
+  .table-head,.contact-row{grid-template-columns:1.8fr 1.6fr 1fr 110px}
+  .table-head>div:nth-child(4),.contact-row>div:nth-child(4){display:none}
+  .topbar{padding:0 16px}
+  .main{padding:18px 14px}
+  .clock-box{display:none}
+  .tz-select{display:none}
+  .login-card{padding:36px 24px}
+  .topbar-brand .version-tag{display:none}
+}
+@media(max-width:520px){
+  .table-head,.contact-row{grid-template-columns:2fr 1.5fr 110px}
+  .table-head>div:nth-child(3),.contact-row>div:nth-child(3){display:none}
+}
 </style>
 </head>
 <body>
 
-<div id="loginPage">
-  <div class="login-card">
-    <div class="login-logo">
-      <svg width="40" height="40" viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="url(#lg)"/><path d="M20 8C13.37 8 8 13.37 8 20c0 2.13.55 4.14 1.52 5.88L8 32l6.3-1.49A11.94 11.94 0 0020 32c6.63 0 12-5.37 12-12S26.63 8 20 8zm6.4 16.56c-.26.74-1.52 1.38-2.08 1.46-.56.08-1.28.12-2.06-.13-.48-.15-1.1-.35-1.9-.69-3.34-1.44-5.52-4.82-5.68-5.05-.16-.23-1.3-1.73-1.3-3.3 0-1.57.82-2.34 1.12-2.66.3-.32.65-.4.87-.4h.62c.2 0 .47-.07.73.56.27.65.92 2.24.99 2.4.08.16.13.35.03.56-.1.22-.15.35-.3.54-.15.19-.32.42-.45.57-.15.17-.31.35-.13.68.18.33.8 1.32 1.72 2.13 1.18 1.05 2.18 1.38 2.51 1.54.33.16.52.13.72-.08.2-.21.85-.99 1.07-1.33.22-.34.44-.28.74-.17.3.11 1.9.9 2.23 1.06.33.16.55.24.63.37.08.13.08.78-.18 1.52z" fill="white"/><defs><linearGradient id="lg" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#25d366"/><stop offset="1" stop-color="#128c7e"/></linearGradient></defs></svg>
-      <span>WA Manager</span>
+<!-- LOADING -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Connecting…</div>
+</div>
+
+<!-- LOGIN -->
+<div id="loginPage" style="display:none">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="logo-icon">
+          <svg width="26" height="26" viewBox="0 0 20 20" fill="white"><path d="M10 2C5.58 2 2 5.58 2 10c0 1.52.42 2.95 1.14 4.18L2 18l3.95-1.1A8 8 0 1010 2zm4.56 11.47c-.19.54-1.1 1-1.5 1.06-.4.06-.93.09-1.49-.09-.35-.11-.8-.26-1.37-.5-2.41-1.04-3.99-3.48-4.11-3.64-.12-.17-.94-1.25-.94-2.38 0-1.14.6-1.69.81-1.92.22-.23.47-.29.63-.29h.45c.14 0 .34-.05.53.4.19.47.66 1.62.72 1.74.06.12.09.25.02.4-.07.16-.11.25-.22.39-.11.14-.23.3-.33.41-.11.12-.22.25-.09.49.13.24.58.95 1.24 1.54.85.76 1.58 1 1.82 1.11.24.11.37.09.52-.06.14-.15.61-.71.77-.96.16-.24.32-.2.54-.12.22.08 1.37.65 1.61.77.24.12.4.17.46.27.06.1.06.57-.13 1.1z"/></svg>
+        </div>
+        <span class="brand">WA Manager Pro</span>
+      </div>
+      <div class="login-title">Welcome back</div>
+      <div class="login-sub">Sign in to manage your contacts</div>
+      <div class="sync-note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Contacts sync automatically across all your devices</span>
+      </div>
+      <div class="login-err" id="loginErr">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="loginErrText">Incorrect number or password</span>
+      </div>
+      <div class="field"><label>Phone Number</label><input type="text" id="loginNum" placeholder="1234567890" autocomplete="off"/></div>
+      <div class="field"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••" autocomplete="off"/></div>
+      <button class="btn-primary" id="loginBtn" onclick="doLogin()">Sign In →</button>
     </div>
-    <h2>Welcome back</h2>
-    <p>Sign in to manage your contacts</p>
-    <div class="login-err" id="loginErr">Incorrect number or password. Try again.</div>
-    <div class="field"><label>Phone Number</label><input type="text" id="loginNum" placeholder="1234567890" autocomplete="off"/></div>
-    <div class="field"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••" autocomplete="off"/></div>
-    <button class="btn-primary" onclick="doLogin()">Sign In →</button>
   </div>
 </div>
 
+<!-- APP -->
 <div id="appPage">
   <div class="topbar">
     <div class="topbar-brand">
-      <svg width="30" height="30" viewBox="0 0 40 40"><rect width="40" height="40" rx="8" fill="url(#lg2)"/><path d="M20 8C13.37 8 8 13.37 8 20c0 2.13.55 4.14 1.52 5.88L8 32l6.3-1.49A11.94 11.94 0 0020 32c6.63 0 12-5.37 12-12S26.63 8 20 8zm6.4 16.56c-.26.74-1.52 1.38-2.08 1.46-.56.08-1.28.12-2.06-.13-.48-.15-1.1-.35-1.9-.69-3.34-1.44-5.52-4.82-5.68-5.05-.16-.23-1.3-1.73-1.3-3.3 0-1.57.82-2.34 1.12-2.66.3-.32.65-.4.87-.4h.62c.2 0 .47-.07.73.56.27.65.92 2.24.99 2.4.08.16.13.35.03.56-.1.22-.15.35-.3.54-.15.19-.32.42-.45.57-.15.17-.31.35-.13.68.18.33.8 1.32 1.72 2.13 1.18 1.05 2.18 1.38 2.51 1.54.33.16.52.13.72-.08.2-.21.85-.99 1.07-1.33.22-.34.44-.28.74-.17.3.11 1.9.9 2.23 1.06.33.16.55.24.63.37.08.13.08.78-.18 1.52z" fill="white"/><defs><linearGradient id="lg2" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#25d366"/><stop offset="1" stop-color="#128c7e"/></linearGradient></defs></svg>
-      <span>WA Manager Pro</span>
+      <div class="logo-icon" style="width:30px;height:30px;border-radius:8px">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="white"><path d="M10 2C5.58 2 2 5.58 2 10c0 1.52.42 2.95 1.14 4.18L2 18l3.95-1.1A8 8 0 1010 2zm4.56 11.47c-.19.54-1.1 1-1.5 1.06-.4.06-.93.09-1.49-.09-.35-.11-.8-.26-1.37-.5-2.41-1.04-3.99-3.48-4.11-3.64-.12-.17-.94-1.25-.94-2.38 0-1.14.6-1.69.81-1.92.22-.23.47-.29.63-.29h.45c.14 0 .34-.05.53.4.19.47.66 1.62.72 1.74.06.12.09.25.02.4-.07.16-.11.25-.22.39-.11.14-.23.3-.33.41-.11.12-.22.25-.09.49.13.24.58.95 1.24 1.54.85.76 1.58 1 1.82 1.11.24.11.37.09.52-.06.14-.15.61-.71.77-.96.16-.24.32-.2.54-.12.22.08 1.37.65 1.61.77.24.12.4.17.46.27.06.1.06.57-.13 1.1z"/></svg>
+      </div>
+      <span class="brand-text">WA Manager</span>
+      <span class="version-tag">PRO</span>
     </div>
     <div class="topbar-right">
+      <div class="sync-status" id="syncStatus">
+        <div class="sync-dot" id="syncDot"></div>
+        <span id="syncText">Synced</span>
+      </div>
       <select class="tz-select" id="tzSelect" onchange="onTzChange()"></select>
       <div class="clock-box">
         <div class="clock-row">
           <div class="clock-time" id="clockTime">--:--:--</div>
-          <div style="display:flex;flex-direction:column;gap:3px">
+          <div class="clock-btns">
             <button class="clock-toggle" id="btn12" onclick="setFmt(12)">12H</button>
             <button class="clock-toggle" id="btn24" onclick="setFmt(24)">24H</button>
           </div>
@@ -130,23 +372,27 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
         <div class="clock-date" id="clockDate"></div>
         <div class="clock-tz" id="clockTz"></div>
       </div>
+      <button class="btn-icon" onclick="openSettings()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Settings
+      </button>
       <button class="btn-logout" onclick="doLogout()">Logout</button>
     </div>
   </div>
 
   <div class="main">
     <div class="msg-bar">
-      <div class="msg-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#25d366" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span style="font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.05em">MSG</span>
+      <div class="msg-icon-label">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#25d366" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>MSG</span>
       </div>
-      <textarea id="msgTemplate" placeholder="Type your WhatsApp message template here… Click WA on any contact to open chat with this message pre-filled."></textarea>
+      <textarea id="msgTemplate" placeholder="WhatsApp message template… Click WA on any contact to open chat with this message pre-filled."></textarea>
     </div>
 
     <div class="actions-row">
       <div class="actions-left">
         <button class="btn-green" onclick="openAddModal()">
-          <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>
           Add Contact
         </button>
         <button class="btn-outline" onclick="document.getElementById('fileInput').click()">
@@ -155,9 +401,9 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
         </button>
         <input type="file" id="fileInput" accept=".csv,.txt" onchange="importFile(event)"/>
         <select class="filter-select" id="countryFilter" onchange="renderContacts()">
-          <option value="">🌍 All Countries</option>
+          <option value="">All Countries</option>
         </select>
-        <input class="search-input" id="searchInput" placeholder="🔍 Search…" oninput="renderContacts()"/>
+        <input class="search-input" id="searchInput" placeholder="Search…" oninput="renderContacts()"/>
       </div>
       <span class="count-badge" id="countBadge">0 Contacts</span>
     </div>
@@ -175,6 +421,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
   </div>
 </div>
 
+<!-- ADD CONTACT MODAL -->
 <div class="modal-overlay" id="addModal">
   <div class="modal">
     <h3>
@@ -191,8 +438,54 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
     </div>
     <div class="field"><label>Platform</label><input type="text" id="f_platform" placeholder="Instagram, Telegram, LinkedIn…" class="modal-input"/></div>
     <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-cancel" onclick="closeAddModal()">Cancel</button>
       <button class="btn-green" onclick="saveContact()" style="width:auto;padding:10px 28px;">Save Contact</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <h3>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#25d366" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Settings
+    </h3>
+
+    <!-- Account Info -->
+    <div class="modal-section-label">Account</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:20px">
+      <div style="font-size:13px;color:var(--muted)">Logged in as</div>
+      <div style="font-size:15px;font-weight:500;margin-top:4px" id="settingsUserNum">—</div>
+    </div>
+
+    <div class="divider-line"></div>
+
+    <!-- Change Password -->
+    <div class="modal-section-label">Change Password</div>
+    <div class="field"><label>Current Password</label><input type="password" id="pw_current" placeholder="••••••••" class="modal-input"/></div>
+    <div class="field">
+      <label>New Password</label>
+      <input type="password" id="pw_new" placeholder="Min 6 characters" class="modal-input" oninput="checkPwStrength()"/>
+      <div class="pw-strength"><div class="pw-strength-bar" id="pwBar"></div></div>
+    </div>
+    <div class="field"><label>Confirm New Password</label><input type="password" id="pw_confirm" placeholder="Repeat new password" class="modal-input"/></div>
+    <div class="pw-change-done" id="pwDone">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      Password changed successfully!
+    </div>
+    <button class="btn-green" onclick="changePassword()" style="margin-top:12px;width:100%;justify-content:center">Update Password</button>
+
+    <div class="divider-line"></div>
+
+    <!-- Danger zone -->
+    <div class="modal-section-label" style="color:var(--danger)">Danger Zone</div>
+    <button onclick="clearAllContacts()" style="background:var(--danger-bg);border:1px solid rgba(255,77,109,.25);color:var(--danger);border-radius:9px;padding:10px 18px;font-size:13px;cursor:pointer;width:100%;font-family:'DM Sans',sans-serif;transition:all .2s" onmouseover="this.style.background='rgba(255,77,109,0.15)'" onmouseout="this.style.background='var(--danger-bg)'">
+      🗑️ Delete All Contacts (from all devices)
+    </button>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeSettings()">Close</button>
     </div>
   </div>
 </div>
@@ -200,7 +493,16 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 <div class="toast" id="toast"></div>
 
 <script>
-const CREDS={num:'1234567890',pass:'Zzz@1234'};
+// ═══════════════════════════════════════════════════════
+//  CLOUD STORAGE via Anthropic API persistent storage
+//  Contacts stored under shared key so all devices sync
+// ═══════════════════════════════════════════════════════
+
+// Default credentials (stored in cloud, can be changed)
+const DEFAULT_CREDS = {num:'1234567890', pass:'Zzz@1234'};
+const STORAGE_KEY_CONTACTS = 'wa_contacts_v2';
+const STORAGE_KEY_CREDS = 'wa_credentials_v2';
+const STORAGE_KEY_SESSION = 'wa_session_v1';
 
 const COUNTRIES=[
   {name:'India',code:'IN',dial:'+91',flag:'🇮🇳',tz:'Asia/Kolkata'},
@@ -243,16 +545,12 @@ const COUNTRIES=[
   {name:'Chile',code:'CL',dial:'+56',flag:'🇨🇱',tz:'America/Santiago'},
   {name:'Ghana',code:'GH',dial:'+233',flag:'🇬🇭',tz:'Africa/Accra'},
   {name:'Ethiopia',code:'ET',dial:'+251',flag:'🇪🇹',tz:'Africa/Addis_Ababa'},
-  {name:'Tanzania',code:'TZ',dial:'+255',flag:'🇹🇿',tz:'Africa/Dar_es_Salaam'},
   {name:'Portugal',code:'PT',dial:'+351',flag:'🇵🇹',tz:'Europe/Lisbon'},
   {name:'Netherlands',code:'NL',dial:'+31',flag:'🇳🇱',tz:'Europe/Amsterdam'},
   {name:'Belgium',code:'BE',dial:'+32',flag:'🇧🇪',tz:'Europe/Brussels'},
   {name:'Sweden',code:'SE',dial:'+46',flag:'🇸🇪',tz:'Europe/Stockholm'},
-  {name:'Norway',code:'NO',dial:'+47',flag:'🇳🇴',tz:'Europe/Oslo'},
   {name:'Switzerland',code:'CH',dial:'+41',flag:'🇨🇭',tz:'Europe/Zurich'},
   {name:'Poland',code:'PL',dial:'+48',flag:'🇵🇱',tz:'Europe/Warsaw'},
-  {name:'Ukraine',code:'UA',dial:'+380',flag:'🇺🇦',tz:'Europe/Kiev'},
-  {name:'Greece',code:'GR',dial:'+30',flag:'🇬🇷',tz:'Europe/Athens'},
   {name:'New Zealand',code:'NZ',dial:'+64',flag:'🇳🇿',tz:'Pacific/Auckland'},
   {name:'Israel',code:'IL',dial:'+972',flag:'🇮🇱',tz:'Asia/Jerusalem'},
   {name:'Jordan',code:'JO',dial:'+962',flag:'🇯🇴',tz:'Asia/Amman'},
@@ -261,70 +559,380 @@ const COUNTRIES=[
   {name:'Bahrain',code:'BH',dial:'+973',flag:'🇧🇭',tz:'Asia/Bahrain'},
   {name:'Oman',code:'OM',dial:'+968',flag:'🇴🇲',tz:'Asia/Muscat'},
   {name:'Morocco',code:'MA',dial:'+212',flag:'🇲🇦',tz:'Africa/Casablanca'},
-  {name:'Algeria',code:'DZ',dial:'+213',flag:'🇩🇿',tz:'Africa/Algiers'},
-  {name:'Tunisia',code:'TN',dial:'+216',flag:'🇹🇳',tz:'Africa/Tunis'},
-  {name:'Sudan',code:'SD',dial:'+249',flag:'🇸🇩',tz:'Africa/Khartoum'},
   {name:'Iraq',code:'IQ',dial:'+964',flag:'🇮🇶',tz:'Asia/Baghdad'},
   {name:'Iran',code:'IR',dial:'+98',flag:'🇮🇷',tz:'Asia/Tehran'},
-  {name:'Cambodia',code:'KH',dial:'+855',flag:'🇰🇭',tz:'Asia/Phnom_Penh'},
-  {name:'Laos',code:'LA',dial:'+856',flag:'🇱🇦',tz:'Asia/Vientiane'},
-  {name:'Mongolia',code:'MN',dial:'+976',flag:'🇲🇳',tz:'Asia/Ulaanbaatar'},
   {name:'Kazakhstan',code:'KZ',dial:'+7',flag:'🇰🇿',tz:'Asia/Almaty'},
-  {name:'Uzbekistan',code:'UZ',dial:'+998',flag:'🇺🇿',tz:'Asia/Tashkent'},
-  {name:'Azerbaijan',code:'AZ',dial:'+994',flag:'🇦🇿',tz:'Asia/Baku'},
-  {name:'Armenia',code:'AM',dial:'+374',flag:'🇦🇲',tz:'Asia/Yerevan'},
-  {name:'Georgia',code:'GE',dial:'+995',flag:'🇬🇪',tz:'Asia/Tbilisi'},
-  {name:'Czech Republic',code:'CZ',dial:'+420',flag:'🇨🇿',tz:'Europe/Prague'},
-  {name:'Hungary',code:'HU',dial:'+36',flag:'🇭🇺',tz:'Europe/Budapest'},
-  {name:'Romania',code:'RO',dial:'+40',flag:'🇷🇴',tz:'Europe/Bucharest'},
-  {name:'Bulgaria',code:'BG',dial:'+359',flag:'🇧🇬',tz:'Europe/Sofia'},
-  {name:'Serbia',code:'RS',dial:'+381',flag:'🇷🇸',tz:'Europe/Belgrade'},
-  {name:'Croatia',code:'HR',dial:'+385',flag:'🇭🇷',tz:'Europe/Zagreb'},
-  {name:'Slovakia',code:'SK',dial:'+421',flag:'🇸🇰',tz:'Europe/Bratislava'},
-  {name:'Denmark',code:'DK',dial:'+45',flag:'🇩🇰',tz:'Europe/Copenhagen'},
-  {name:'Finland',code:'FI',dial:'+358',flag:'🇫🇮',tz:'Europe/Helsinki'},
-  {name:'Austria',code:'AT',dial:'+43',flag:'🇦🇹',tz:'Europe/Vienna'},
   {name:'Ireland',code:'IE',dial:'+353',flag:'🇮🇪',tz:'Europe/Dublin'},
   {name:'Maldives',code:'MV',dial:'+960',flag:'🇲🇻',tz:'Indian/Maldives'},
-  {name:'Bhutan',code:'BT',dial:'+975',flag:'🇧🇹',tz:'Asia/Thimphu'},
-  {name:'Uganda',code:'UG',dial:'+256',flag:'🇺🇬',tz:'Africa/Kampala'},
-  {name:'Zambia',code:'ZM',dial:'+260',flag:'🇿🇲',tz:'Africa/Lusaka'},
-  {name:'Zimbabwe',code:'ZW',dial:'+263',flag:'🇿🇼',tz:'Africa/Harare'},
-  {name:'Cameroon',code:'CM',dial:'+237',flag:'🇨🇲',tz:'Africa/Douala'},
-  {name:'Senegal',code:'SN',dial:'+221',flag:'🇸🇳',tz:'Africa/Dakar'},
-  {name:'Ivory Coast',code:'CI',dial:'+225',flag:'🇨🇮',tz:'Africa/Abidjan'},
-  {name:'Jamaica',code:'JM',dial:'+1876',flag:'🇯🇲',tz:'America/Jamaica'},
-  {name:'Trinidad & Tobago',code:'TT',dial:'+1868',flag:'🇹🇹',tz:'America/Port_of_Spain'},
-  {name:'Venezuela',code:'VE',dial:'+58',flag:'🇻🇪',tz:'America/Caracas'},
-  {name:'Ecuador',code:'EC',dial:'+593',flag:'🇪🇨',tz:'America/Guayaquil'},
-  {name:'Bolivia',code:'BO',dial:'+591',flag:'🇧🇴',tz:'America/La_Paz'},
-  {name:'Paraguay',code:'PY',dial:'+595',flag:'🇵🇾',tz:'America/Asuncion'},
-  {name:'Uruguay',code:'UY',dial:'+598',flag:'🇺🇾',tz:'America/Montevideo'},
-  {name:'Costa Rica',code:'CR',dial:'+506',flag:'🇨🇷',tz:'America/Costa_Rica'},
-  {name:'Panama',code:'PA',dial:'+507',flag:'🇵🇦',tz:'America/Panama'},
-  {name:'Cuba',code:'CU',dial:'+53',flag:'🇨🇺',tz:'America/Havana'},
-  {name:'Dominican Republic',code:'DO',dial:'+1809',flag:'🇩🇴',tz:'America/Santo_Domingo'},
 ];
 
-let contacts=JSON.parse(localStorage.getItem('wa_contacts_pro')||'[]');
-let clockFmt=parseInt(localStorage.getItem('wa_clock_fmt')||'24');
-let selectedTz=localStorage.getItem('wa_tz')||COUNTRIES[0].tz;
-let clockInterval=null;
+// ─── STATE ───────────────────────────────────────────
+let contacts = [];
+let credentials = {...DEFAULT_CREDS};
+let clockFmt = parseInt(localStorage.getItem('wa_clock_fmt')||'24');
+let selectedTz = localStorage.getItem('wa_tz')||COUNTRIES[0].tz;
+let clockInterval = null;
+let syncInterval = null;
+let isSyncing = false;
+
+// ─── STORAGE HELPERS (window.storage = artifact persistent storage) ───
+async function cloudGet(key){
+  try{
+    const r = await window.storage.get(key, true); // shared=true for cross-device
+    return r ? JSON.parse(r.value) : null;
+  }catch(e){ return null; }
+}
+async function cloudSet(key, val){
+  try{
+    await window.storage.set(key, JSON.stringify(val), true);
+    return true;
+  }catch(e){ return false; }
+}
+
+// ─── SESSION (localStorage for quick reload) ─────────
+function saveSession(num){ localStorage.setItem(STORAGE_KEY_SESSION, num); }
+function loadSession(){ return localStorage.getItem(STORAGE_KEY_SESSION); }
+function clearSession(){ localStorage.removeItem(STORAGE_KEY_SESSION); }
+
+// ─── SYNC STATUS UI ───────────────────────────────────
+function setSyncStatus(state, text){
+  const dot = document.getElementById('syncDot');
+  const txt = document.getElementById('syncText');
+  if(!dot) return;
+  dot.className = 'sync-dot' + (state==='syncing'?' syncing':(state==='error'?' error':''));
+  txt.textContent = text;
+}
+
+// ─── INIT ─────────────────────────────────────────────
+async function appInit(){
+  document.getElementById('loadingOverlay').style.display='flex';
+
+  // Load credentials from cloud (or use defaults)
+  const cloudCreds = await cloudGet(STORAGE_KEY_CREDS);
+  if(cloudCreds) credentials = cloudCreds;
+
+  // Check for saved session
+  const savedSession = loadSession();
+  if(savedSession && savedSession === credentials.num){
+    // Auto-login
+    document.getElementById('loadingOverlay').style.display='none';
+    await showApp();
+  } else {
+    document.getElementById('loadingOverlay').style.display='none';
+    document.getElementById('loginPage').style.display='flex';
+  }
+}
+
+// ─── LOGIN ────────────────────────────────────────────
+async function doLogin(){
+  const n = document.getElementById('loginNum').value.trim();
+  const p = document.getElementById('loginPass').value.trim();
+  const btn = document.getElementById('loginBtn');
+  const errEl = document.getElementById('loginErr');
+
+  if(!n||!p){
+    showLoginErr('Please enter phone number and password');
+    return;
+  }
+
+  // Re-fetch credentials in case changed from another device
+  const cloudCreds = await cloudGet(STORAGE_KEY_CREDS);
+  if(cloudCreds) credentials = cloudCreds;
+
+  if(n === credentials.num && p === credentials.pass){
+    errEl.style.display='none';
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Loading…';
+    saveSession(n);
+    await showApp();
+    btn.disabled = false;
+    btn.innerHTML = 'Sign In →';
+  } else {
+    showLoginErr('Incorrect number or password. Try again.');
+  }
+}
+
+function showLoginErr(msg){
+  const el = document.getElementById('loginErr');
+  document.getElementById('loginErrText').textContent = msg;
+  el.style.display='flex';
+  el.style.animation='none';
+  setTimeout(()=>el.style.animation='',10);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const passInput = document.getElementById('loginPass');
+  if(passInput) passInput.addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+});
+
+// ─── SHOW APP ────────────────────────────────────────
+async function showApp(){
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('appPage').style.display='block';
+  initClockUI();
+  await loadContacts();
+  startAutoSync();
+}
+
+// ─── LOGOUT ──────────────────────────────────────────
+function doLogout(){
+  clearSession();
+  clearInterval(clockInterval);
+  clearInterval(syncInterval);
+  document.getElementById('loginPage').style.display='flex';
+  document.getElementById('appPage').style.display='none';
+  document.getElementById('loginNum').value='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('loginErr').style.display='none';
+}
+
+// ─── CONTACTS CLOUD SYNC ─────────────────────────────
+async function loadContacts(){
+  setSyncStatus('syncing','Syncing…');
+  isSyncing = true;
+  const data = await cloudGet(STORAGE_KEY_CONTACTS);
+  if(data && Array.isArray(data)){
+    contacts = data;
+  }
+  isSyncing = false;
+  setSyncStatus('ok','Synced');
+  populateCountryFilter();
+  renderContacts();
+}
+
+async function saveContacts(){
+  setSyncStatus('syncing','Saving…');
+  const ok = await cloudSet(STORAGE_KEY_CONTACTS, contacts);
+  setSyncStatus(ok?'ok':'error', ok?'Synced':'Sync failed');
+  populateCountryFilter();
+  renderContacts();
+}
+
+function startAutoSync(){
+  // Re-sync from cloud every 30 seconds (to pick up changes from other devices)
+  syncInterval = setInterval(async ()=>{
+    if(isSyncing) return;
+    isSyncing = true;
+    setSyncStatus('syncing','Syncing…');
+    const data = await cloudGet(STORAGE_KEY_CONTACTS);
+    if(data && Array.isArray(data)){
+      const oldLen = contacts.length;
+      contacts = data;
+      if(contacts.length !== oldLen){
+        populateCountryFilter();
+        renderContacts();
+      }
+    }
+    isSyncing = false;
+    setSyncStatus('ok','Synced');
+  }, 30000);
+}
+
+// ─── CONTACTS RENDER ─────────────────────────────────
+function renderContacts(){
+  const fc = document.getElementById('countryFilter').value;
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  let list = contacts;
+  if(fc) list = list.filter(c=>c.countryCode===fc);
+  if(q) list = list.filter(c=>
+    c.name.toLowerCase().includes(q) ||
+    c.number.includes(q) ||
+    (c.platform||'').toLowerCase().includes(q)
+  );
+  document.getElementById('countBadge').textContent = list.length+' Contact'+(list.length!==1?'s':'');
+  const el = document.getElementById('contactList');
+  if(!list.length){
+    el.innerHTML=`<div class="empty-state">
+      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <p>No contacts found</p>
+      <small>Add a contact or import CSV to get started</small>
+    </div>`;
+    return;
+  }
+  el.innerHTML = list.map(c=>{
+    const country = COUNTRIES.find(x=>x.code===c.countryCode)||{flag:'🌍',name:'Unknown'};
+    const fullNum = (c.dialCode+c.number).replace(/\s/g,'').replace('+','');
+    const msg = encodeURIComponent(document.getElementById('msgTemplate').value||'');
+    const waUrl = 'https://wa.me/'+fullNum+(msg?'?text='+msg:'');
+    const idx = contacts.indexOf(c);
+    return `<div class="contact-row">
+      <div class="contact-name">${esc(c.name)}</div>
+      <div class="contact-number">${c.dialCode} ${c.number}</div>
+      <div><span class="platform-badge">${esc(c.platform)||'—'}</span></div>
+      <div class="country-text">${country.flag} ${country.name}</div>
+      <div class="row-actions">
+        <a href="${waUrl}" target="_blank" style="text-decoration:none">
+          <button class="btn-wa">
+            <svg width="12" height="12" viewBox="0 0 20 20" fill="white"><path d="M10 2C5.58 2 2 5.58 2 10c0 1.52.42 2.95 1.14 4.18L2 18l3.95-1.1A8 8 0 1010 2zm4.56 11.47c-.19.54-1.1 1-1.5 1.06-.4.06-.93.09-1.49-.09-.35-.11-.8-.26-1.37-.5-2.41-1.04-3.99-3.48-4.11-3.64-.12-.17-.94-1.25-.94-2.38 0-1.14.6-1.69.81-1.92.22-.23.47-.29.63-.29h.45c.14 0 .34-.05.53.4.19.47.66 1.62.72 1.74.06.12.09.25.02.4-.07.16-.11.25-.22.39-.11.14-.23.3-.33.41-.11.12-.22.25-.09.49.13.24.58.95 1.24 1.54.85.76 1.58 1 1.82 1.11.24.11.37.09.52-.06.14-.15.61-.71.77-.96.16-.24.32-.2.54-.12.22.08 1.37.65 1.61.77.24.12.4.17.46.27.06.1.06.57-.13 1.1z"/></svg>
+            WA
+          </button>
+        </a>
+        <button class="btn-del" onclick="deleteContact(${idx})" title="Delete">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function populateCountryFilter(){
+  const sel = document.getElementById('countryFilter');
+  const cur = sel.value;
+  while(sel.options.length>1) sel.remove(1);
+  const used = new Set(contacts.map(c=>c.countryCode));
+  COUNTRIES.filter(c=>used.has(c.code)).forEach(c=>{
+    const opt = document.createElement('option');
+    opt.value = c.code;
+    opt.textContent = c.flag+' '+c.name;
+    sel.appendChild(opt);
+  });
+  if(cur) sel.value = cur;
+}
+
+// ─── ADD CONTACT ─────────────────────────────────────
+function openAddModal(){
+  document.getElementById('addModal').classList.add('open');
+  populateCCSelect();
+}
+function closeAddModal(){
+  document.getElementById('addModal').classList.remove('open');
+  ['f_name','f_num','f_platform'].forEach(id=>document.getElementById(id).value='');
+}
+
+function populateCCSelect(){
+  const sel = document.getElementById('f_cc');
+  sel.innerHTML = '';
+  COUNTRIES.forEach((c,i)=>{
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = c.flag+' '+c.dial+' '+c.name;
+    sel.appendChild(opt);
+  });
+}
+
+async function saveContact(){
+  const name = document.getElementById('f_name').value.trim();
+  const num = document.getElementById('f_num').value.trim().replace(/\D/g,'');
+  const platform = document.getElementById('f_platform').value.trim();
+  const ci = parseInt(document.getElementById('f_cc').value);
+  const c = COUNTRIES[ci];
+  if(!name||!num){ showToast('Name and number required!',true); return; }
+  contacts.push({name, number:num, dialCode:c.dial, countryCode:c.code, platform});
+  closeAddModal();
+  showToast('Contact saved!');
+  await saveContacts();
+}
+
+async function deleteContact(idx){
+  if(!confirm('Delete this contact?')) return;
+  contacts.splice(idx,1);
+  showToast('Contact deleted');
+  await saveContacts();
+}
+
+async function clearAllContacts(){
+  if(!confirm('Delete ALL contacts? This affects all devices and cannot be undone.')) return;
+  contacts = [];
+  await saveContacts();
+  showToast('All contacts cleared');
+  closeSettings();
+}
+
+// ─── CSV IMPORT ──────────────────────────────────────
+function importFile(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = async ev => {
+    parseCSV(ev.target.result);
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+
+async function parseCSV(text){
+  const lines = text.trim().split('\n');
+  let added = 0;
+  lines.forEach((line,i)=>{
+    if(i===0 && line.toLowerCase().includes('name')) return;
+    const parts = line.split(',').map(s=>s.trim().replace(/^"|"$/g,''));
+    if(parts.length<2) return;
+    const name=parts[0], rawNum=parts[1]||'', platform=parts[2]||'';
+    let dial='+91', cc='IN', number=rawNum.replace(/\D/g,'');
+    COUNTRIES.forEach(c=>{
+      const clean = rawNum.replace(/\s/g,'');
+      if(clean.startsWith(c.dial)){ dial=c.dial; cc=c.code; number=clean.slice(c.dial.length); }
+    });
+    if(name){ contacts.push({name,number,dialCode:dial,countryCode:cc,platform}); added++; }
+  });
+  await saveContacts();
+  showToast('Imported '+added+' contacts!');
+}
+
+// ─── SETTINGS ────────────────────────────────────────
+function openSettings(){
+  document.getElementById('settingsUserNum').textContent = credentials.num;
+  ['pw_current','pw_new','pw_confirm'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('pwDone').style.display='none';
+  document.getElementById('pwBar').style.width='0';
+  document.getElementById('settingsModal').classList.add('open');
+}
+function closeSettings(){
+  document.getElementById('settingsModal').classList.remove('open');
+}
+
+function checkPwStrength(){
+  const pw = document.getElementById('pw_new').value;
+  const bar = document.getElementById('pwBar');
+  let score=0;
+  if(pw.length>=6) score++;
+  if(pw.length>=10) score++;
+  if(/[A-Z]/.test(pw)) score++;
+  if(/[0-9]/.test(pw)) score++;
+  if(/[^A-Za-z0-9]/.test(pw)) score++;
+  const pct = (score/5)*100;
+  bar.style.width = pct+'%';
+  bar.style.background = score<=1?'var(--danger)':score<=3?'var(--warn)':'var(--accent)';
+}
+
+async function changePassword(){
+  const cur = document.getElementById('pw_current').value;
+  const nw = document.getElementById('pw_new').value;
+  const conf = document.getElementById('pw_confirm').value;
+  if(cur !== credentials.pass){ showToast('Current password is incorrect',true); return; }
+  if(nw.length<6){ showToast('New password must be at least 6 characters',true); return; }
+  if(nw !== conf){ showToast('New passwords do not match',true); return; }
+  credentials.pass = nw;
+  const ok = await cloudSet(STORAGE_KEY_CREDS, credentials);
+  if(ok){
+    document.getElementById('pwDone').style.display='flex';
+    ['pw_current','pw_new','pw_confirm'].forEach(id=>document.getElementById(id).value='');
+    showToast('Password updated successfully!');
+  } else {
+    showToast('Failed to save, try again',true);
+  }
+}
+
+// ─── CLOCK ───────────────────────────────────────────
+function initClockUI(){
+  populateTzSelect();
+  setFmt(clockFmt);
+  updateClock();
+  clockInterval = setInterval(updateClock, 1000);
+}
 
 function updateClock(){
-  const now=new Date();
+  const now = new Date();
   const opts12={timeZone:selectedTz,hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true};
   const opts24={timeZone:selectedTz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false};
-  const timeStr=now.toLocaleTimeString('en-US',clockFmt===12?opts12:opts24);
-  const dateStr=now.toLocaleDateString('en-US',{timeZone:selectedTz,weekday:'long',year:'numeric',month:'short',day:'numeric'});
-  const tzName=selectedTz.split('/').pop().replace(/_/g,' ');
-  document.getElementById('clockTime').textContent=timeStr;
-  document.getElementById('clockDate').textContent=dateStr;
-  document.getElementById('clockTz').textContent='📍 '+tzName;
+  const dateOpts={timeZone:selectedTz,weekday:'short',year:'numeric',month:'short',day:'numeric'};
+  document.getElementById('clockTime').textContent = now.toLocaleTimeString('en-US',clockFmt===12?opts12:opts24);
+  document.getElementById('clockDate').textContent = now.toLocaleDateString('en-US',dateOpts);
+  document.getElementById('clockTz').textContent = '📍 '+selectedTz.split('/').pop().replace(/_/g,' ');
 }
 
 function setFmt(f){
-  clockFmt=f;
+  clockFmt = f;
   localStorage.setItem('wa_clock_fmt',f);
   document.getElementById('btn12').classList.toggle('active',f===12);
   document.getElementById('btn24').classList.toggle('active',f===24);
@@ -332,177 +940,40 @@ function setFmt(f){
 }
 
 function onTzChange(){
-  selectedTz=document.getElementById('tzSelect').value;
+  selectedTz = document.getElementById('tzSelect').value;
   localStorage.setItem('wa_tz',selectedTz);
   updateClock();
 }
 
 function populateTzSelect(){
-  const sel=document.getElementById('tzSelect');
-  sel.innerHTML='';
+  const sel = document.getElementById('tzSelect');
+  sel.innerHTML = '';
   COUNTRIES.forEach(c=>{
-    const opt=document.createElement('option');
-    opt.value=c.tz;
-    opt.textContent=c.flag+' '+c.name;
-    if(c.tz===selectedTz)opt.selected=true;
+    const opt = document.createElement('option');
+    opt.value = c.tz;
+    opt.textContent = c.flag+' '+c.name;
+    if(c.tz===selectedTz) opt.selected = true;
     sel.appendChild(opt);
   });
 }
 
-function doLogin(){
-  const n=document.getElementById('loginNum').value.trim();
-  const p=document.getElementById('loginPass').value.trim();
-  if(n===CREDS.num&&p===CREDS.pass){
-    document.getElementById('loginPage').style.display='none';
-    document.getElementById('appPage').style.display='block';
-    initApp();
-  }else{
-    document.getElementById('loginErr').style.display='block';
-  }
-}
-document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-
-function doLogout(){
-  document.getElementById('loginPage').style.display='flex';
-  document.getElementById('appPage').style.display='none';
-  document.getElementById('loginNum').value='';
-  document.getElementById('loginPass').value='';
-  document.getElementById('loginErr').style.display='none';
-  clearInterval(clockInterval);
-}
-
-function initApp(){
-  populateTzSelect();
-  populateCCSelect();
-  populateCountryFilter();
-  renderContacts();
-  setFmt(clockFmt);
-  updateClock();
-  clockInterval=setInterval(updateClock,1000);
-}
-
-function populateCCSelect(){
-  const sel=document.getElementById('f_cc');
-  sel.innerHTML='';
-  COUNTRIES.forEach((c,i)=>{
-    const opt=document.createElement('option');
-    opt.value=i;
-    opt.textContent=c.flag+' '+c.dial;
-    sel.appendChild(opt);
-  });
-}
-
-function populateCountryFilter(){
-  const sel=document.getElementById('countryFilter');
-  while(sel.options.length>1)sel.remove(1);
-  const used=new Set(contacts.map(c=>c.countryCode));
-  COUNTRIES.filter(c=>used.has(c.code)).forEach(c=>{
-    const opt=document.createElement('option');
-    opt.value=c.code;
-    opt.textContent=c.flag+' '+c.name;
-    sel.appendChild(opt);
-  });
-}
-
-function renderContacts(){
-  const fc=document.getElementById('countryFilter').value;
-  const q=document.getElementById('searchInput').value.toLowerCase();
-  let list=contacts;
-  if(fc)list=list.filter(c=>c.countryCode===fc);
-  if(q)list=list.filter(c=>c.name.toLowerCase().includes(q)||c.number.includes(q)||(c.platform||'').toLowerCase().includes(q));
-  document.getElementById('countBadge').textContent=list.length+' Contact'+(list.length!==1?'s':'');
-  const el=document.getElementById('contactList');
-  if(!list.length){
-    el.innerHTML='<div class="empty-state"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".3"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg><p>No contacts yet — add one or import CSV.</p></div>';
-    return;
-  }
-  el.innerHTML=list.map(c=>{
-    const country=COUNTRIES.find(x=>x.code===c.countryCode)||{flag:'🌍',name:'Unknown'};
-    const fullNum=(c.dialCode+c.number).replace(/\s/g,'').replace('+','');
-    const msg=encodeURIComponent(document.getElementById('msgTemplate').value||'');
-    const waUrl='https://wa.me/'+fullNum+(msg?'?text='+msg:'');
-    const idx=contacts.indexOf(c);
-    return`<div class="contact-row">
-      <div class="contact-name">${esc(c.name)}</div>
-      <div class="contact-number"><span class="flag">${country.flag}</span><span>${c.dialCode} ${c.number}</span></div>
-      <div><span class="platform-badge">${esc(c.platform)||'—'}</span></div>
-      <div class="country-text">${country.flag} ${country.name}</div>
-      <div class="row-actions">
-        <a href="${waUrl}" target="_blank" style="text-decoration:none"><button class="btn-wa"><svg width="12" height="12" viewBox="0 0 20 20" fill="white"><path d="M10 2C5.58 2 2 5.58 2 10c0 1.52.42 2.95 1.14 4.18L2 18l3.95-1.1A8 8 0 1010 2zm4.56 11.47c-.19.54-1.1 1-1.5 1.06-.4.06-.93.09-1.49-.09-.35-.11-.8-.26-1.37-.5-2.41-1.04-3.99-3.48-4.11-3.64-.12-.17-.94-1.25-.94-2.38 0-1.14.6-1.69.81-1.92.22-.23.47-.29.63-.29h.45c.14 0 .34-.05.53.4.19.47.66 1.62.72 1.74.06.12.09.25.02.4-.07.16-.11.25-.22.39-.11.14-.23.3-.33.41-.11.12-.22.25-.09.49.13.24.58.95 1.24 1.54.85.76 1.58 1 1.82 1.11.24.11.37.09.52-.06.14-.15.61-.71.77-.96.16-.24.32-.2.54-.12.22.08 1.37.65 1.61.77.24.12.4.17.46.27.06.1.06.57-.13 1.1z"/></svg>WA</button></a>
-        <button class="btn-del" onclick="deleteContact(${idx})">✕</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
-function openAddModal(){document.getElementById('addModal').classList.add('open');}
-function closeModal(){
-  document.getElementById('addModal').classList.remove('open');
-  ['f_name','f_num','f_platform'].forEach(id=>document.getElementById(id).value='');
-}
-
-function saveContact(){
-  const name=document.getElementById('f_name').value.trim();
-  const num=document.getElementById('f_num').value.trim();
-  const platform=document.getElementById('f_platform').value.trim();
-  const ci=parseInt(document.getElementById('f_cc').value);
-  const c=COUNTRIES[ci];
-  if(!name||!num){showToast('⚠️ Name and number required!',true);return;}
-  contacts.push({name,number:num,dialCode:c.dial,countryCode:c.code,platform});
-  saveData();closeModal();showToast('✅ Contact saved!');
-}
-
-function deleteContact(idx){
-  contacts.splice(idx,1);
-  saveData();showToast('🗑️ Contact deleted');
-}
-
-function saveData(){
-  localStorage.setItem('wa_contacts_pro',JSON.stringify(contacts));
-  populateCountryFilter();renderContacts();
-}
-
-function importFile(e){
-  const file=e.target.files[0];if(!file)return;
-  const ext=file.name.split('.').pop().toLowerCase();
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    if(ext==='csv'||ext==='txt')parseCSV(ev.target.result);
-    else showToast('⚠️ Use CSV or TXT file',true);
-  };
-  reader.readAsText(file);
-  e.target.value='';
-}
-
-function parseCSV(text){
-  const lines=text.trim().split('\n');
-  let added=0;
-  lines.forEach((line,i)=>{
-    if(i===0&&line.toLowerCase().includes('name'))return;
-    const parts=line.split(',').map(s=>s.trim().replace(/^"|"$/g,''));
-    if(parts.length<2)return;
-    const name=parts[0],rawNum=parts[1]||'',platform=parts[2]||'';
-    let dial='+91',cc='IN',number=rawNum;
-    COUNTRIES.forEach(c=>{
-      if(rawNum.startsWith(c.dial)){dial=c.dial;cc=c.code;number=rawNum.slice(c.dial.length);}
-    });
-    if(name){contacts.push({name,number,dialCode:dial,countryCode:cc,platform});added++;}
-  });
-  saveData();showToast('✅ Imported '+added+' contacts!');
-}
-
-function showToast(msg,err){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.style.borderColor=err?'var(--danger)':'var(--accent)';
-  t.style.color=err?'var(--danger)':'var(--accent)';
+// ─── TOAST ───────────────────────────────────────────
+function showToast(msg, err){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast'+(err?' error':'');
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2800);
+  setTimeout(()=>t.classList.remove('show'), 3000);
 }
 
-document.getElementById('addModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+// ─── CLOSE MODALS ON OUTSIDE CLICK ───────────────────
+document.addEventListener('click', e=>{
+  if(e.target.id==='addModal') closeAddModal();
+  if(e.target.id==='settingsModal') closeSettings();
+});
+
+// ─── START ───────────────────────────────────────────
+appInit();
 </script>
 </body>
 </html>
