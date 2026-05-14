@@ -5,6 +5,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WA Contact Manager Pro</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+
+<!-- ══════════════════════════════════════════════════════════
+     FIREBASE CONFIG — Yahan apni Firebase config daalo
+     Steps:
+     1. https://console.firebase.google.com/ jaao
+     2. New Project banao
+     3. Web app add karo
+     4. Firestore Database enable karo (Start in test mode)
+     5. Neeche diye values replace karo
+     ══════════════════════════════════════════════════════════ -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, onSnapshot, query, where }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  // ▼▼▼ APNI FIREBASE CONFIG YAHAN DAALO ▼▼▼
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+  // ▲▲▲ CONFIG YAHAN KHATAM ▲▲▲
+
+  const app  = initializeApp(firebaseConfig);
+  const db   = getFirestore(app);
+  const auth = getAuth(app);
+
+  // Expose globally
+  window._fb = { db, auth, collection, doc, setDoc, getDocs, deleteDoc, onSnapshot, query, where,
+    signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged };
+
+  window.dispatchEvent(new Event('fb-ready'));
+</script>
+
 <style>
 :root{
   --bg:#07090f;--surface:#0d1117;--card:#131923;--card2:#192030;
@@ -23,38 +62,45 @@ html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
 
-/* LOGIN */
+/* ── LOGIN ────────────────────────────────────────── */
 #loginPage{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(ellipse 60% 40% at 65% 25%, rgba(37,211,102,0.07) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 50% at 15% 80%, rgba(18,140,126,0.05) 0%, transparent 60%),var(--bg);
+  background:radial-gradient(ellipse 60% 40% at 65% 25%,rgba(37,211,102,.07) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 50% at 15% 80%,rgba(18,140,126,.05) 0%,transparent 60%),var(--bg);
   position:relative;z-index:1;
 }
 .login-wrap{display:flex;flex-direction:column;align-items:center;animation:fadeUp .55s ease}
 .login-card{
   background:var(--surface);border:1px solid var(--border);border-radius:24px;
-  padding:52px 44px;width:440px;max-width:95vw;
-  box-shadow:var(--shadow-lg),0 0 0 1px rgba(37,211,102,0.04) inset;
+  padding:52px 44px;width:460px;max-width:95vw;
+  box-shadow:var(--shadow-lg),0 0 0 1px rgba(37,211,102,.04) inset;
   position:relative;overflow:hidden;
 }
-.login-card::before{content:'';position:absolute;top:-80px;right:-80px;width:200px;height:200px;background:radial-gradient(circle,rgba(37,211,102,0.06),transparent 70%);pointer-events:none;}
+.login-card::before{content:'';position:absolute;top:-80px;right:-80px;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(37,211,102,.06),transparent 70%);pointer-events:none}
 .login-logo{display:flex;align-items:center;gap:12px;margin-bottom:38px}
 .logo-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .login-logo .brand{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;background:linear-gradient(135deg,var(--accent) 30%,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .login-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin-bottom:6px;letter-spacing:-.02em}
-.login-sub{color:var(--muted);font-size:14px;margin-bottom:34px}
-.local-note{
-  background:rgba(77,171,247,0.06);border:1px solid rgba(77,171,247,0.18);
-  border-radius:10px;padding:10px 14px;font-size:12px;color:var(--info);
-  margin-bottom:24px;display:flex;align-items:center;gap:8px;
+.login-sub{color:var(--muted);font-size:14px;margin-bottom:26px}
+.cloud-note{
+  background:rgba(37,211,102,.06);border:1px solid rgba(37,211,102,.2);
+  border-radius:10px;padding:10px 14px;font-size:12px;color:var(--accent);
+  margin-bottom:20px;display:flex;align-items:center;gap:8px;
 }
-.field{margin-bottom:18px}
-.field label{display:block;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.info-note{
+  background:rgba(77,171,247,.06);border:1px solid rgba(77,171,247,.18);
+  border-radius:10px;padding:10px 14px;font-size:12px;color:var(--info);
+  margin-bottom:18px;display:flex;align-items:center;gap:8px;
+}
+.tab-row{display:flex;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:4px;margin-bottom:22px;gap:4px}
+.tab-btn{flex:1;border:none;border-radius:8px;padding:9px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;background:transparent;color:var(--muted)}
+.tab-btn.active{background:var(--accent);color:#fff;box-shadow:0 2px 10px rgba(37,211,102,.3)}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px}
 .field input,.modal-input,.cc-select{
   width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;
   padding:13px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;
@@ -67,136 +113,172 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
   color:#fff;border:none;border-radius:11px;padding:15px;
   font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;
   margin-top:8px;transition:opacity .2s,transform .15s,box-shadow .2s;letter-spacing:.02em;
-  box-shadow:0 4px 20px rgba(37,211,102,0.25);
+  box-shadow:0 4px 20px rgba(37,211,102,.25);
 }
-.btn-primary:hover{opacity:.88;transform:translateY(-1px);box-shadow:0 8px 28px rgba(37,211,102,0.35)}
+.btn-primary:hover{opacity:.88;transform:translateY(-1px);box-shadow:0 8px 28px rgba(37,211,102,.35)}
 .btn-primary:active{transform:translateY(0)}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .login-err{
-  background:var(--danger-bg);border:1px solid rgba(255,77,109,0.25);
+  background:var(--danger-bg);border:1px solid rgba(255,77,109,.25);
   border-radius:9px;padding:11px 14px;font-size:13px;color:var(--danger);
-  margin-bottom:16px;display:none;align-items:center;gap:8px;
+  margin-bottom:14px;display:none;align-items:center;gap:8px;
 }
-.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:8px}
+.loading-overlay{
+  position:fixed;inset:0;background:rgba(7,9,15,.85);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;z-index:9999;gap:16px;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.loading-overlay.show{opacity:1;pointer-events:all}
+.spinner{width:36px;height:36px;border:3px solid rgba(37,211,102,.2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+.spinner-sm{width:16px;height:16px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:8px}
+.loading-text{font-family:'Syne',sans-serif;font-size:14px;color:var(--accent)}
 
-/* APP */
+/* ── APP ─────────────────────────────────────────── */
 #appPage{display:none;min-height:100vh;position:relative;z-index:1}
-
 .topbar{
-  background:rgba(13,17,23,0.92);border-bottom:1px solid var(--border);
-  padding:0 28px;height:68px;display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);
+  background:rgba(13,17,23,.92);border-bottom:1px solid var(--border);
+  padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);gap:12px;
 }
-.topbar-brand{display:flex;align-items:center;gap:10px}
-.topbar-brand .brand-text{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.topbar-brand .version-tag{background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.2);color:var(--accent);font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;font-family:'Syne',sans-serif;letter-spacing:.06em}
-.topbar-right{display:flex;align-items:center;gap:10px}
+.topbar-brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.topbar-brand .brand-text{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.version-tag{background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.2);color:var(--accent);font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;font-family:'Syne',sans-serif;letter-spacing:.06em}
+.topbar-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.topbar-center{flex:1;display:flex;justify-content:center}
 
-.clock-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:7px 14px;min-width:195px;}
-.clock-row{display:flex;align-items:center;gap:8px}
-.clock-time{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;color:var(--accent);letter-spacing:.04em;flex:1;text-align:center}
+/* Clock */
+.clock-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:6px 12px;min-width:170px}
+.clock-row{display:flex;align-items:center;gap:6px}
+.clock-time{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--accent);letter-spacing:.04em;flex:1;text-align:center}
 .clock-btns{display:flex;flex-direction:column;gap:2px}
-.clock-toggle{background:var(--border);border:none;color:var(--muted);font-size:10px;font-weight:700;font-family:'Syne',sans-serif;border-radius:5px;padding:3px 7px;cursor:pointer;transition:all .2s;}
-.clock-toggle:hover{background:var(--accent);color:#fff}
-.clock-toggle.active{background:var(--accent);color:#fff}
-.clock-date{font-size:10px;color:var(--muted);margin-top:2px;text-align:center}
-.clock-tz{font-size:9px;color:rgba(37,211,102,.45);text-align:center;margin-top:1px}
-.tz-select{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:6px 10px;font-family:'DM Sans',sans-serif;font-size:12px;outline:none;cursor:pointer;max-width:185px;}
+.clock-toggle{background:var(--border);border:none;color:var(--muted);font-size:9px;font-weight:700;font-family:'Syne',sans-serif;border-radius:5px;padding:3px 6px;cursor:pointer;transition:all .2s}
+.clock-toggle:hover,.clock-toggle.active{background:var(--accent);color:#fff}
+.clock-date{font-size:10px;color:var(--muted);margin-top:1px;text-align:center}
+.clock-tz{font-size:9px;color:rgba(37,211,102,.45);text-align:center}
 
-.storage-badge{
-  display:flex;align-items:center;gap:6px;font-size:11px;color:var(--info);
-  background:rgba(77,171,247,0.06);border:1px solid rgba(77,171,247,0.15);border-radius:8px;padding:6px 12px;
-}
-.storage-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.storage-badge{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--accent);background:rgba(37,211,102,.06);border:1px solid rgba(37,211,102,.15);border-radius:8px;padding:5px 10px}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0;transition:background .3s}
+.sync-dot.syncing{background:var(--warn);animation:pulse .8s infinite}
+.sync-dot.error{background:var(--danger)}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
 
-.btn-icon{background:var(--card);border:1px solid var(--border);color:var(--text2);border-radius:9px;padding:8px 12px;font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+.tz-select{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:5px 8px;font-family:'DM Sans',sans-serif;font-size:11px;outline:none;cursor:pointer;max-width:160px}
+.btn-icon{background:var(--card);border:1px solid var(--border);color:var(--text2);border-radius:9px;padding:7px 11px;font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif;white-space:nowrap}
 .btn-icon:hover{border-color:var(--accent);color:var(--accent)}
-.btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:9px;padding:8px 16px;font-size:13px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:9px;padding:7px 14px;font-size:12px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
 .btn-logout:hover{border-color:var(--danger);color:var(--danger)}
 
-.main{max-width:1160px;margin:0 auto;padding:28px 24px}
-
-.msg-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:22px;display:flex;gap:14px;align-items:flex-start;}
-.msg-icon-label{padding-top:10px;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--accent);flex-shrink:0}
+/* Main */
+.main{max-width:1160px;margin:0 auto;padding:24px 20px}
+.msg-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:18px;display:flex;gap:12px;align-items:flex-start}
+.msg-icon-label{padding-top:8px;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--accent);flex-shrink:0}
 .msg-icon-label span{font-size:9px;color:var(--muted);font-weight:600;letter-spacing:.07em;text-transform:uppercase}
-.msg-bar textarea{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;resize:vertical;min-height:52px;transition:border-color .2s;line-height:1.5;}
+.msg-bar textarea{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;resize:vertical;min-height:48px;transition:border-color .2s;line-height:1.5}
 .msg-bar textarea:focus{border-color:var(--accent)}
 .msg-bar textarea::placeholder{color:var(--muted)}
 
-.actions-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}
-.actions-left{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.btn-green{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:9px;padding:10px 18px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:opacity .2s,transform .15s;white-space:nowrap;box-shadow:0 2px 12px rgba(37,211,102,0.2);}
+.actions-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.actions-left{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.btn-green{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:9px;padding:9px 16px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;transition:opacity .2s,transform .15s;white-space:nowrap;box-shadow:0 2px 12px rgba(37,211,102,.2)}
 .btn-green:hover{opacity:.85;transform:translateY(-1px)}
-.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:9px;padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;white-space:nowrap;}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:9px;padding:9px 14px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s;white-space:nowrap}
 .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
-.filter-select,.search-input{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;}
-.search-input{width:185px}
+.filter-select,.search-input{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:9px;padding:9px 11px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none}
+.search-input{width:175px}
 .search-input:focus{border-color:var(--accent)}
 .search-input::placeholder{color:var(--muted)}
-.count-badge{background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.18);color:var(--accent);border-radius:20px;padding:5px 16px;font-size:12px;font-weight:700;font-family:'Syne',sans-serif;white-space:nowrap;}
+.count-badge{background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.18);color:var(--accent);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700;font-family:'Syne',sans-serif;white-space:nowrap}
 
+/* Table */
 .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.table-head{display:grid;grid-template-columns:2fr 1.8fr 1.4fr 1.3fr 130px;padding:13px 20px;background:var(--card);border-bottom:1px solid var(--border);font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;}
-.contact-row{display:grid;grid-template-columns:2fr 1.8fr 1.4fr 1.3fr 130px;padding:14px 20px;border-bottom:1px solid var(--border);align-items:center;transition:background .15s;animation:slideIn .25s ease;}
+.table-head{display:grid;grid-template-columns:2fr 1.8fr 1.3fr 1.3fr 160px;padding:12px 18px;background:var(--card);border-bottom:1px solid var(--border);font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
+.contact-row{display:grid;grid-template-columns:2fr 1.8fr 1.3fr 1.3fr 160px;padding:13px 18px;border-bottom:1px solid var(--border);align-items:center;transition:background .15s;animation:slideIn .25s ease}
 .contact-row:last-child{border-bottom:none}
 .contact-row:hover{background:var(--accent-glow2)}
 .contact-name{font-weight:500;font-size:14px;color:var(--text)}
 .contact-number{font-size:13px;color:var(--text2)}
-.platform-badge{font-size:11px;background:var(--card2);border:1px solid var(--border2);border-radius:6px;padding:3px 10px;display:inline-block;color:var(--text2);}
-.country-text{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px}
-.row-actions{display:flex;gap:7px}
-.btn-wa{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:7px;padding:7px 11px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:opacity .2s,transform .1s;font-family:'DM Sans',sans-serif;}
+.platform-badge{font-size:11px;background:var(--card2);border:1px solid var(--border2);border-radius:6px;padding:3px 9px;display:inline-block;color:var(--text2)}
+.country-text{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap}
+.btn-wa{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:7px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;transition:opacity .2s,transform .1s;font-family:'DM Sans',sans-serif}
 .btn-wa:hover{opacity:.82;transform:scale(1.04)}
-.btn-del{background:transparent;border:1px solid rgba(255,77,109,.2);color:var(--danger);border-radius:7px;padding:7px 10px;font-size:12px;cursor:pointer;transition:all .2s;}
+.btn-edit{background:rgba(77,171,247,.08);border:1px solid rgba(77,171,247,.25);color:var(--info);border-radius:7px;padding:6px 9px;font-size:12px;cursor:pointer;transition:all .2s}
+.btn-edit:hover{background:rgba(77,171,247,.18);border-color:var(--info)}
+.btn-del{background:transparent;border:1px solid rgba(255,77,109,.2);color:var(--danger);border-radius:7px;padding:6px 9px;font-size:12px;cursor:pointer;transition:all .2s}
 .btn-del:hover{background:var(--danger-bg);border-color:var(--danger)}
-.empty-state{text-align:center;padding:70px 20px;color:var(--muted)}
-.empty-state svg{opacity:.25}
-.empty-state p{font-size:15px;margin-top:16px;color:var(--muted)}
-.empty-state small{font-size:12px;color:var(--muted2);margin-top:6px;display:block}
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-state p{font-size:15px;margin-top:14px}
+.empty-state small{font-size:12px;color:var(--muted2);margin-top:5px;display:block}
 
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:999;opacity:0;pointer-events:none;transition:opacity .25s;}
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:999;opacity:0;pointer-events:none;transition:opacity .25s}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:36px 32px;width:500px;max-width:96vw;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg),0 0 0 1px rgba(37,211,102,0.04) inset;transform:scale(.93) translateY(16px);transition:transform .28s cubic-bezier(0.34,1.56,0.64,1);}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:32px 28px;width:500px;max-width:96vw;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg),0 0 0 1px rgba(37,211,102,.04) inset;transform:scale(.93) translateY(16px);transition:transform .28s cubic-bezier(0.34,1.56,0.64,1)}
 .modal-overlay.open .modal{transform:scale(1) translateY(0)}
-.modal h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:10px}
-.modal .field{margin-bottom:16px}
+.modal h3{font-family:'Syne',sans-serif;font-size:19px;font-weight:700;margin-bottom:22px;display:flex;align-items:center;gap:10px}
+.modal .field{margin-bottom:14px}
 .country-row{display:flex;gap:10px}
 .cc-select{width:155px;flex-shrink:0;cursor:pointer}
-.modal-input,.cc-select{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;}
+.modal-input,.cc-select{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none}
 .modal-input{width:100%;transition:border-color .2s,box-shadow .2s}
 .modal-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
-.modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:26px}
-.btn-cancel{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:9px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;transition:all .2s;}
+.modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}
+.btn-cancel{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:9px;padding:10px 18px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s}
 .btn-cancel:hover{border-color:var(--danger);color:var(--danger)}
-.divider-line{height:1px;background:var(--border);margin:20px 0}
-.modal-section-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.divider-line{height:1px;background:var(--border);margin:18px 0}
+.modal-section-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
 .pw-change-done{color:var(--accent);font-size:13px;display:none;align-items:center;gap:6px;margin-top:8px}
+.pw-strength{height:3px;background:var(--border);border-radius:2px;margin-top:5px;overflow:hidden}
+.pw-strength-bar{height:100%;border-radius:2px;transition:width .3s,background .3s;width:0}
 
-.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--accent);color:var(--accent);border-radius:11px;padding:13px 20px;font-size:13px;font-weight:500;z-index:9999;transform:translateY(60px);opacity:0;transition:all .32s ease;max-width:300px;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;}
+/* Toast */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--card);border:1px solid var(--accent);color:var(--accent);border-radius:11px;padding:12px 18px;font-size:13px;font-weight:500;z-index:9999;transform:translateY(60px);opacity:0;transition:all .32s ease;max-width:280px;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px}
 .toast.show{transform:translateY(0);opacity:1}
 .toast.error{border-color:var(--danger);color:var(--danger)}
 .toast.warn{border-color:var(--warn);color:var(--warn)}
 
 #fileInput{display:none}
-.pw-strength{height:3px;background:var(--border);border-radius:2px;margin-top:6px;overflow:hidden}
-.pw-strength-bar{height:100%;border-radius:2px;transition:width .3s,background .3s;width:0}
 
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media(max-width:900px){
+  .clock-box{min-width:145px}
+  .clock-time{font-size:15px}
+}
 @media(max-width:760px){
-  .table-head,.contact-row{grid-template-columns:1.8fr 1.6fr 1fr 110px}
+  .table-head,.contact-row{grid-template-columns:1.8fr 1.5fr 1fr 140px}
   .table-head>div:nth-child(4),.contact-row>div:nth-child(4){display:none}
-  .topbar{padding:0 16px}.main{padding:18px 14px}
-  .clock-box{display:none}.tz-select{display:none}
-  .login-card{padding:36px 24px}.topbar-brand .version-tag{display:none}
+  .topbar{padding:0 14px;height:56px}
+  .main{padding:16px 12px}
+  .topbar-center{display:none} /* clock on mobile moved below topbar */
+  .version-tag{display:none}
+  .storage-badge span{display:none}
 }
 @media(max-width:520px){
-  .table-head,.contact-row{grid-template-columns:2fr 1.5fr 110px}
+  .table-head,.contact-row{grid-template-columns:2fr 1.4fr 130px}
   .table-head>div:nth-child(3),.contact-row>div:nth-child(3){display:none}
+  .login-card{padding:32px 20px}
+  .btn-outline span{display:none}
 }
+
+/* Mobile clock bar */
+.mobile-clock-bar{
+  display:none;background:var(--surface);border-bottom:1px solid var(--border);
+  padding:8px 14px;text-align:center;
+}
+.mobile-clock-bar .clock-time{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--accent)}
+.mobile-clock-bar .clock-date{font-size:11px;color:var(--muted);margin-top:2px}
+@media(max-width:760px){.mobile-clock-bar{display:block}}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- LOADING -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loadingText">Connecting…</div>
+</div>
+
+<!-- LOGIN PAGE -->
 <div id="loginPage" style="display:none">
   <div class="login-wrap">
     <div class="login-card">
@@ -206,24 +288,49 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
         </div>
         <span class="brand">WA Manager Pro</span>
       </div>
-      <div class="login-title">Welcome back</div>
-      <div class="login-sub">Sign in to manage your contacts</div>
-      <div class="local-note">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" stroke-linecap="round"/></svg>
-        <span>Data is saved locally on this device (browser storage)</span>
+      <div class="login-title">Welcome </div>
+      
+
+      <div class="cloud-note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>c</span>
       </div>
+
+      <!-- Login / Register Tabs -->
+      <div class="tab-row">
+        <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Login</button>
+        <button class="tab-btn" id="tabReg" onclick="switchTab('register')">Register</button>
+      </div>
+
       <div class="login-err" id="loginErr">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <span id="loginErrText">Incorrect number or password</span>
+        <span id="loginErrText">Error</span>
       </div>
-      <div class="field"><label>Phone Number</label><input type="text" id="loginNum" placeholder="1234567890" autocomplete="off"/></div>
-      <div class="field"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••" autocomplete="off"/></div>
-      <button class="btn-primary" id="loginBtn" onclick="doLogin()">Sign In →</button>
+
+      <!-- LOGIN FORM -->
+      <div id="formLogin">
+        <div class="field"><label>Email</label><input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="off"/></div>
+        <div class="field"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••" autocomplete="off"/></div>
+        <button class="btn-primary" id="loginBtn" onclick="doLogin()">Sign In →</button>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="formRegister" style="display:none">
+        <div class="info-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>New account banao — pehli baar use kar rahe ho?</span>
+        </div>
+        <div class="field"><label>Email</label><input type="email" id="regEmail" placeholder="you@example.com" autocomplete="off"/></div>
+        <div class="field"><label>Password (min 6 chars)</label><input type="password" id="regPass" placeholder="••••••••" autocomplete="off"/></div>
+        <div class="field"><label>Confirm Password</label><input type="password" id="regPass2" placeholder="••••••••" autocomplete="off"/></div>
+        <button class="btn-primary" id="regBtn" onclick="doRegister()">Create Account →</button>
+      </div>
+
     </div>
   </div>
 </div>
 
-<!-- APP -->
+<!-- APP PAGE -->
 <div id="appPage">
   <div class="topbar">
     <div class="topbar-brand">
@@ -233,53 +340,68 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
       <span class="brand-text">WA Manager</span>
       <span class="version-tag">PRO</span>
     </div>
+
+    <!-- Desktop clock -->
+    <div class="topbar-center">
+      <div style="display:flex;align-items:center;gap:8px">
+        <select class="tz-select" id="tzSelect" onchange="onTzChange()"></select>
+        <div class="clock-box">
+          <div class="clock-row">
+            <div class="clock-time" id="clockTime">--:--</div>
+            <div class="clock-btns">
+              <button class="clock-toggle" id="btn12" onclick="setFmt(12)">12H</button>
+              <button class="clock-toggle" id="btn24" onclick="setFmt(24)">24H</button>
+            </div>
+          </div>
+          <div class="clock-date" id="clockDate"></div>
+          <div class="clock-tz" id="clockTz"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="topbar-right">
       <div class="storage-badge">
-        <div class="storage-dot"></div>
-        <span>Saved Locally</span>
-      </div>
-      <select class="tz-select" id="tzSelect" onchange="onTzChange()"></select>
-      <div class="clock-box">
-        <div class="clock-row">
-          <div class="clock-time" id="clockTime">--:--:--</div>
-          <div class="clock-btns">
-            <button class="clock-toggle" id="btn12" onclick="setFmt(12)">12H</button>
-            <button class="clock-toggle" id="btn24" onclick="setFmt(24)">24H</button>
-          </div>
-        </div>
-        <div class="clock-date" id="clockDate"></div>
-        <div class="clock-tz" id="clockTz"></div>
+        <div class="sync-dot" id="syncDot"></div>
+        <span id="syncLabel">Cloud Sync</span>
       </div>
       <button class="btn-icon" onclick="openSettings()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Settings
       </button>
       <button class="btn-logout" onclick="doLogout()">Logout</button>
     </div>
   </div>
 
+  <!-- Mobile clock bar -->
+  <div class="mobile-clock-bar" id="mobileClockBar">
+    <div class="clock-time" id="mClockTime">--:--</div>
+    <div class="clock-date" id="mClockDate"></div>
+  </div>
+
   <div class="main">
+    <!-- Message Template -->
     <div class="msg-bar">
       <div class="msg-icon-label">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#25d366" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span>MSG</span>
       </div>
-      <textarea id="msgTemplate" placeholder="WhatsApp message template… Click WA on any contact to open chat with this message pre-filled."></textarea>
+      <textarea id="msgTemplate" placeholder="WhatsApp message template… WA button press karoge to yeh message pre-fill hoga."></textarea>
     </div>
 
+    <!-- Actions -->
     <div class="actions-row">
       <div class="actions-left">
         <button class="btn-green" onclick="openAddModal()">
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>
+          <svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>
           Add Contact
         </button>
         <button class="btn-outline" onclick="document.getElementById('fileInput').click()">
-          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 8l-4-4-4 4M12 4v12" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Import CSV
+          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 8l-4-4-4 4M12 4v12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Import CSV</span>
         </button>
         <button class="btn-outline" onclick="exportContacts()">
-          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M8 12l4 4 4-4M12 4v12" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Export CSV
+          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M8 12l4 4 4-4M12 4v12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Export CSV</span>
         </button>
         <input type="file" id="fileInput" accept=".csv,.txt" onchange="importFile(event)"/>
         <select class="filter-select" id="countryFilter" onchange="renderContacts()">
@@ -290,6 +412,7 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
       <span class="count-badge" id="countBadge">0 Contacts</span>
     </div>
 
+    <!-- Contact Table -->
     <div class="table-wrap">
       <div class="table-head">
         <div>Agency / Name</div>
@@ -303,10 +426,10 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
   </div>
 </div>
 
-<!-- ADD CONTACT MODAL -->
+<!-- ADD / EDIT CONTACT MODAL -->
 <div class="modal-overlay" id="addModal">
   <div class="modal">
-    <h3>
+    <h3 id="modalTitle">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#25d366" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#25d366" stroke-width="1.5" stroke-linecap="round"/></svg>
       Add New Contact
     </h3>
@@ -321,7 +444,7 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
     <div class="field"><label>Platform</label><input type="text" id="f_platform" placeholder="Instagram, Telegram, LinkedIn…" class="modal-input"/></div>
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeAddModal()">Cancel</button>
-      <button class="btn-green" onclick="saveContact()" style="width:auto;padding:10px 28px;">Save Contact</button>
+      <button class="btn-green" id="saveContactBtn" onclick="saveContact()" style="width:auto;padding:10px 24px">Save Contact</button>
     </div>
   </div>
 </div>
@@ -333,36 +456,16 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#25d366" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Settings
     </h3>
-
     <div class="modal-section-label">Account</div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:20px">
-      <div style="font-size:13px;color:var(--muted)">Logged in as</div>
-      <div style="font-size:15px;font-weight:500;margin-top:4px" id="settingsUserNum">—</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:16px">
+      <div style="font-size:12px;color:var(--muted)">Logged in as</div>
+      <div style="font-size:14px;font-weight:500;margin-top:3px" id="settingsUserEmail">—</div>
     </div>
-
     <div class="divider-line"></div>
-
-    <div class="modal-section-label">Change Password</div>
-    <div class="field"><label>Current Password</label><input type="password" id="pw_current" placeholder="••••••••" class="modal-input"/></div>
-    <div class="field">
-      <label>New Password</label>
-      <input type="password" id="pw_new" placeholder="Min 6 characters" class="modal-input" oninput="checkPwStrength()"/>
-      <div class="pw-strength"><div class="pw-strength-bar" id="pwBar"></div></div>
-    </div>
-    <div class="field"><label>Confirm New Password</label><input type="password" id="pw_confirm" placeholder="Repeat new password" class="modal-input"/></div>
-    <div class="pw-change-done" id="pwDone">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      Password changed successfully!
-    </div>
-    <button class="btn-green" onclick="changePassword()" style="margin-top:12px;width:100%;justify-content:center">Update Password</button>
-
-    <div class="divider-line"></div>
-
     <div class="modal-section-label" style="color:var(--danger)">Danger Zone</div>
-    <button onclick="clearAllContacts()" style="background:var(--danger-bg);border:1px solid rgba(255,77,109,.25);color:var(--danger);border-radius:9px;padding:10px 18px;font-size:13px;cursor:pointer;width:100%;font-family:'DM Sans',sans-serif;transition:all .2s" onmouseover="this.style.background='rgba(255,77,109,0.15)'" onmouseout="this.style.background='var(--danger-bg)'">
-      🗑️ Delete All Contacts
+    <button onclick="clearAllContacts()" style="background:var(--danger-bg);border:1px solid rgba(255,77,109,.25);color:var(--danger);border-radius:9px;padding:10px 16px;font-size:13px;cursor:pointer;width:100%;font-family:'DM Sans',sans-serif;transition:all .2s" onmouseover="this.style.background='rgba(255,77,109,0.15)'" onmouseout="this.style.background='var(--danger-bg)'">
+      🗑️ Delete All My Contacts
     </button>
-
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeSettings()">Close</button>
     </div>
@@ -372,19 +475,9 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════
-//  STORAGE: localStorage — works in any browser
-//  Data persists across refreshes on this device
-// ═══════════════════════════════════════════════
-
-const LS_CONTACTS  = 'wamp_contacts_v3';
-const LS_CREDS     = 'wamp_credentials_v3';
-const LS_SESSION   = 'wamp_session_v3';
-const LS_CLOCK_FMT = 'wamp_clock_fmt';
-const LS_TZ        = 'wamp_tz';
-
-const DEFAULT_CREDS = {num:'1234567890', pass:'Zzz@1234'};
-
+// ══════════════════════════════════════════════════════
+//  COUNTRIES
+// ══════════════════════════════════════════════════════
 const COUNTRIES=[
   {name:'India',code:'IN',dial:'+91',flag:'🇮🇳',tz:'Asia/Kolkata'},
   {name:'United States',code:'US',dial:'+1',flag:'🇺🇸',tz:'America/New_York'},
@@ -418,23 +511,9 @@ const COUNTRIES=[
   {name:'Thailand',code:'TH',dial:'+66',flag:'🇹🇭',tz:'Asia/Bangkok'},
   {name:'South Korea',code:'KR',dial:'+82',flag:'🇰🇷',tz:'Asia/Seoul'},
   {name:'Vietnam',code:'VN',dial:'+84',flag:'🇻🇳',tz:'Asia/Ho_Chi_Minh'},
-  {name:'Myanmar',code:'MM',dial:'+95',flag:'🇲🇲',tz:'Asia/Rangoon'},
-  {name:'Afghanistan',code:'AF',dial:'+93',flag:'🇦🇫',tz:'Asia/Kabul'},
   {name:'Argentina',code:'AR',dial:'+54',flag:'🇦🇷',tz:'America/Argentina/Buenos_Aires'},
   {name:'Colombia',code:'CO',dial:'+57',flag:'🇨🇴',tz:'America/Bogota'},
-  {name:'Peru',code:'PE',dial:'+51',flag:'🇵🇪',tz:'America/Lima'},
-  {name:'Chile',code:'CL',dial:'+56',flag:'🇨🇱',tz:'America/Santiago'},
-  {name:'Ghana',code:'GH',dial:'+233',flag:'🇬🇭',tz:'Africa/Accra'},
-  {name:'Ethiopia',code:'ET',dial:'+251',flag:'🇪🇹',tz:'Africa/Addis_Ababa'},
-  {name:'Portugal',code:'PT',dial:'+351',flag:'🇵🇹',tz:'Europe/Lisbon'},
-  {name:'Netherlands',code:'NL',dial:'+31',flag:'🇳🇱',tz:'Europe/Amsterdam'},
-  {name:'Belgium',code:'BE',dial:'+32',flag:'🇧🇪',tz:'Europe/Brussels'},
-  {name:'Sweden',code:'SE',dial:'+46',flag:'🇸🇪',tz:'Europe/Stockholm'},
-  {name:'Switzerland',code:'CH',dial:'+41',flag:'🇨🇭',tz:'Europe/Zurich'},
-  {name:'Poland',code:'PL',dial:'+48',flag:'🇵🇱',tz:'Europe/Warsaw'},
-  {name:'New Zealand',code:'NZ',dial:'+64',flag:'🇳🇿',tz:'Pacific/Auckland'},
   {name:'Israel',code:'IL',dial:'+972',flag:'🇮🇱',tz:'Asia/Jerusalem'},
-  {name:'Jordan',code:'JO',dial:'+962',flag:'🇯🇴',tz:'Asia/Amman'},
   {name:'Kuwait',code:'KW',dial:'+965',flag:'🇰🇼',tz:'Asia/Kuwait'},
   {name:'Qatar',code:'QA',dial:'+974',flag:'🇶🇦',tz:'Asia/Qatar'},
   {name:'Bahrain',code:'BH',dial:'+973',flag:'🇧🇭',tz:'Asia/Bahrain'},
@@ -442,115 +521,315 @@ const COUNTRIES=[
   {name:'Morocco',code:'MA',dial:'+212',flag:'🇲🇦',tz:'Africa/Casablanca'},
   {name:'Iraq',code:'IQ',dial:'+964',flag:'🇮🇶',tz:'Asia/Baghdad'},
   {name:'Iran',code:'IR',dial:'+98',flag:'🇮🇷',tz:'Asia/Tehran'},
-  {name:'Kazakhstan',code:'KZ',dial:'+7',flag:'🇰🇿',tz:'Asia/Almaty'},
   {name:'Ireland',code:'IE',dial:'+353',flag:'🇮🇪',tz:'Europe/Dublin'},
+  {name:'New Zealand',code:'NZ',dial:'+64',flag:'🇳🇿',tz:'Pacific/Auckland'},
+  {name:'Portugal',code:'PT',dial:'+351',flag:'🇵🇹',tz:'Europe/Lisbon'},
+  {name:'Netherlands',code:'NL',dial:'+31',flag:'🇳🇱',tz:'Europe/Amsterdam'},
+  {name:'Sweden',code:'SE',dial:'+46',flag:'🇸🇪',tz:'Europe/Stockholm'},
+  {name:'Switzerland',code:'CH',dial:'+41',flag:'🇨🇭',tz:'Europe/Zurich'},
+  {name:'Poland',code:'PL',dial:'+48',flag:'🇵🇱',tz:'Europe/Warsaw'},
   {name:'Maldives',code:'MV',dial:'+960',flag:'🇲🇻',tz:'Indian/Maldives'},
+  {name:'Myanmar',code:'MM',dial:'+95',flag:'🇲🇲',tz:'Asia/Rangoon'},
+  {name:'Ghana',code:'GH',dial:'+233',flag:'🇬🇭',tz:'Africa/Accra'},
 ];
 
-// ─── STATE ────────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════
 let contacts = [];
-let credentials = {...DEFAULT_CREDS};
-let clockFmt = parseInt(localStorage.getItem(LS_CLOCK_FMT)||'24');
-let selectedTz = localStorage.getItem(LS_TZ)||COUNTRIES[0].tz;
+let currentUser = null;
+let unsubContacts = null;
+let editingId = null; // for edit mode
+let clockFmt = parseInt(localStorage.getItem('wamp_clock_fmt')||'24');
+let selectedTz = localStorage.getItem('wamp_tz')||'Asia/Kolkata';
 let clockInterval = null;
+let fbReady = false;
 
-// ─── localStorage HELPERS ─────────────────────────────
-function lsGet(key){ try{ const v=localStorage.getItem(key); return v?JSON.parse(v):null; }catch(e){ return null; } }
-function lsSet(key,val){ try{ localStorage.setItem(key,JSON.stringify(val)); return true; }catch(e){ console.error('localStorage write failed',e); return false; } }
+// ══════════════════════════════════════════════════════
+//  FIREBASE INIT
+// ══════════════════════════════════════════════════════
+window.addEventListener('fb-ready', () => {
+  fbReady = true;
+  const { auth, onAuthStateChanged } = window._fb;
 
-// ─── INIT ─────────────────────────────────────────────
-function appInit(){
-  // Load credentials
-  const savedCreds = lsGet(LS_CREDS);
-  if(savedCreds && savedCreds.num && savedCreds.pass) credentials = savedCreds;
+  showLoading('Checking login…');
 
-  // Auto-login if session valid
-  const session = localStorage.getItem(LS_SESSION);
-  if(session && session === credentials.num){
-    showApp();
-  } else {
-    document.getElementById('loginPage').style.display='flex';
-    document.getElementById('appPage').style.display='none';
+  onAuthStateChanged(auth, user => {
+    if(user){
+      currentUser = user;
+      hideLoading();
+      showApp();
+    } else {
+      currentUser = null;
+      hideLoading();
+      document.getElementById('loginPage').style.display = 'flex';
+      document.getElementById('appPage').style.display = 'none';
+    }
+  });
+});
+
+// Fallback if Firebase config not set
+setTimeout(()=>{
+  if(!fbReady){
+    hideLoading();
+    document.getElementById('loginPage').style.display = 'flex';
+    showLoginErr('⚠️ Firebase config set nahi hai! index.html mein apni config daalo.');
+  }
+}, 5000);
+
+showLoading('Loading…');
+
+// ══════════════════════════════════════════════════════
+//  LOGIN / REGISTER
+// ══════════════════════════════════════════════════════
+function switchTab(t){
+  document.getElementById('tabLogin').classList.toggle('active', t==='login');
+  document.getElementById('tabReg').classList.toggle('active', t==='register');
+  document.getElementById('formLogin').style.display = t==='login'?'block':'none';
+  document.getElementById('formRegister').style.display = t==='register'?'block':'none';
+  document.getElementById('loginErr').style.display = 'none';
+}
+
+async function doLogin(){
+  if(!fbReady){ showLoginErr('Firebase ready nahi hai'); return; }
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value.trim();
+  if(!email||!pass){ showLoginErr('Email aur password dono daalo'); return; }
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner-sm"></span> Signing in…';
+  try {
+    const { auth, signInWithEmailAndPassword } = window._fb;
+    await signInWithEmailAndPassword(auth, email, pass);
+    // onAuthStateChanged handles the rest
+  } catch(e) {
+    btn.disabled = false; btn.textContent = 'Sign In →';
+    showLoginErr(firebaseErrMsg(e.code));
   }
 }
 
-// ─── LOGIN ────────────────────────────────────────────
-function doLogin(){
-  const n = document.getElementById('loginNum').value.trim();
-  const p = document.getElementById('loginPass').value.trim();
-
-  if(!n||!p){ showLoginErr('Phone number aur password dono daalna zaroori hai'); return; }
-
-  // Reload creds (in case changed)
-  const saved = lsGet(LS_CREDS);
-  if(saved && saved.num && saved.pass) credentials = saved;
-
-  if(n === credentials.num && p === credentials.pass){
-    document.getElementById('loginErr').style.display='none';
-    localStorage.setItem(LS_SESSION, n);
-    showApp();
-  } else {
-    showLoginErr('Number ya password galat hai. Dobara try karein.');
+async function doRegister(){
+  if(!fbReady){ showLoginErr('Firebase ready nahi hai'); return; }
+  const email = document.getElementById('regEmail').value.trim();
+  const pass  = document.getElementById('regPass').value.trim();
+  const pass2 = document.getElementById('regPass2').value.trim();
+  if(!email||!pass){ showLoginErr('Email aur password daalo'); return; }
+  if(pass.length<6){ showLoginErr('Password kam se kam 6 characters ka hona chahiye'); return; }
+  if(pass !== pass2){ showLoginErr('Dono passwords match nahi karte'); return; }
+  const btn = document.getElementById('regBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner-sm"></span> Creating…';
+  try {
+    const { auth, createUserWithEmailAndPassword } = window._fb;
+    await createUserWithEmailAndPassword(auth, email, pass);
+  } catch(e) {
+    btn.disabled = false; btn.textContent = 'Create Account →';
+    showLoginErr(firebaseErrMsg(e.code));
   }
+}
+
+function firebaseErrMsg(code){
+  const map = {
+    'auth/user-not-found':'Email registered nahi hai',
+    'auth/wrong-password':'Password galat hai',
+    'auth/invalid-email':'Valid email daalo',
+    'auth/email-already-in-use':'Yeh email pehle se use ho raha hai',
+    'auth/too-many-requests':'Bahut zyada tries! Thodi der baad try karo',
+    'auth/network-request-failed':'Network error — internet check karo',
+    'auth/invalid-credential':'Email ya password galat hai',
+  };
+  return map[code] || ('Error: '+code);
 }
 
 function showLoginErr(msg){
   const el = document.getElementById('loginErr');
   document.getElementById('loginErrText').textContent = msg;
-  el.style.display='flex';
+  el.style.display = 'flex';
 }
 
-// ─── SHOW APP ─────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+//  SHOW APP
+// ══════════════════════════════════════════════════════
 function showApp(){
-  document.getElementById('loginPage').style.display='none';
-  document.getElementById('appPage').style.display='block';
-  loadContacts();
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('appPage').style.display = 'block';
+  document.getElementById('settingsUserEmail').textContent = currentUser.email;
   initClockUI();
+  listenContacts();
+  setSyncStatus('synced');
 }
 
-// ─── LOGOUT ──────────────────────────────────────────
-function doLogout(){
-  localStorage.removeItem(LS_SESSION);
+// ══════════════════════════════════════════════════════
+//  LOGOUT
+// ══════════════════════════════════════════════════════
+async function doLogout(){
+  if(unsubContacts){ unsubContacts(); unsubContacts=null; }
   clearInterval(clockInterval);
-  document.getElementById('loginPage').style.display='flex';
-  document.getElementById('appPage').style.display='none';
-  document.getElementById('loginNum').value='';
-  document.getElementById('loginPass').value='';
-  document.getElementById('loginErr').style.display='none';
+  contacts = [];
+  const { auth, signOut } = window._fb;
+  await signOut(auth);
 }
 
-// ─── CONTACTS: LOAD / SAVE ────────────────────────────
-function loadContacts(){
-  const data = lsGet(LS_CONTACTS);
-  contacts = Array.isArray(data) ? data : [];
-  populateCountryFilter();
-  renderContacts();
+// ══════════════════════════════════════════════════════
+//  FIRESTORE: REAL-TIME LISTENER
+// ══════════════════════════════════════════════════════
+function listenContacts(){
+  const { db, collection, query, where, onSnapshot } = window._fb;
+  const uid = currentUser.uid;
+  const q = query(collection(db, 'contacts'), where('uid','==',uid));
+  setSyncStatus('syncing');
+  unsubContacts = onSnapshot(q, snap => {
+    contacts = snap.docs.map(d=>({id:d.id,...d.data()}));
+    contacts.sort((a,b)=>((a.createdAt||0)-(b.createdAt||0)));
+    populateCountryFilter();
+    renderContacts();
+    setSyncStatus('synced');
+  }, err => {
+    console.error(err);
+    setSyncStatus('error');
+    showToast('Sync error: '+err.message, true);
+  });
 }
 
-function saveContacts(){
-  const ok = lsSet(LS_CONTACTS, contacts);
-  if(!ok) showToast('Save failed — localStorage unavailable!', true);
-  populateCountryFilter();
-  renderContacts();
-  return ok;
+// ══════════════════════════════════════════════════════
+//  ADD / EDIT CONTACT
+// ══════════════════════════════════════════════════════
+function openAddModal(){
+  editingId = null;
+  document.getElementById('modalTitle').innerHTML = `
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#25d366" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#25d366" stroke-width="1.5" stroke-linecap="round"/></svg>
+    Add New Contact`;
+  document.getElementById('saveContactBtn').textContent = 'Save Contact';
+  ['f_name','f_num','f_platform'].forEach(id=>document.getElementById(id).value='');
+  populateCCSelect();
+  document.getElementById('addModal').classList.add('open');
+  setTimeout(()=>document.getElementById('f_name').focus(), 300);
 }
 
-// ─── RENDER CONTACTS ─────────────────────────────────
+function openEditModal(id){
+  const c = contacts.find(x=>x.id===id);
+  if(!c) return;
+  editingId = id;
+  document.getElementById('modalTitle').innerHTML = `
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4dabf7" stroke-width="1.8"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Edit Contact`;
+  document.getElementById('saveContactBtn').textContent = 'Update Contact';
+  populateCCSelect();
+  document.getElementById('f_name').value = c.name||'';
+  document.getElementById('f_num').value  = c.number||'';
+  document.getElementById('f_platform').value = c.platform||'';
+  // Set country code
+  const sel = document.getElementById('f_cc');
+  for(let i=0;i<COUNTRIES.length;i++){
+    if(COUNTRIES[i].code===c.countryCode){ sel.value=i; break; }
+  }
+  document.getElementById('addModal').classList.add('open');
+  setTimeout(()=>document.getElementById('f_name').focus(), 300);
+}
+
+function closeAddModal(){
+  document.getElementById('addModal').classList.remove('open');
+  editingId = null;
+}
+
+function populateCCSelect(){
+  const sel = document.getElementById('f_cc');
+  sel.innerHTML = '';
+  COUNTRIES.forEach((c,i)=>{
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = c.flag+' '+c.dial+' '+c.name;
+    sel.appendChild(opt);
+  });
+}
+
+async function saveContact(){
+  const name     = document.getElementById('f_name').value.trim();
+  const num      = document.getElementById('f_num').value.trim().replace(/\D/g,'');
+  const platform = document.getElementById('f_platform').value.trim();
+  const ci       = parseInt(document.getElementById('f_cc').value);
+  const c        = COUNTRIES[ci];
+  if(!name||!num){ showToast('Name aur number zaroori hai!', true); return; }
+
+  const btn = document.getElementById('saveContactBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-sm"></span> Saving…';
+  setSyncStatus('syncing');
+
+  try {
+    const { db, doc, setDoc, collection } = window._fb;
+    const uid = currentUser.uid;
+
+    if(editingId){
+      // UPDATE
+      const ref = doc(db, 'contacts', editingId);
+      await setDoc(ref, {uid, name, number:num, dialCode:c.dial, countryCode:c.code, platform, updatedAt:Date.now()}, {merge:true});
+      showToast('✅ Contact update ho gaya!');
+    } else {
+      // CREATE
+      const id = uid+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);
+      const ref = doc(db, 'contacts', id);
+      await setDoc(ref, {uid, name, number:num, dialCode:c.dial, countryCode:c.code, platform, createdAt:Date.now()});
+      showToast('✅ Contact save ho gaya!');
+    }
+    closeAddModal();
+  } catch(e) {
+    showToast('Save failed: '+e.message, true);
+    setSyncStatus('error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = editingId ? 'Update Contact' : 'Save Contact';
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  DELETE
+// ══════════════════════════════════════════════════════
+async function deleteContact(id){
+  if(!confirm('Is contact ko delete karein?')) return;
+  setSyncStatus('syncing');
+  try {
+    const { db, doc, deleteDoc } = window._fb;
+    await deleteDoc(doc(db, 'contacts', id));
+    showToast('Contact delete ho gaya');
+  } catch(e) {
+    showToast('Delete failed: '+e.message, true);
+    setSyncStatus('error');
+  }
+}
+
+async function clearAllContacts(){
+  if(!confirm('Saare contacts delete karein? Yeh wapas nahi aayenge.')) return;
+  setSyncStatus('syncing');
+  try {
+    const { db, doc, deleteDoc } = window._fb;
+    for(const c of contacts){
+      await deleteDoc(doc(db, 'contacts', c.id));
+    }
+    showToast('Saare contacts delete ho gaye');
+    closeSettings();
+  } catch(e) {
+    showToast('Error: '+e.message, true);
+    setSyncStatus('error');
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  RENDER
+// ══════════════════════════════════════════════════════
 function renderContacts(){
   const fc = document.getElementById('countryFilter').value;
   const q  = document.getElementById('searchInput').value.toLowerCase();
   let list = contacts;
   if(fc) list = list.filter(c=>c.countryCode===fc);
   if(q)  list = list.filter(c=>
-    c.name.toLowerCase().includes(q)||
-    c.number.includes(q)||
+    (c.name||'').toLowerCase().includes(q)||
+    (c.number||'').includes(q)||
     (c.platform||'').toLowerCase().includes(q)
   );
   document.getElementById('countBadge').textContent = list.length+' Contact'+(list.length!==1?'s':'');
   const el = document.getElementById('contactList');
   if(!list.length){
     el.innerHTML=`<div class="empty-state">
-      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <p>Koi contact nahi mila</p>
       <small>Add Contact ya Import CSV karein</small>
     </div>`;
@@ -558,11 +837,9 @@ function renderContacts(){
   }
   el.innerHTML = list.map(c=>{
     const country = COUNTRIES.find(x=>x.code===c.countryCode)||{flag:'🌍',name:'Unknown'};
-    const fullNum = (c.dialCode+c.number).replace(/[\s+]/g,'');
+    const fullNum = ((c.dialCode||'')+c.number).replace(/[\s+]/g,'');
     const msg = encodeURIComponent(document.getElementById('msgTemplate').value||'');
     const waUrl = 'https://wa.me/'+fullNum+(msg?'?text='+msg:'');
-    // find real index in contacts array (not filtered)
-    const realIdx = contacts.indexOf(c);
     return `<div class="contact-row">
       <div class="contact-name">${esc(c.name)}</div>
       <div class="contact-number">${esc(c.dialCode)} ${esc(c.number)}</div>
@@ -571,11 +848,12 @@ function renderContacts(){
       <div class="row-actions">
         <a href="${waUrl}" target="_blank" style="text-decoration:none">
           <button class="btn-wa">
-            <svg width="12" height="12" viewBox="0 0 20 20" fill="white"><path d="M10 2C5.58 2 2 5.58 2 10c0 1.52.42 2.95 1.14 4.18L2 18l3.95-1.1A8 8 0 1010 2zm4.56 11.47c-.19.54-1.1 1-1.5 1.06-.4.06-.93.09-1.49-.09-.35-.11-.8-.26-1.37-.5-2.41-1.04-3.99-3.48-4.11-3.64-.12-.17-.94-1.25-.94-2.38 0-1.14.6-1.69.81-1.92.22-.23.47-.29.63-.29h.45c.14 0 .34-.05.53.4.19.47.66 1.62.72 1.74.06.12.09.25.02.4-.07.16-.11.25-.22.39-.11.14-.23.3-.33.41-.11.12-.22.25-.09.49.13.24.58.95 1.24 1.54.85.76 1.58 1 1.82 1.11.24.11.37.09.52-.06.14-.15.61-.71.77-.96.16-.24.32-.2.54-.12.22.08 1.37.65 1.61.77.24.12.4.17.46.27.06.1.06.57-.13 1.1z"/></svg>
+            <svg width="11" height="11" viewBox="0 0 20 20" fill="white"><path d="M10 2C5.58 2 2 5.58 2 10c0 1.52.42 2.95 1.14 4.18L2 18l3.95-1.1A8 8 0 1010 2zm4.56 11.47c-.19.54-1.1 1-1.5 1.06-.4.06-.93.09-1.49-.09-.35-.11-.8-.26-1.37-.5-2.41-1.04-3.99-3.48-4.11-3.64-.12-.17-.94-1.25-.94-2.38 0-1.14.6-1.69.81-1.92.22-.23.47-.29.63-.29h.45c.14 0 .34-.05.53.4.19.47.66 1.62.72 1.74.06.12.09.25.02.4-.07.16-.11.25-.22.39-.11.14-.23.3-.33.41-.11.12-.22.25-.09.49.13.24.58.95 1.24 1.54.85.76 1.58 1 1.82 1.11.24.11.37.09.52-.06.14-.15.61-.71.77-.96.16-.24.32-.2.54-.12.22.08 1.37.65 1.61.77.24.12.4.17.46.27.06.1.06.57-.13 1.1z"/></svg>
             WA
           </button>
         </a>
-        <button class="btn-del" onclick="deleteContact(${realIdx})" title="Delete">✕</button>
+        <button class="btn-edit" onclick="openEditModal('${c.id}')" title="Edit">✏️</button>
+        <button class="btn-del"  onclick="deleteContact('${c.id}')" title="Delete">✕</button>
       </div>
     </div>`;
   }).join('');
@@ -596,59 +874,9 @@ function populateCountryFilter(){
   if(cur) sel.value = cur;
 }
 
-// ─── ADD CONTACT ─────────────────────────────────────
-function openAddModal(){
-  document.getElementById('addModal').classList.add('open');
-  populateCCSelect();
-  setTimeout(()=>document.getElementById('f_name').focus(), 300);
-}
-function closeAddModal(){
-  document.getElementById('addModal').classList.remove('open');
-  ['f_name','f_num','f_platform'].forEach(id=>document.getElementById(id).value='');
-}
-
-function populateCCSelect(){
-  const sel = document.getElementById('f_cc');
-  sel.innerHTML='';
-  COUNTRIES.forEach((c,i)=>{
-    const opt = document.createElement('option');
-    opt.value = i;
-    opt.textContent = c.flag+' '+c.dial+' '+c.name;
-    sel.appendChild(opt);
-  });
-}
-
-function saveContact(){
-  const name     = document.getElementById('f_name').value.trim();
-  const num      = document.getElementById('f_num').value.trim().replace(/\D/g,'');
-  const platform = document.getElementById('f_platform').value.trim();
-  const ci       = parseInt(document.getElementById('f_cc').value);
-  const c        = COUNTRIES[ci];
-  if(!name || !num){ showToast('Name aur number zaroori hai!', true); return; }
-  contacts.push({name, number:num, dialCode:c.dial, countryCode:c.code, platform});
-  const ok = saveContacts();
-  if(ok){
-    closeAddModal();
-    showToast('✅ Contact save ho gaya!');
-  }
-}
-
-function deleteContact(idx){
-  if(!confirm('Is contact ko delete karein?')) return;
-  contacts.splice(idx, 1);
-  saveContacts();
-  showToast('Contact delete ho gaya');
-}
-
-function clearAllContacts(){
-  if(!confirm('Saare contacts delete karein? Yeh wapas nahi aayenge.')) return;
-  contacts = [];
-  saveContacts();
-  showToast('Saare contacts delete ho gaye');
-  closeSettings();
-}
-
-// ─── CSV IMPORT ───────────────────────────────────────
+// ══════════════════════════════════════════════════════
+//  CSV IMPORT / EXPORT
+// ══════════════════════════════════════════════════════
 function importFile(e){
   const file = e.target.files[0]; if(!file) return;
   const reader = new FileReader();
@@ -657,143 +885,174 @@ function importFile(e){
   e.target.value='';
 }
 
-function parseCSV(text){
+async function parseCSV(text){
   const lines = text.trim().split('\n');
   let added = 0;
-  lines.forEach((line,i)=>{
-    if(i===0 && line.toLowerCase().includes('name')) return;
-    const parts = line.split(',').map(s=>s.trim().replace(/^"|"$/g,''));
-    if(parts.length<2) return;
+  const { db, doc, setDoc } = window._fb;
+  const uid = currentUser.uid;
+  setSyncStatus('syncing');
+  for(let i=0;i<lines.length;i++){
+    if(i===0 && lines[i].toLowerCase().includes('name')) continue;
+    const parts = lines[i].split(',').map(s=>s.trim().replace(/^"|"$/g,''));
+    if(parts.length<2) continue;
     const name=parts[0], rawNum=parts[1]||'', platform=parts[2]||'';
     let dial='+91', cc='IN', number=rawNum.replace(/\D/g,'');
     COUNTRIES.forEach(c=>{
-      const clean = rawNum.replace(/\s/g,'');
+      const clean=rawNum.replace(/\s/g,'');
       if(clean.startsWith(c.dial)){ dial=c.dial; cc=c.code; number=clean.slice(c.dial.length); }
     });
-    if(name){ contacts.push({name,number,dialCode:dial,countryCode:cc,platform}); added++; }
-  });
-  saveContacts();
+    if(name){
+      const id = uid+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);
+      await setDoc(doc(db,'contacts',id),{uid,name,number,dialCode:dial,countryCode:cc,platform,createdAt:Date.now()});
+      added++;
+    }
+  }
   showToast('Import ho gaye: '+added+' contacts!');
 }
 
-// ─── CSV EXPORT ───────────────────────────────────────
 function exportContacts(){
-  if(!contacts.length){ showToast('Export ke liye koi contact nahi hai', true); return; }
-  const rows = ['Name,Number,Platform,Country'];
+  if(!contacts.length){ showToast('Export ke liye koi contact nahi hai',true); return; }
+  const rows=['Name,Number,Platform,Country'];
   contacts.forEach(c=>{
-    const country = COUNTRIES.find(x=>x.code===c.countryCode)||{name:'Unknown'};
+    const country=COUNTRIES.find(x=>x.code===c.countryCode)||{name:'Unknown'};
     rows.push(`"${c.name}","${c.dialCode}${c.number}","${c.platform||''}","${country.name}"`);
   });
-  const blob = new Blob([rows.join('\n')], {type:'text/csv'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'wa_contacts_'+new Date().toISOString().slice(0,10)+'.csv';
+  const blob=new Blob([rows.join('\n')],{type:'text/csv'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='wa_contacts_'+new Date().toISOString().slice(0,10)+'.csv';
   a.click();
   showToast('CSV export ho gaya!');
 }
 
-// ─── SETTINGS ─────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+//  SETTINGS
+// ══════════════════════════════════════════════════════
 function openSettings(){
-  document.getElementById('settingsUserNum').textContent = credentials.num;
-  ['pw_current','pw_new','pw_confirm'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('pwDone').style.display='none';
-  document.getElementById('pwBar').style.width='0';
   document.getElementById('settingsModal').classList.add('open');
 }
 function closeSettings(){ document.getElementById('settingsModal').classList.remove('open'); }
 
-function checkPwStrength(){
-  const pw = document.getElementById('pw_new').value;
-  const bar = document.getElementById('pwBar');
-  let score=0;
-  if(pw.length>=6) score++;
-  if(pw.length>=10) score++;
-  if(/[A-Z]/.test(pw)) score++;
-  if(/[0-9]/.test(pw)) score++;
-  if(/[^A-Za-z0-9]/.test(pw)) score++;
-  bar.style.width=(score/5*100)+'%';
-  bar.style.background=score<=1?'var(--danger)':score<=3?'var(--warn)':'var(--accent)';
-}
-
-function changePassword(){
-  const cur  = document.getElementById('pw_current').value;
-  const nw   = document.getElementById('pw_new').value;
-  const conf = document.getElementById('pw_confirm').value;
-  if(cur !== credentials.pass){ showToast('Purana password galat hai', true); return; }
-  if(nw.length<6){ showToast('Naya password kam se kam 6 characters ka hona chahiye', true); return; }
-  if(nw !== conf){ showToast('Dono passwords match nahi kar rahe', true); return; }
-  credentials.pass = nw;
-  lsSet(LS_CREDS, credentials);
-  document.getElementById('pwDone').style.display='flex';
-  ['pw_current','pw_new','pw_confirm'].forEach(id=>document.getElementById(id).value='');
-  showToast('Password change ho gaya!');
-}
-
-// ─── CLOCK ────────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+//  CLOCK — FIXED FOR MOBILE
+// ══════════════════════════════════════════════════════
 function initClockUI(){
   populateTzSelect();
   setFmt(clockFmt);
   updateClock();
+  clearInterval(clockInterval);
   clockInterval = setInterval(updateClock, 1000);
 }
 
 function updateClock(){
   const now = new Date();
-  const o12={timeZone:selectedTz,hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true};
-  const o24={timeZone:selectedTz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false};
-  const od ={timeZone:selectedTz,weekday:'short',year:'numeric',month:'short',day:'numeric'};
-  document.getElementById('clockTime').textContent = now.toLocaleTimeString('en-US',clockFmt===12?o12:o24);
-  document.getElementById('clockDate').textContent = now.toLocaleDateString('en-US',od);
-  document.getElementById('clockTz').textContent   = '📍 '+selectedTz.split('/').pop().replace(/_/g,' ');
+  const opts12 = {timeZone:selectedTz, hour:'numeric', minute:'2-digit', second:'2-digit', hour12:true};
+  const opts24 = {timeZone:selectedTz, hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false};
+  const optsD  = {timeZone:selectedTz, weekday:'short', year:'numeric', month:'short', day:'numeric'};
+
+  let timeStr, dateStr;
+  try {
+    timeStr = now.toLocaleTimeString('en-US', clockFmt===12 ? opts12 : opts24);
+    dateStr = now.toLocaleDateString('en-US', optsD);
+  } catch(e) {
+    // Fallback if timezone invalid
+    timeStr = now.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit', hour12: clockFmt===12});
+    dateStr = now.toLocaleDateString('en-US', {weekday:'short', year:'numeric', month:'short', day:'numeric'});
+  }
+
+  const tzLabel = '📍 '+(selectedTz||'').split('/').pop().replace(/_/g,' ');
+
+  // Desktop
+  const ct = document.getElementById('clockTime');
+  const cd = document.getElementById('clockDate');
+  const cz = document.getElementById('clockTz');
+  if(ct) ct.textContent = timeStr;
+  if(cd) cd.textContent = dateStr;
+  if(cz) cz.textContent = tzLabel;
+
+  // Mobile
+  const mt = document.getElementById('mClockTime');
+  const md = document.getElementById('mClockDate');
+  if(mt) mt.textContent = timeStr;
+  if(md) md.textContent = dateStr + ' · ' + tzLabel;
 }
 
 function setFmt(f){
-  clockFmt=f; localStorage.setItem(LS_CLOCK_FMT,f);
-  document.getElementById('btn12').classList.toggle('active',f===12);
-  document.getElementById('btn24').classList.toggle('active',f===24);
+  clockFmt = f;
+  localStorage.setItem('wamp_clock_fmt', f);
+  const b12 = document.getElementById('btn12');
+  const b24 = document.getElementById('btn24');
+  if(b12) b12.classList.toggle('active', f===12);
+  if(b24) b24.classList.toggle('active', f===24);
   updateClock();
 }
 
 function onTzChange(){
-  selectedTz=document.getElementById('tzSelect').value;
-  localStorage.setItem(LS_TZ,selectedTz);
+  selectedTz = document.getElementById('tzSelect').value;
+  localStorage.setItem('wamp_tz', selectedTz);
   updateClock();
 }
 
 function populateTzSelect(){
-  const sel=document.getElementById('tzSelect');
-  sel.innerHTML='';
+  const sel = document.getElementById('tzSelect');
+  if(!sel) return;
+  sel.innerHTML = '';
   COUNTRIES.forEach(c=>{
-    const opt=document.createElement('option');
-    opt.value=c.tz; opt.textContent=c.flag+' '+c.name;
-    if(c.tz===selectedTz) opt.selected=true;
+    const opt = document.createElement('option');
+    opt.value = c.tz;
+    opt.textContent = c.flag+' '+c.name;
+    if(c.tz === selectedTz) opt.selected = true;
     sel.appendChild(opt);
   });
 }
 
-// ─── TOAST ────────────────────────────────────────────
-function showToast(msg, err, warn){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.className='toast'+(err?' error':warn?' warn':'');
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
+// ══════════════════════════════════════════════════════
+//  SYNC STATUS
+// ══════════════════════════════════════════════════════
+function setSyncStatus(s){
+  const dot = document.getElementById('syncDot');
+  const lbl = document.getElementById('syncLabel');
+  if(!dot||!lbl) return;
+  dot.className = 'sync-dot'+(s==='syncing'?' syncing':s==='error'?' error':'');
+  lbl.textContent = s==='syncing'?'Syncing…':s==='error'?'Sync Error':'Cloud Sync ✓';
 }
 
-// ─── MODAL CLOSE ON BACKDROP ─────────────────────────
-document.addEventListener('click',e=>{
+// ══════════════════════════════════════════════════════
+//  LOADING OVERLAY
+// ══════════════════════════════════════════════════════
+function showLoading(msg){
+  document.getElementById('loadingText').textContent = msg||'Loading…';
+  document.getElementById('loadingOverlay').classList.add('show');
+}
+function hideLoading(){
+  document.getElementById('loadingOverlay').classList.remove('show');
+}
+
+// ══════════════════════════════════════════════════════
+//  TOAST
+// ══════════════════════════════════════════════════════
+function showToast(msg, err, warn){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast'+(err?' error':warn?' warn':'');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3200);
+}
+
+// ══════════════════════════════════════════════════════
+//  MODAL CLOSE ON BACKDROP
+// ══════════════════════════════════════════════════════
+document.addEventListener('click', e=>{
   if(e.target.id==='addModal') closeAddModal();
   if(e.target.id==='settingsModal') closeSettings();
 });
 
-// ─── ENTER TO LOGIN ───────────────────────────────────
-document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('loginPass').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
-  document.getElementById('loginNum').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+// Enter key on login
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.getElementById('loginPass').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+  document.getElementById('loginEmail').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+  document.getElementById('regPass2').addEventListener('keydown', e=>{ if(e.key==='Enter') doRegister(); });
 });
-
-// ─── START ────────────────────────────────────────────
-appInit();
 </script>
 </body>
 </html>
