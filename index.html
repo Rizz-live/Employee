@@ -8,7 +8,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, onSnapshot, query, where }
+  import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, onSnapshot, query, where, writeBatch }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
   import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -27,7 +27,7 @@
   const db   = getFirestore(app);
   const auth = getAuth(app);
 
-  window._fb = { db, auth, collection, doc, setDoc, getDocs, deleteDoc, onSnapshot, query, where,
+  window._fb = { db, auth, collection, doc, setDoc, getDocs, deleteDoc, onSnapshot, query, where, writeBatch,
     signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged };
 
   window.dispatchEvent(new Event('fb-ready'));
@@ -246,6 +246,10 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
 .mobile-clock-bar .clock-time{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--accent)}
 .mobile-clock-bar .clock-date{font-size:11px;color:var(--muted);margin-top:2px}
 @media(max-width:760px){.mobile-clock-bar{display:block}}
+
+/* Firebase rules warning box */
+.rules-warn{background:rgba(255,214,10,.06);border:1px solid rgba(255,214,10,.3);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--warn);margin-bottom:16px;display:none}
+.rules-warn code{background:rgba(255,255,255,.08);border-radius:4px;padding:2px 6px;font-size:11px;font-family:monospace;display:block;margin-top:8px;line-height:1.8;white-space:pre-wrap;color:#ffe066}
 </style>
 </head>
 <body>
@@ -431,6 +435,23 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
       <div style="font-size:12px;color:var(--muted)">Logged in as</div>
       <div style="font-size:14px;font-weight:500;margin-top:3px" id="settingsUserEmail">—</div>
     </div>
+
+    <!-- Firebase Rules Warning — shown when delete fails -->
+    <div class="rules-warn" id="rulesWarn">
+      ⚠️ <strong>Firebase Rules Update Zaroor Hai!</strong><br>
+      Delete karne ke liye Firestore rules update karo. Firebase Console → Firestore → Rules mein yeh paste karo:
+      <code>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /contacts/{contactId} {
+      allow read, write, delete: if request.auth != null
+        && request.auth.uid == resource.data.uid;
+      allow create: if request.auth != null;
+    }
+  }
+}</code>
+    </div>
+
     <div class="divider-line"></div>
     <div class="modal-section-label" style="color:var(--danger)">Danger Zone</div>
     <button onclick="clearAllContacts()" style="background:var(--danger-bg);border:1px solid rgba(255,77,109,.25);color:var(--danger);border-radius:9px;padding:10px 16px;font-size:13px;cursor:pointer;width:100%;font-family:'DM Sans',sans-serif;transition:all .2s" onmouseover="this.style.background='rgba(255,77,109,0.15)'" onmouseout="this.style.background='var(--danger-bg)'">
@@ -445,6 +466,7 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
 <div class="toast" id="toast"></div>
 
 <script>
+// ─── Country list sorted: longer dial codes first so matching is greedy ───────
 const COUNTRIES=[
   {name:'India',code:'IN',dial:'+91',flag:'🇮🇳',tz:'Asia/Kolkata'},
   {name:'United States',code:'US',dial:'+1',flag:'🇺🇸',tz:'America/New_York'},
@@ -499,6 +521,9 @@ const COUNTRIES=[
   {name:'Myanmar',code:'MM',dial:'+95',flag:'🇲🇲',tz:'Asia/Rangoon'},
   {name:'Ghana',code:'GH',dial:'+233',flag:'🇬🇭',tz:'Africa/Accra'},
 ];
+
+// Sort by dial code length descending so longer codes match first (+353 before +35, +234 before +23, etc.)
+const COUNTRIES_BY_DIAL = [...COUNTRIES].sort((a,b) => b.dial.length - a.dial.length);
 
 let contacts=[],currentUser=null,unsubContacts=null,editingId=null;
 let clockFmt=parseInt(localStorage.getItem('wamp_clock_fmt')||'24');
@@ -685,17 +710,140 @@ async function deleteContact(id){
   if(!confirm('Is contact ko delete karein?'))return;
   setSyncStatus('syncing');
   try{const {db,doc,deleteDoc}=window._fb;await deleteDoc(doc(db,'contacts',id));showToast('Contact delete ho gaya');}
-  catch(e){showToast('Delete failed: '+e.message,true);setSyncStatus('error');}
+  catch(e){
+    showToast('Delete failed — Firebase rules check karo',true);
+    setSyncStatus('error');
+    document.getElementById('rulesWarn').style.display='block';
+    openSettings();
+  }
 }
 
+// ─── FIX: Use writeBatch for bulk delete (max 500 per batch) ─────────────────
 async function clearAllContacts(){
-  if(!confirm('Saare contacts delete karein? Yeh wapas nahi aayenge.'))return;
+  if(!contacts.length){showToast('Koi contact nahi hai',false,true);return;}
+  if(!confirm('Saare '+contacts.length+' contacts delete karein? Yeh wapas nahi aayenge.'))return;
   setSyncStatus('syncing');
+  const {db,doc,writeBatch}=window._fb;
   try{
-    const {db,doc,deleteDoc}=window._fb;
-    for(const c of contacts){await deleteDoc(doc(db,'contacts',c.id));}
-    showToast('Saare contacts delete ho gaye');closeSettings();
-  }catch(e){showToast('Error: '+e.message,true);setSyncStatus('error');}
+    // Firestore writeBatch: max 500 ops per batch
+    const CHUNK=499;
+    for(let i=0;i<contacts.length;i+=CHUNK){
+      const batch=writeBatch(db);
+      contacts.slice(i,i+CHUNK).forEach(c=>{batch.delete(doc(db,'contacts',c.id));});
+      await batch.commit();
+    }
+    showToast('✅ Saare contacts delete ho gaye');
+    closeSettings();
+  }catch(e){
+    console.error(e);
+    showToast('Delete failed — Firebase rules update karo',true);
+    setSyncStatus('error');
+    document.getElementById('rulesWarn').style.display='block';
+  }
+}
+
+// ─── FIX: Improved CSV parser with smarter country-code detection ─────────────
+/*
+  Strategy:
+  1. Strip whitespace & quotes from each cell
+  2. Treat the raw number string — may have leading +, spaces, dashes
+  3. Normalise: remove all non-digit chars except leading +
+  4. Try to match against COUNTRIES_BY_DIAL (longest-first so +353 beats +35)
+  5. If no match found AND number has no + prefix → default to IN (+91)
+  6. Strip matched dial code from number to get local part
+*/
+function detectCountryFromRaw(rawNum){
+  // Normalise: keep digits and leading +
+  const cleaned = rawNum.replace(/[\s\-().]/g,''); // remove spaces/dashes/parens
+  const hasPlus  = cleaned.startsWith('+');
+  const withPlus = hasPlus ? cleaned : ('+'+cleaned);
+  // Remove all non-digit for pure-digit version
+  const digitsOnly = cleaned.replace(/\D/g,'');
+
+  // Try matching longest dial code first
+  for(const country of COUNTRIES_BY_DIAL){
+    const dialDigits = country.dial.replace('+','');
+    // Match with + prefix
+    if(withPlus.startsWith(country.dial)){
+      const localPart = digitsOnly.slice(dialDigits.length);
+      return {dial:country.dial, code:country.code, number:localPart};
+    }
+  }
+
+  // No country code found — assume India
+  return {dial:'+91', code:'IN', number:digitsOnly};
+}
+
+function importFile(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>parseCSV(ev.target.result);
+  reader.readAsText(file);e.target.value='';
+}
+
+async function parseCSV(text){
+  // Support both \r\n and \n line endings
+  const lines=text.trim().split(/\r?\n/);
+  let added=0, skipped=0;
+  const {db,doc,setDoc}=window._fb;
+  const uid=currentUser.uid;
+  setSyncStatus('syncing');
+
+  for(let i=0;i<lines.length;i++){
+    const line=lines[i].trim();
+    if(!line)continue;
+    // Skip header row (if first row contains text like "name","contact","agency")
+    if(i===0 && /^(name|agency|contact|phone|number|mobile)/i.test(line.replace(/"/g,'').split(',')[0])){continue;}
+
+    // Split by comma but respect quoted fields
+    const parts = splitCSVLine(line);
+    if(parts.length<2){skipped++;continue;}
+
+    // Detect columns: could be "agency,contact" or "agency,contact,country" etc.
+    const name    = parts[0]||'';
+    const rawNum  = parts[1]||'';
+    const platform= parts[2]||'';
+
+    if(!name.trim()||!rawNum.trim()){skipped++;continue;}
+
+    const {dial,code,number} = detectCountryFromRaw(rawNum.trim());
+    if(!number){skipped++;continue;}
+
+    const id=uid+'_'+Date.now()+'_'+i+'_'+Math.random().toString(36).slice(2,6);
+    await setDoc(doc(db,'contacts',id),{
+      uid,
+      name:name.trim(),
+      number,
+      dialCode:dial,
+      countryCode:code,
+      platform:platform.trim(),
+      createdAt:Date.now()
+    });
+    added++;
+  }
+  showToast('✅ Import ho gaye: '+added+' contacts'+(skipped?' ('+skipped+' skip)':'')+'!');
+}
+
+// Proper CSV line splitter (handles quoted commas)
+function splitCSVLine(line){
+  const result=[];let cur='';let inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"'){inQ=!inQ;}
+    else if(ch===','&&!inQ){result.push(cur.trim());cur='';}
+    else{cur+=ch;}
+  }
+  result.push(cur.trim());
+  return result.map(s=>s.replace(/^"|"$/g,'').trim());
+}
+
+function exportContacts(){
+  if(!contacts.length){showToast('Export ke liye koi contact nahi hai',true);return;}
+  const rows=['Name,Number,Platform,Country'];
+  contacts.forEach(c=>{const country=COUNTRIES.find(x=>x.code===c.countryCode)||{name:'Unknown'};rows.push(`"${c.name}","${c.dialCode}${c.number}","${c.platform||''}","${country.name}"`);});
+  const blob=new Blob([rows.join('\n')],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='wa_contacts_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+  showToast('CSV export ho gaya!');
 }
 
 function renderContacts(){
@@ -740,38 +888,6 @@ function populateCountryFilter(){
   const used=new Set(contacts.map(c=>c.countryCode));
   COUNTRIES.filter(c=>used.has(c.code)).forEach(c=>{const opt=document.createElement('option');opt.value=c.code;opt.textContent=c.flag+' '+c.name;sel.appendChild(opt);});
   if(cur)sel.value=cur;
-}
-
-function importFile(e){
-  const file=e.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=ev=>parseCSV(ev.target.result);
-  reader.readAsText(file);e.target.value='';
-}
-
-async function parseCSV(text){
-  const lines=text.trim().split('\n');let added=0;
-  const {db,doc,setDoc}=window._fb;const uid=currentUser.uid;
-  setSyncStatus('syncing');
-  for(let i=0;i<lines.length;i++){
-    if(i===0&&lines[i].toLowerCase().includes('name'))continue;
-    const parts=lines[i].split(',').map(s=>s.trim().replace(/^"|"$/g,''));
-    if(parts.length<2)continue;
-    const name=parts[0],rawNum=parts[1]||'',platform=parts[2]||'';
-    let dial='+91',cc='IN',number=rawNum.replace(/\D/g,'');
-    COUNTRIES.forEach(c=>{const clean=rawNum.replace(/\s/g,'');if(clean.startsWith(c.dial)){dial=c.dial;cc=c.code;number=clean.slice(c.dial.length);}});
-    if(name){const id=uid+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);await setDoc(doc(db,'contacts',id),{uid,name,number,dialCode:dial,countryCode:cc,platform,createdAt:Date.now()});added++;}
-  }
-  showToast('Import ho gaye: '+added+' contacts!');
-}
-
-function exportContacts(){
-  if(!contacts.length){showToast('Export ke liye koi contact nahi hai',true);return;}
-  const rows=['Name,Number,Platform,Country'];
-  contacts.forEach(c=>{const country=COUNTRIES.find(x=>x.code===c.countryCode)||{name:'Unknown'};rows.push(`"${c.name}","${c.dialCode}${c.number}","${c.platform||''}","${country.name}"`);});
-  const blob=new Blob([rows.join('\n')],{type:'text/csv'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='wa_contacts_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
-  showToast('CSV export ho gaya!');
 }
 
 function openSettings(){document.getElementById('settingsModal').classList.add('open');}
