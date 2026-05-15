@@ -6,15 +6,6 @@
 <title>WA Contact Manager Pro</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
 
-<!-- ══════════════════════════════════════════════════════════
-     FIREBASE CONFIG — Yahan apni Firebase config daalo
-     Steps:
-     1. https://console.firebase.google.com/ jaao
-     2. New Project banao
-     3. Web app add karo
-     4. Firestore Database enable karo (Start in test mode)
-     5. Neeche diye values replace karo
-     ══════════════════════════════════════════════════════════ -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, doc, setDoc, getDocs, deleteDoc, onSnapshot, query, where }
@@ -22,23 +13,20 @@
   import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  // ▼▼▼ APNI FIREBASE CONFIG YAHAN DAALO ▼▼▼
   const firebaseConfig = {
     apiKey: "AIzaSyA5Hg6GDqj5-WN9tmL53b3HJ8FSsnHZirI",
-  authDomain: "contact-6d07a.firebaseapp.com",
-  projectId: "contact-6d07a",
-  storageBucket: "contact-6d07a.firebasestorage.app",
-  messagingSenderId: "489254698064",
-  appId: "1:489254698064:web:1606c01ee289e3843fe555",
-
+    authDomain: "contact-6d07a.firebaseapp.com",
+    projectId: "contact-6d07a",
+    storageBucket: "contact-6d07a.firebasestorage.app",
+    messagingSenderId: "489254698064",
+    appId: "1:489254698064:web:1606c01ee289e3843fe555",
+    measurementId: "G-KS30FF5RHV"
   };
-  // ▲▲▲ CONFIG YAHAN KHATAM ▲▲▲
 
   const app  = initializeApp(firebaseConfig);
   const db   = getFirestore(app);
   const auth = getAuth(app);
 
-  // Expose globally
   window._fb = { db, auth, collection, doc, setDoc, getDocs, deleteDoc, onSnapshot, query, where,
     signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged };
 
@@ -66,7 +54,7 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
 @keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ── LOGIN ────────────────────────────────────────── */
+/* LOGIN */
 #loginPage{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
   background:radial-gradient(ellipse 60% 40% at 65% 25%,rgba(37,211,102,.07) 0%,transparent 70%),
@@ -134,7 +122,7 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
 .spinner-sm{width:16px;height:16px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:8px}
 .loading-text{font-family:'Syne',sans-serif;font-size:14px;color:var(--accent)}
 
-/* ── APP ─────────────────────────────────────────── */
+/* APP */
 #appPage{display:none;min-height:100vh;position:relative;z-index:1}
 .topbar{
   background:rgba(13,17,23,.92);border-bottom:1px solid var(--border);
@@ -228,9 +216,6 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
 .btn-cancel:hover{border-color:var(--danger);color:var(--danger)}
 .divider-line{height:1px;background:var(--border);margin:18px 0}
 .modal-section-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
-.pw-change-done{color:var(--accent);font-size:13px;display:none;align-items:center;gap:6px;margin-top:8px}
-.pw-strength{height:3px;background:var(--border);border-radius:2px;margin-top:5px;overflow:hidden}
-.pw-strength-bar{height:100%;border-radius:2px;transition:width .3s,background .3s;width:0}
 
 /* Toast */
 .toast{position:fixed;bottom:22px;right:22px;background:var(--card);border:1px solid var(--accent);color:var(--accent);border-radius:11px;padding:12px 18px;font-size:13px;font-weight:500;z-index:9999;transform:translateY(60px);opacity:0;transition:all .32s ease;max-width:280px;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px}
@@ -240,17 +225,13 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
 
 #fileInput{display:none}
 
-/* ── RESPONSIVE ──────────────────────────────────── */
-@media(max-width:900px){
-  .clock-box{min-width:145px}
-  .clock-time{font-size:15px}
-}
+@media(max-width:900px){.clock-box{min-width:145px}.clock-time{font-size:15px}}
 @media(max-width:760px){
   .table-head,.contact-row{grid-template-columns:1.8fr 1.5fr 1fr 140px}
   .table-head>div:nth-child(4),.contact-row>div:nth-child(4){display:none}
   .topbar{padding:0 14px;height:56px}
   .main{padding:16px 12px}
-  .topbar-center{display:none} /* clock on mobile moved below topbar */
+  .topbar-center{display:none}
   .version-tag{display:none}
   .storage-badge span{display:none}
 }
@@ -261,11 +242,7 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
   .btn-outline span{display:none}
 }
 
-/* Mobile clock bar */
-.mobile-clock-bar{
-  display:none;background:var(--surface);border-bottom:1px solid var(--border);
-  padding:8px 14px;text-align:center;
-}
+.mobile-clock-bar{display:none;background:var(--surface);border-bottom:1px solid var(--border);padding:8px 14px;text-align:center}
 .mobile-clock-bar .clock-time{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--accent)}
 .mobile-clock-bar .clock-date{font-size:11px;color:var(--muted);margin-top:2px}
 @media(max-width:760px){.mobile-clock-bar{display:block}}
@@ -289,15 +266,13 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
         </div>
         <span class="brand">WA Manager Pro</span>
       </div>
-      <div class="login-title">Welcome </div>
-      
+      <div class="login-title">Welcome 👋</div>
 
       <div class="cloud-note">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span>c</span>
+        <span>☁️ Cloud sync active — data har device pe safe rahega</span>
       </div>
 
-      <!-- Login / Register Tabs -->
       <div class="tab-row">
         <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Login</button>
         <button class="tab-btn" id="tabReg" onclick="switchTab('register')">Register</button>
@@ -326,7 +301,6 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
         <div class="field"><label>Confirm Password</label><input type="password" id="regPass2" placeholder="••••••••" autocomplete="off"/></div>
         <button class="btn-primary" id="regBtn" onclick="doRegister()">Create Account →</button>
       </div>
-
     </div>
   </div>
 </div>
@@ -342,7 +316,6 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
       <span class="version-tag">PRO</span>
     </div>
 
-    <!-- Desktop clock -->
     <div class="topbar-center">
       <div style="display:flex;align-items:center;gap:8px">
         <select class="tz-select" id="tzSelect" onchange="onTzChange()"></select>
@@ -373,14 +346,12 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
     </div>
   </div>
 
-  <!-- Mobile clock bar -->
   <div class="mobile-clock-bar" id="mobileClockBar">
     <div class="clock-time" id="mClockTime">--:--</div>
     <div class="clock-date" id="mClockDate"></div>
   </div>
 
   <div class="main">
-    <!-- Message Template -->
     <div class="msg-bar">
       <div class="msg-icon-label">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#25d366" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -389,7 +360,6 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
       <textarea id="msgTemplate" placeholder="WhatsApp message template… WA button press karoge to yeh message pre-fill hoga."></textarea>
     </div>
 
-    <!-- Actions -->
     <div class="actions-row">
       <div class="actions-left">
         <button class="btn-green" onclick="openAddModal()">
@@ -413,7 +383,6 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
       <span class="count-badge" id="countBadge">0 Contacts</span>
     </div>
 
-    <!-- Contact Table -->
     <div class="table-wrap">
       <div class="table-head">
         <div>Agency / Name</div>
@@ -427,7 +396,7 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
   </div>
 </div>
 
-<!-- ADD / EDIT CONTACT MODAL -->
+<!-- ADD / EDIT MODAL -->
 <div class="modal-overlay" id="addModal">
   <div class="modal">
     <h3 id="modalTitle">
@@ -476,9 +445,6 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════════════════════════
-//  COUNTRIES
-// ══════════════════════════════════════════════════════
 const COUNTRIES=[
   {name:'India',code:'IN',dial:'+91',flag:'🇮🇳',tz:'Asia/Kolkata'},
   {name:'United States',code:'US',dial:'+1',flag:'🇺🇸',tz:'America/New_York'},
@@ -534,101 +500,72 @@ const COUNTRIES=[
   {name:'Ghana',code:'GH',dial:'+233',flag:'🇬🇭',tz:'Africa/Accra'},
 ];
 
-// ══════════════════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════════════════
-let contacts = [];
-let currentUser = null;
-let unsubContacts = null;
-let editingId = null; // for edit mode
-let clockFmt = parseInt(localStorage.getItem('wamp_clock_fmt')||'24');
-let selectedTz = localStorage.getItem('wamp_tz')||'Asia/Kolkata';
-let clockInterval = null;
-let fbReady = false;
+let contacts=[],currentUser=null,unsubContacts=null,editingId=null;
+let clockFmt=parseInt(localStorage.getItem('wamp_clock_fmt')||'24');
+let selectedTz=localStorage.getItem('wamp_tz')||'Asia/Kolkata';
+let clockInterval=null,fbReady=false;
 
-// ══════════════════════════════════════════════════════
-//  FIREBASE INIT
-// ══════════════════════════════════════════════════════
-window.addEventListener('fb-ready', () => {
-  fbReady = true;
-  const { auth, onAuthStateChanged } = window._fb;
-
+window.addEventListener('fb-ready',()=>{
+  fbReady=true;
+  const {auth,onAuthStateChanged}=window._fb;
   showLoading('Checking login…');
-
-  onAuthStateChanged(auth, user => {
-    if(user){
-      currentUser = user;
-      hideLoading();
-      showApp();
-    } else {
-      currentUser = null;
-      hideLoading();
-      document.getElementById('loginPage').style.display = 'flex';
-      document.getElementById('appPage').style.display = 'none';
-    }
+  onAuthStateChanged(auth,user=>{
+    if(user){currentUser=user;hideLoading();showApp();}
+    else{currentUser=null;hideLoading();document.getElementById('loginPage').style.display='flex';document.getElementById('appPage').style.display='none';}
   });
 });
 
-// Fallback if Firebase config not set
 setTimeout(()=>{
-  if(!fbReady){
-    hideLoading();
-    document.getElementById('loginPage').style.display = 'flex';
-    showLoginErr('⚠️ Firebase config set nahi hai! index.html mein apni config daalo.');
-  }
-}, 5000);
+  if(!fbReady){hideLoading();document.getElementById('loginPage').style.display='flex';showLoginErr('⚠️ Firebase connect nahi ho paya. Internet check karo.');}
+},8000);
 
 showLoading('Loading…');
 
-// ══════════════════════════════════════════════════════
-//  LOGIN / REGISTER
-// ══════════════════════════════════════════════════════
 function switchTab(t){
-  document.getElementById('tabLogin').classList.toggle('active', t==='login');
-  document.getElementById('tabReg').classList.toggle('active', t==='register');
-  document.getElementById('formLogin').style.display = t==='login'?'block':'none';
-  document.getElementById('formRegister').style.display = t==='register'?'block':'none';
-  document.getElementById('loginErr').style.display = 'none';
+  document.getElementById('tabLogin').classList.toggle('active',t==='login');
+  document.getElementById('tabReg').classList.toggle('active',t==='register');
+  document.getElementById('formLogin').style.display=t==='login'?'block':'none';
+  document.getElementById('formRegister').style.display=t==='register'?'block':'none';
+  document.getElementById('loginErr').style.display='none';
 }
 
 async function doLogin(){
-  if(!fbReady){ showLoginErr('Firebase ready nahi hai'); return; }
-  const email = document.getElementById('loginEmail').value.trim();
-  const pass  = document.getElementById('loginPass').value.trim();
-  if(!email||!pass){ showLoginErr('Email aur password dono daalo'); return; }
-  const btn = document.getElementById('loginBtn');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner-sm"></span> Signing in…';
-  try {
-    const { auth, signInWithEmailAndPassword } = window._fb;
-    await signInWithEmailAndPassword(auth, email, pass);
-    // onAuthStateChanged handles the rest
-  } catch(e) {
-    btn.disabled = false; btn.textContent = 'Sign In →';
+  if(!fbReady){showLoginErr('Firebase ready nahi hai');return;}
+  const email=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPass').value.trim();
+  if(!email||!pass){showLoginErr('Email aur password dono daalo');return;}
+  const btn=document.getElementById('loginBtn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner-sm"></span> Signing in…';
+  try{
+    const {auth,signInWithEmailAndPassword}=window._fb;
+    await signInWithEmailAndPassword(auth,email,pass);
+  }catch(e){
+    btn.disabled=false;btn.textContent='Sign In →';
     showLoginErr(firebaseErrMsg(e.code));
   }
 }
 
 async function doRegister(){
-  if(!fbReady){ showLoginErr('Firebase ready nahi hai'); return; }
-  const email = document.getElementById('regEmail').value.trim();
-  const pass  = document.getElementById('regPass').value.trim();
-  const pass2 = document.getElementById('regPass2').value.trim();
-  if(!email||!pass){ showLoginErr('Email aur password daalo'); return; }
-  if(pass.length<6){ showLoginErr('Password kam se kam 6 characters ka hona chahiye'); return; }
-  if(pass !== pass2){ showLoginErr('Dono passwords match nahi karte'); return; }
-  const btn = document.getElementById('regBtn');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner-sm"></span> Creating…';
-  try {
-    const { auth, createUserWithEmailAndPassword } = window._fb;
-    await createUserWithEmailAndPassword(auth, email, pass);
-  } catch(e) {
-    btn.disabled = false; btn.textContent = 'Create Account →';
+  if(!fbReady){showLoginErr('Firebase ready nahi hai');return;}
+  const email=document.getElementById('regEmail').value.trim();
+  const pass=document.getElementById('regPass').value.trim();
+  const pass2=document.getElementById('regPass2').value.trim();
+  if(!email||!pass){showLoginErr('Email aur password daalo');return;}
+  if(pass.length<6){showLoginErr('Password kam se kam 6 characters ka hona chahiye');return;}
+  if(pass!==pass2){showLoginErr('Dono passwords match nahi karte');return;}
+  const btn=document.getElementById('regBtn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner-sm"></span> Creating…';
+  try{
+    const {auth,createUserWithEmailAndPassword}=window._fb;
+    await createUserWithEmailAndPassword(auth,email,pass);
+  }catch(e){
+    btn.disabled=false;btn.textContent='Create Account →';
     showLoginErr(firebaseErrMsg(e.code));
   }
 }
 
 function firebaseErrMsg(code){
-  const map = {
+  const map={
     'auth/user-not-found':'Email registered nahi hai',
     'auth/wrong-password':'Password galat hai',
     'auth/invalid-email':'Valid email daalo',
@@ -637,210 +574,147 @@ function firebaseErrMsg(code){
     'auth/network-request-failed':'Network error — internet check karo',
     'auth/invalid-credential':'Email ya password galat hai',
   };
-  return map[code] || ('Error: '+code);
+  return map[code]||('Error: '+code);
 }
 
 function showLoginErr(msg){
-  const el = document.getElementById('loginErr');
-  document.getElementById('loginErrText').textContent = msg;
-  el.style.display = 'flex';
+  const el=document.getElementById('loginErr');
+  document.getElementById('loginErrText').textContent=msg;
+  el.style.display='flex';
 }
 
-// ══════════════════════════════════════════════════════
-//  SHOW APP
-// ══════════════════════════════════════════════════════
 function showApp(){
-  document.getElementById('loginPage').style.display = 'none';
-  document.getElementById('appPage').style.display = 'block';
-  document.getElementById('settingsUserEmail').textContent = currentUser.email;
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('appPage').style.display='block';
+  document.getElementById('settingsUserEmail').textContent=currentUser.email;
   initClockUI();
   listenContacts();
   setSyncStatus('synced');
 }
 
-// ══════════════════════════════════════════════════════
-//  LOGOUT
-// ══════════════════════════════════════════════════════
 async function doLogout(){
-  if(unsubContacts){ unsubContacts(); unsubContacts=null; }
+  if(unsubContacts){unsubContacts();unsubContacts=null;}
   clearInterval(clockInterval);
-  contacts = [];
-  const { auth, signOut } = window._fb;
+  contacts=[];
+  const {auth,signOut}=window._fb;
   await signOut(auth);
 }
 
-// ══════════════════════════════════════════════════════
-//  FIRESTORE: REAL-TIME LISTENER
-// ══════════════════════════════════════════════════════
 function listenContacts(){
-  const { db, collection, query, where, onSnapshot } = window._fb;
-  const uid = currentUser.uid;
-  const q = query(collection(db, 'contacts'), where('uid','==',uid));
+  const {db,collection,query,where,onSnapshot}=window._fb;
+  const uid=currentUser.uid;
+  const q=query(collection(db,'contacts'),where('uid','==',uid));
   setSyncStatus('syncing');
-  unsubContacts = onSnapshot(q, snap => {
-    contacts = snap.docs.map(d=>({id:d.id,...d.data()}));
+  unsubContacts=onSnapshot(q,snap=>{
+    contacts=snap.docs.map(d=>({id:d.id,...d.data()}));
     contacts.sort((a,b)=>((a.createdAt||0)-(b.createdAt||0)));
     populateCountryFilter();
     renderContacts();
     setSyncStatus('synced');
-  }, err => {
+  },err=>{
     console.error(err);
     setSyncStatus('error');
-    showToast('Sync error: '+err.message, true);
+    showToast('Sync error: '+err.message,true);
   });
 }
 
-// ══════════════════════════════════════════════════════
-//  ADD / EDIT CONTACT
-// ══════════════════════════════════════════════════════
 function openAddModal(){
-  editingId = null;
-  document.getElementById('modalTitle').innerHTML = `
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#25d366" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#25d366" stroke-width="1.5" stroke-linecap="round"/></svg>
-    Add New Contact`;
-  document.getElementById('saveContactBtn').textContent = 'Save Contact';
+  editingId=null;
+  document.getElementById('modalTitle').innerHTML=`<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#25d366" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#25d366" stroke-width="1.5" stroke-linecap="round"/></svg> Add New Contact`;
+  document.getElementById('saveContactBtn').textContent='Save Contact';
   ['f_name','f_num','f_platform'].forEach(id=>document.getElementById(id).value='');
   populateCCSelect();
   document.getElementById('addModal').classList.add('open');
-  setTimeout(()=>document.getElementById('f_name').focus(), 300);
+  setTimeout(()=>document.getElementById('f_name').focus(),300);
 }
 
 function openEditModal(id){
-  const c = contacts.find(x=>x.id===id);
-  if(!c) return;
-  editingId = id;
-  document.getElementById('modalTitle').innerHTML = `
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4dabf7" stroke-width="1.8"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Edit Contact`;
-  document.getElementById('saveContactBtn').textContent = 'Update Contact';
+  const c=contacts.find(x=>x.id===id);if(!c)return;
+  editingId=id;
+  document.getElementById('modalTitle').innerHTML=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4dabf7" stroke-width="1.8"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke-linecap="round" stroke-linejoin="round"/></svg> Edit Contact`;
+  document.getElementById('saveContactBtn').textContent='Update Contact';
   populateCCSelect();
-  document.getElementById('f_name').value = c.name||'';
-  document.getElementById('f_num').value  = c.number||'';
-  document.getElementById('f_platform').value = c.platform||'';
-  // Set country code
-  const sel = document.getElementById('f_cc');
-  for(let i=0;i<COUNTRIES.length;i++){
-    if(COUNTRIES[i].code===c.countryCode){ sel.value=i; break; }
-  }
+  document.getElementById('f_name').value=c.name||'';
+  document.getElementById('f_num').value=c.number||'';
+  document.getElementById('f_platform').value=c.platform||'';
+  const sel=document.getElementById('f_cc');
+  for(let i=0;i<COUNTRIES.length;i++){if(COUNTRIES[i].code===c.countryCode){sel.value=i;break;}}
   document.getElementById('addModal').classList.add('open');
-  setTimeout(()=>document.getElementById('f_name').focus(), 300);
+  setTimeout(()=>document.getElementById('f_name').focus(),300);
 }
 
-function closeAddModal(){
-  document.getElementById('addModal').classList.remove('open');
-  editingId = null;
-}
+function closeAddModal(){document.getElementById('addModal').classList.remove('open');editingId=null;}
 
 function populateCCSelect(){
-  const sel = document.getElementById('f_cc');
-  sel.innerHTML = '';
-  COUNTRIES.forEach((c,i)=>{
-    const opt = document.createElement('option');
-    opt.value = i;
-    opt.textContent = c.flag+' '+c.dial+' '+c.name;
-    sel.appendChild(opt);
-  });
+  const sel=document.getElementById('f_cc');sel.innerHTML='';
+  COUNTRIES.forEach((c,i)=>{const opt=document.createElement('option');opt.value=i;opt.textContent=c.flag+' '+c.dial+' '+c.name;sel.appendChild(opt);});
 }
 
 async function saveContact(){
-  const name     = document.getElementById('f_name').value.trim();
-  const num      = document.getElementById('f_num').value.trim().replace(/\D/g,'');
-  const platform = document.getElementById('f_platform').value.trim();
-  const ci       = parseInt(document.getElementById('f_cc').value);
-  const c        = COUNTRIES[ci];
-  if(!name||!num){ showToast('Name aur number zaroori hai!', true); return; }
-
-  const btn = document.getElementById('saveContactBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner-sm"></span> Saving…';
+  const name=document.getElementById('f_name').value.trim();
+  const num=document.getElementById('f_num').value.trim().replace(/\D/g,'');
+  const platform=document.getElementById('f_platform').value.trim();
+  const ci=parseInt(document.getElementById('f_cc').value);
+  const c=COUNTRIES[ci];
+  if(!name||!num){showToast('Name aur number zaroori hai!',true);return;}
+  const btn=document.getElementById('saveContactBtn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner-sm"></span> Saving…';
   setSyncStatus('syncing');
-
-  try {
-    const { db, doc, setDoc, collection } = window._fb;
-    const uid = currentUser.uid;
-
+  try{
+    const {db,doc,setDoc,collection}=window._fb;
+    const uid=currentUser.uid;
     if(editingId){
-      // UPDATE
-      const ref = doc(db, 'contacts', editingId);
-      await setDoc(ref, {uid, name, number:num, dialCode:c.dial, countryCode:c.code, platform, updatedAt:Date.now()}, {merge:true});
+      const ref=doc(db,'contacts',editingId);
+      await setDoc(ref,{uid,name,number:num,dialCode:c.dial,countryCode:c.code,platform,updatedAt:Date.now()},{merge:true});
       showToast('✅ Contact update ho gaya!');
-    } else {
-      // CREATE
-      const id = uid+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);
-      const ref = doc(db, 'contacts', id);
-      await setDoc(ref, {uid, name, number:num, dialCode:c.dial, countryCode:c.code, platform, createdAt:Date.now()});
+    }else{
+      const id=uid+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);
+      const ref=doc(db,'contacts',id);
+      await setDoc(ref,{uid,name,number:num,dialCode:c.dial,countryCode:c.code,platform,createdAt:Date.now()});
       showToast('✅ Contact save ho gaya!');
     }
     closeAddModal();
-  } catch(e) {
-    showToast('Save failed: '+e.message, true);
-    setSyncStatus('error');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = editingId ? 'Update Contact' : 'Save Contact';
+  }catch(e){
+    showToast('Save failed: '+e.message,true);setSyncStatus('error');
+  }finally{
+    btn.disabled=false;btn.textContent=editingId?'Update Contact':'Save Contact';
   }
 }
 
-// ══════════════════════════════════════════════════════
-//  DELETE
-// ══════════════════════════════════════════════════════
 async function deleteContact(id){
-  if(!confirm('Is contact ko delete karein?')) return;
+  if(!confirm('Is contact ko delete karein?'))return;
   setSyncStatus('syncing');
-  try {
-    const { db, doc, deleteDoc } = window._fb;
-    await deleteDoc(doc(db, 'contacts', id));
-    showToast('Contact delete ho gaya');
-  } catch(e) {
-    showToast('Delete failed: '+e.message, true);
-    setSyncStatus('error');
-  }
+  try{const {db,doc,deleteDoc}=window._fb;await deleteDoc(doc(db,'contacts',id));showToast('Contact delete ho gaya');}
+  catch(e){showToast('Delete failed: '+e.message,true);setSyncStatus('error');}
 }
 
 async function clearAllContacts(){
-  if(!confirm('Saare contacts delete karein? Yeh wapas nahi aayenge.')) return;
+  if(!confirm('Saare contacts delete karein? Yeh wapas nahi aayenge.'))return;
   setSyncStatus('syncing');
-  try {
-    const { db, doc, deleteDoc } = window._fb;
-    for(const c of contacts){
-      await deleteDoc(doc(db, 'contacts', c.id));
-    }
-    showToast('Saare contacts delete ho gaye');
-    closeSettings();
-  } catch(e) {
-    showToast('Error: '+e.message, true);
-    setSyncStatus('error');
-  }
+  try{
+    const {db,doc,deleteDoc}=window._fb;
+    for(const c of contacts){await deleteDoc(doc(db,'contacts',c.id));}
+    showToast('Saare contacts delete ho gaye');closeSettings();
+  }catch(e){showToast('Error: '+e.message,true);setSyncStatus('error');}
 }
 
-// ══════════════════════════════════════════════════════
-//  RENDER
-// ══════════════════════════════════════════════════════
 function renderContacts(){
-  const fc = document.getElementById('countryFilter').value;
-  const q  = document.getElementById('searchInput').value.toLowerCase();
-  let list = contacts;
-  if(fc) list = list.filter(c=>c.countryCode===fc);
-  if(q)  list = list.filter(c=>
-    (c.name||'').toLowerCase().includes(q)||
-    (c.number||'').includes(q)||
-    (c.platform||'').toLowerCase().includes(q)
-  );
-  document.getElementById('countBadge').textContent = list.length+' Contact'+(list.length!==1?'s':'');
-  const el = document.getElementById('contactList');
+  const fc=document.getElementById('countryFilter').value;
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  let list=contacts;
+  if(fc)list=list.filter(c=>c.countryCode===fc);
+  if(q)list=list.filter(c=>(c.name||'').toLowerCase().includes(q)||(c.number||'').includes(q)||(c.platform||'').toLowerCase().includes(q));
+  document.getElementById('countBadge').textContent=list.length+' Contact'+(list.length!==1?'s':'');
+  const el=document.getElementById('contactList');
   if(!list.length){
-    el.innerHTML=`<div class="empty-state">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <p>Koi contact nahi mila</p>
-      <small>Add Contact ya Import CSV karein</small>
-    </div>`;
+    el.innerHTML=`<div class="empty-state"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg><p>Koi contact nahi mila</p><small>Add Contact ya Import CSV karein</small></div>`;
     return;
   }
-  el.innerHTML = list.map(c=>{
-    const country = COUNTRIES.find(x=>x.code===c.countryCode)||{flag:'🌍',name:'Unknown'};
-    const fullNum = ((c.dialCode||'')+c.number).replace(/[\s+]/g,'');
-    const msg = encodeURIComponent(document.getElementById('msgTemplate').value||'');
-    const waUrl = 'https://wa.me/'+fullNum+(msg?'?text='+msg:'');
+  el.innerHTML=list.map(c=>{
+    const country=COUNTRIES.find(x=>x.code===c.countryCode)||{flag:'🌍',name:'Unknown'};
+    const fullNum=((c.dialCode||'')+c.number).replace(/[\s+]/g,'');
+    const msg=encodeURIComponent(document.getElementById('msgTemplate').value||'');
+    const waUrl='https://wa.me/'+fullNum+(msg?'?text='+msg:'');
     return `<div class="contact-row">
       <div class="contact-name">${esc(c.name)}</div>
       <div class="contact-number">${esc(c.dialCode)} ${esc(c.number)}</div>
@@ -848,211 +722,116 @@ function renderContacts(){
       <div class="country-text">${country.flag} ${country.name}</div>
       <div class="row-actions">
         <a href="${waUrl}" target="_blank" style="text-decoration:none">
-          <button class="btn-wa">
-            <svg width="11" height="11" viewBox="0 0 20 20" fill="white"><path d="M10 2C5.58 2 2 5.58 2 10c0 1.52.42 2.95 1.14 4.18L2 18l3.95-1.1A8 8 0 1010 2zm4.56 11.47c-.19.54-1.1 1-1.5 1.06-.4.06-.93.09-1.49-.09-.35-.11-.8-.26-1.37-.5-2.41-1.04-3.99-3.48-4.11-3.64-.12-.17-.94-1.25-.94-2.38 0-1.14.6-1.69.81-1.92.22-.23.47-.29.63-.29h.45c.14 0 .34-.05.53.4.19.47.66 1.62.72 1.74.06.12.09.25.02.4-.07.16-.11.25-.22.39-.11.14-.23.3-.33.41-.11.12-.22.25-.09.49.13.24.58.95 1.24 1.54.85.76 1.58 1 1.82 1.11.24.11.37.09.52-.06.14-.15.61-.71.77-.96.16-.24.32-.2.54-.12.22.08 1.37.65 1.61.77.24.12.4.17.46.27.06.1.06.57-.13 1.1z"/></svg>
-            WA
-          </button>
+          <button class="btn-wa"><svg width="11" height="11" viewBox="0 0 20 20" fill="white"><path d="M10 2C5.58 2 2 5.58 2 10c0 1.52.42 2.95 1.14 4.18L2 18l3.95-1.1A8 8 0 1010 2zm4.56 11.47c-.19.54-1.1 1-1.5 1.06-.4.06-.93.09-1.49-.09-.35-.11-.8-.26-1.37-.5-2.41-1.04-3.99-3.48-4.11-3.64-.12-.17-.94-1.25-.94-2.38 0-1.14.6-1.69.81-1.92.22-.23.47-.29.63-.29h.45c.14 0 .34-.05.53.4.19.47.66 1.62.72 1.74.06.12.09.25.02.4-.07.16-.11.25-.22.39-.11.14-.23.3-.33.41-.11.12-.22.25-.09.49.13.24.58.95 1.24 1.54.85.76 1.58 1 1.82 1.11.24.11.37.09.52-.06.14-.15.61-.71.77-.96.16-.24.32-.2.54-.12.22.08 1.37.65 1.61.77.24.12.4.17.46.27.06.1.06.57-.13 1.1z"/></svg> WA</button>
         </a>
         <button class="btn-edit" onclick="openEditModal('${c.id}')" title="Edit">✏️</button>
-        <button class="btn-del"  onclick="deleteContact('${c.id}')" title="Delete">✕</button>
+        <button class="btn-del" onclick="deleteContact('${c.id}')" title="Delete">✕</button>
       </div>
     </div>`;
   }).join('');
 }
 
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 function populateCountryFilter(){
-  const sel = document.getElementById('countryFilter');
-  const cur = sel.value;
-  while(sel.options.length>1) sel.remove(1);
-  const used = new Set(contacts.map(c=>c.countryCode));
-  COUNTRIES.filter(c=>used.has(c.code)).forEach(c=>{
-    const opt = document.createElement('option');
-    opt.value = c.code; opt.textContent = c.flag+' '+c.name;
-    sel.appendChild(opt);
-  });
-  if(cur) sel.value = cur;
+  const sel=document.getElementById('countryFilter');
+  const cur=sel.value;
+  while(sel.options.length>1)sel.remove(1);
+  const used=new Set(contacts.map(c=>c.countryCode));
+  COUNTRIES.filter(c=>used.has(c.code)).forEach(c=>{const opt=document.createElement('option');opt.value=c.code;opt.textContent=c.flag+' '+c.name;sel.appendChild(opt);});
+  if(cur)sel.value=cur;
 }
 
-// ══════════════════════════════════════════════════════
-//  CSV IMPORT / EXPORT
-// ══════════════════════════════════════════════════════
 function importFile(e){
-  const file = e.target.files[0]; if(!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => parseCSV(ev.target.result);
-  reader.readAsText(file);
-  e.target.value='';
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>parseCSV(ev.target.result);
+  reader.readAsText(file);e.target.value='';
 }
 
 async function parseCSV(text){
-  const lines = text.trim().split('\n');
-  let added = 0;
-  const { db, doc, setDoc } = window._fb;
-  const uid = currentUser.uid;
+  const lines=text.trim().split('\n');let added=0;
+  const {db,doc,setDoc}=window._fb;const uid=currentUser.uid;
   setSyncStatus('syncing');
   for(let i=0;i<lines.length;i++){
-    if(i===0 && lines[i].toLowerCase().includes('name')) continue;
-    const parts = lines[i].split(',').map(s=>s.trim().replace(/^"|"$/g,''));
-    if(parts.length<2) continue;
-    const name=parts[0], rawNum=parts[1]||'', platform=parts[2]||'';
-    let dial='+91', cc='IN', number=rawNum.replace(/\D/g,'');
-    COUNTRIES.forEach(c=>{
-      const clean=rawNum.replace(/\s/g,'');
-      if(clean.startsWith(c.dial)){ dial=c.dial; cc=c.code; number=clean.slice(c.dial.length); }
-    });
-    if(name){
-      const id = uid+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);
-      await setDoc(doc(db,'contacts',id),{uid,name,number,dialCode:dial,countryCode:cc,platform,createdAt:Date.now()});
-      added++;
-    }
+    if(i===0&&lines[i].toLowerCase().includes('name'))continue;
+    const parts=lines[i].split(',').map(s=>s.trim().replace(/^"|"$/g,''));
+    if(parts.length<2)continue;
+    const name=parts[0],rawNum=parts[1]||'',platform=parts[2]||'';
+    let dial='+91',cc='IN',number=rawNum.replace(/\D/g,'');
+    COUNTRIES.forEach(c=>{const clean=rawNum.replace(/\s/g,'');if(clean.startsWith(c.dial)){dial=c.dial;cc=c.code;number=clean.slice(c.dial.length);}});
+    if(name){const id=uid+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);await setDoc(doc(db,'contacts',id),{uid,name,number,dialCode:dial,countryCode:cc,platform,createdAt:Date.now()});added++;}
   }
   showToast('Import ho gaye: '+added+' contacts!');
 }
 
 function exportContacts(){
-  if(!contacts.length){ showToast('Export ke liye koi contact nahi hai',true); return; }
+  if(!contacts.length){showToast('Export ke liye koi contact nahi hai',true);return;}
   const rows=['Name,Number,Platform,Country'];
-  contacts.forEach(c=>{
-    const country=COUNTRIES.find(x=>x.code===c.countryCode)||{name:'Unknown'};
-    rows.push(`"${c.name}","${c.dialCode}${c.number}","${c.platform||''}","${country.name}"`);
-  });
+  contacts.forEach(c=>{const country=COUNTRIES.find(x=>x.code===c.countryCode)||{name:'Unknown'};rows.push(`"${c.name}","${c.dialCode}${c.number}","${c.platform||''}","${country.name}"`);});
   const blob=new Blob([rows.join('\n')],{type:'text/csv'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download='wa_contacts_'+new Date().toISOString().slice(0,10)+'.csv';
-  a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='wa_contacts_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
   showToast('CSV export ho gaya!');
 }
 
-// ══════════════════════════════════════════════════════
-//  SETTINGS
-// ══════════════════════════════════════════════════════
-function openSettings(){
-  document.getElementById('settingsModal').classList.add('open');
-}
-function closeSettings(){ document.getElementById('settingsModal').classList.remove('open'); }
+function openSettings(){document.getElementById('settingsModal').classList.add('open');}
+function closeSettings(){document.getElementById('settingsModal').classList.remove('open');}
 
-// ══════════════════════════════════════════════════════
-//  CLOCK — FIXED FOR MOBILE
-// ══════════════════════════════════════════════════════
-function initClockUI(){
-  populateTzSelect();
-  setFmt(clockFmt);
-  updateClock();
-  clearInterval(clockInterval);
-  clockInterval = setInterval(updateClock, 1000);
-}
+function initClockUI(){populateTzSelect();setFmt(clockFmt);updateClock();clearInterval(clockInterval);clockInterval=setInterval(updateClock,1000);}
 
 function updateClock(){
-  const now = new Date();
-  const opts12 = {timeZone:selectedTz, hour:'numeric', minute:'2-digit', second:'2-digit', hour12:true};
-  const opts24 = {timeZone:selectedTz, hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false};
-  const optsD  = {timeZone:selectedTz, weekday:'short', year:'numeric', month:'short', day:'numeric'};
-
-  let timeStr, dateStr;
-  try {
-    timeStr = now.toLocaleTimeString('en-US', clockFmt===12 ? opts12 : opts24);
-    dateStr = now.toLocaleDateString('en-US', optsD);
-  } catch(e) {
-    // Fallback if timezone invalid
-    timeStr = now.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit', hour12: clockFmt===12});
-    dateStr = now.toLocaleDateString('en-US', {weekday:'short', year:'numeric', month:'short', day:'numeric'});
-  }
-
-  const tzLabel = '📍 '+(selectedTz||'').split('/').pop().replace(/_/g,' ');
-
-  // Desktop
-  const ct = document.getElementById('clockTime');
-  const cd = document.getElementById('clockDate');
-  const cz = document.getElementById('clockTz');
-  if(ct) ct.textContent = timeStr;
-  if(cd) cd.textContent = dateStr;
-  if(cz) cz.textContent = tzLabel;
-
-  // Mobile
-  const mt = document.getElementById('mClockTime');
-  const md = document.getElementById('mClockDate');
-  if(mt) mt.textContent = timeStr;
-  if(md) md.textContent = dateStr + ' · ' + tzLabel;
+  const now=new Date();
+  const opts12={timeZone:selectedTz,hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true};
+  const opts24={timeZone:selectedTz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false};
+  const optsD={timeZone:selectedTz,weekday:'short',year:'numeric',month:'short',day:'numeric'};
+  let timeStr,dateStr;
+  try{timeStr=now.toLocaleTimeString('en-US',clockFmt===12?opts12:opts24);dateStr=now.toLocaleDateString('en-US',optsD);}
+  catch(e){timeStr=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:clockFmt===12});dateStr=now.toLocaleDateString('en-US',{weekday:'short',year:'numeric',month:'short',day:'numeric'});}
+  const tzLabel='📍 '+(selectedTz||'').split('/').pop().replace(/_/g,' ');
+  const ct=document.getElementById('clockTime');const cd=document.getElementById('clockDate');const cz=document.getElementById('clockTz');
+  if(ct)ct.textContent=timeStr;if(cd)cd.textContent=dateStr;if(cz)cz.textContent=tzLabel;
+  const mt=document.getElementById('mClockTime');const md=document.getElementById('mClockDate');
+  if(mt)mt.textContent=timeStr;if(md)md.textContent=dateStr+' · '+tzLabel;
 }
 
 function setFmt(f){
-  clockFmt = f;
-  localStorage.setItem('wamp_clock_fmt', f);
-  const b12 = document.getElementById('btn12');
-  const b24 = document.getElementById('btn24');
-  if(b12) b12.classList.toggle('active', f===12);
-  if(b24) b24.classList.toggle('active', f===24);
+  clockFmt=f;localStorage.setItem('wamp_clock_fmt',f);
+  const b12=document.getElementById('btn12');const b24=document.getElementById('btn24');
+  if(b12)b12.classList.toggle('active',f===12);if(b24)b24.classList.toggle('active',f===24);
   updateClock();
 }
 
-function onTzChange(){
-  selectedTz = document.getElementById('tzSelect').value;
-  localStorage.setItem('wamp_tz', selectedTz);
-  updateClock();
-}
+function onTzChange(){selectedTz=document.getElementById('tzSelect').value;localStorage.setItem('wamp_tz',selectedTz);updateClock();}
 
 function populateTzSelect(){
-  const sel = document.getElementById('tzSelect');
-  if(!sel) return;
-  sel.innerHTML = '';
-  COUNTRIES.forEach(c=>{
-    const opt = document.createElement('option');
-    opt.value = c.tz;
-    opt.textContent = c.flag+' '+c.name;
-    if(c.tz === selectedTz) opt.selected = true;
-    sel.appendChild(opt);
-  });
+  const sel=document.getElementById('tzSelect');if(!sel)return;sel.innerHTML='';
+  COUNTRIES.forEach(c=>{const opt=document.createElement('option');opt.value=c.tz;opt.textContent=c.flag+' '+c.name;if(c.tz===selectedTz)opt.selected=true;sel.appendChild(opt);});
 }
 
-// ══════════════════════════════════════════════════════
-//  SYNC STATUS
-// ══════════════════════════════════════════════════════
 function setSyncStatus(s){
-  const dot = document.getElementById('syncDot');
-  const lbl = document.getElementById('syncLabel');
-  if(!dot||!lbl) return;
-  dot.className = 'sync-dot'+(s==='syncing'?' syncing':s==='error'?' error':'');
-  lbl.textContent = s==='syncing'?'Syncing…':s==='error'?'Sync Error':'Cloud Sync ✓';
+  const dot=document.getElementById('syncDot');const lbl=document.getElementById('syncLabel');if(!dot||!lbl)return;
+  dot.className='sync-dot'+(s==='syncing'?' syncing':s==='error'?' error':'');
+  lbl.textContent=s==='syncing'?'Syncing…':s==='error'?'Sync Error':'Cloud Sync ✓';
 }
 
-// ══════════════════════════════════════════════════════
-//  LOADING OVERLAY
-// ══════════════════════════════════════════════════════
-function showLoading(msg){
-  document.getElementById('loadingText').textContent = msg||'Loading…';
-  document.getElementById('loadingOverlay').classList.add('show');
-}
-function hideLoading(){
-  document.getElementById('loadingOverlay').classList.remove('show');
+function showLoading(msg){document.getElementById('loadingText').textContent=msg||'Loading…';document.getElementById('loadingOverlay').classList.add('show');}
+function hideLoading(){document.getElementById('loadingOverlay').classList.remove('show');}
+
+function showToast(msg,err,warn){
+  const t=document.getElementById('toast');t.textContent=msg;
+  t.className='toast'+(err?' error':warn?' warn':'');t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
 }
 
-// ══════════════════════════════════════════════════════
-//  TOAST
-// ══════════════════════════════════════════════════════
-function showToast(msg, err, warn){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast'+(err?' error':warn?' warn':'');
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 3200);
-}
-
-// ══════════════════════════════════════════════════════
-//  MODAL CLOSE ON BACKDROP
-// ══════════════════════════════════════════════════════
-document.addEventListener('click', e=>{
-  if(e.target.id==='addModal') closeAddModal();
-  if(e.target.id==='settingsModal') closeSettings();
+document.addEventListener('click',e=>{
+  if(e.target.id==='addModal')closeAddModal();
+  if(e.target.id==='settingsModal')closeSettings();
 });
 
-// Enter key on login
-document.addEventListener('DOMContentLoaded', ()=>{
-  document.getElementById('loginPass').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
-  document.getElementById('loginEmail').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
-  document.getElementById('regPass2').addEventListener('keydown', e=>{ if(e.key==='Enter') doRegister(); });
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+  document.getElementById('loginEmail').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+  document.getElementById('regPass2').addEventListener('keydown',e=>{if(e.key==='Enter')doRegister();});
 });
 </script>
 </body>
