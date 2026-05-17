@@ -284,6 +284,80 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
   .topbar-right .storage-badge{display:none} /* saved space on mobile */
 }
 
+/* ═══════════════════════════════════════════
+   DUPLICATE STYLES
+═══════════════════════════════════════════ */
+.contact-card.is-duplicate{
+  border-color:rgba(255,214,10,.5);
+  background:rgba(255,214,10,.03);
+  position:relative;
+}
+.contact-card.is-duplicate::before{
+  content:'';position:absolute;inset:0;border-radius:var(--radius);
+  box-shadow:0 0 0 1px rgba(255,214,10,.35);pointer-events:none;
+}
+.dup-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:rgba(255,214,10,.12);border:1px solid rgba(255,214,10,.35);
+  color:var(--warn);border-radius:5px;padding:2px 7px;font-size:10px;font-weight:700;
+  font-family:'Syne',sans-serif;letter-spacing:.04em;
+}
+/* Desktop row duplicate */
+.contact-row.is-duplicate{background:rgba(255,214,10,.03)!important;border-left:3px solid var(--warn);}
+.contact-row.is-duplicate .contact-name-td{color:var(--warn)}
+
+/* Dup alert bar */
+.dup-alert{
+  background:rgba(255,214,10,.06);border:1px solid rgba(255,214,10,.3);
+  border-radius:var(--radius);padding:12px 14px;margin-bottom:12px;
+  display:none;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+}
+.dup-alert-left{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--warn)}
+.btn-dup{background:rgba(255,214,10,.12);border:1px solid rgba(255,214,10,.4);color:var(--warn);border-radius:8px;padding:7px 13px;font-size:12px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-dup:hover{background:rgba(255,214,10,.22)}
+
+/* Duplicate modal */
+.dup-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(12px);display:flex;align-items:flex-end;justify-content:center;z-index:998;opacity:0;pointer-events:none;transition:opacity .25s}
+.dup-modal-overlay.open{opacity:1;pointer-events:all}
+.dup-modal{background:var(--surface);border:1px solid var(--border);border-radius:22px 22px 0 0;width:100%;max-width:600px;max-height:88vh;display:flex;flex-direction:column;box-shadow:var(--shadow-lg);transform:translateY(100%);transition:transform .32s cubic-bezier(0.34,1.56,0.64,1)}
+.dup-modal-overlay.open .dup-modal{transform:translateY(0)}
+.dup-modal-head{padding:20px 20px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
+.dup-modal-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 16px}
+.dup-modal-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.dup-modal-sub{font-size:12px;color:var(--muted)}
+.dup-modal-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn-dup-all{background:linear-gradient(135deg,rgba(255,77,109,.7),rgba(200,30,70,.8));color:#fff;border:none;border-radius:9px;padding:8px 14px;font-size:12px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;display:flex;align-items:center;gap:5px;transition:opacity .2s}
+.btn-dup-all:hover{opacity:.82}
+.dup-modal-body{overflow-y:auto;padding:14px 16px;flex:1}
+.dup-group{background:var(--card);border:1px solid rgba(255,214,10,.25);border-radius:12px;margin-bottom:12px;overflow:hidden}
+.dup-group-head{padding:10px 14px;background:rgba(255,214,10,.06);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,214,10,.15)}
+.dup-group-label{font-size:12px;font-weight:700;color:var(--warn);font-family:'Syne',sans-serif;display:flex;align-items:center;gap:6px}
+.btn-keep-first{background:transparent;border:1px solid rgba(255,77,109,.3);color:var(--danger);border-radius:7px;padding:5px 11px;font-size:11px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-keep-first:hover{background:var(--danger-bg);border-color:var(--danger)}
+.dup-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);transition:background .15s}
+.dup-item:last-child{border-bottom:none}
+.dup-item.is-keep{background:rgba(37,211,102,.04)}
+.dup-item-avatar{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:#fff;flex-shrink:0}
+.dup-item-info{flex:1;min-width:0}
+.dup-item-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dup-item-num{font-size:11px;color:var(--text2)}
+.dup-item-plat{font-size:10px;color:var(--muted)}
+.keep-tag{font-size:9px;background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.3);color:var(--accent);border-radius:4px;padding:2px 6px;font-weight:700;font-family:'Syne',sans-serif;margin-left:4px}
+.dup-item-btns{display:flex;gap:5px;flex-shrink:0}
+.btn-keep{background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.25);color:var(--accent);border-radius:7px;padding:5px 9px;font-size:11px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-keep:hover{background:rgba(37,211,102,.18)}
+.btn-del-dup{background:transparent;border:1px solid rgba(255,77,109,.2);color:var(--danger);border-radius:7px;padding:5px 8px;font-size:11px;cursor:pointer;transition:all .2s}
+.btn-del-dup:hover{background:var(--danger-bg);border-color:var(--danger)}
+.dup-modal-footer{padding:12px 16px;border-top:1px solid var(--border);flex-shrink:0}
+
+@media(min-width:720px){
+  .dup-modal{border-radius:22px;align-self:center;max-height:80vh}
+  .dup-modal-overlay{align-items:center}
+  .dup-modal-handle{display:none}
+  .dup-modal{transform:scale(.93) translateY(16px)}
+  .dup-modal-overlay.open .dup-modal{transform:scale(1) translateY(0)}
+}
+
 /* Firebase rules warning box */
 .rules-warn{background:rgba(255,214,10,.06);border:1px solid rgba(255,214,10,.3);border-radius:10px;padding:12px 16px;font-size:12px;color:var(--warn);margin-bottom:16px;display:none}
 .rules-warn code{background:rgba(255,255,255,.08);border-radius:4px;padding:2px 6px;font-size:11px;font-family:monospace;display:block;margin-top:8px;line-height:1.8;white-space:pre-wrap;color:#ffe066}
@@ -422,6 +496,15 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
       <input class="search-input" id="searchInput" placeholder="Search name, number…" oninput="renderContacts()"/>
     </div>
 
+    <!-- Duplicate alert bar -->
+    <div class="dup-alert" id="dupAlert">
+      <div class="dup-alert-left">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="dupAlertText">Duplicate contacts hain</span>
+      </div>
+      <button class="btn-dup" onclick="openDupModal()">🔍 Duplicates Dekhein</button>
+    </div>
+
     <!-- MOBILE: Card List -->
     <div class="contacts-list" id="mobileContactList"></div>
 
@@ -436,6 +519,28 @@ body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url
       </div>
       <div id="desktopContactList"></div>
     </div>
+  </div>
+</div>
+
+<!-- DUPLICATE MODAL -->
+<div class="dup-modal-overlay" id="dupModal">
+  <div class="dup-modal">
+    <div class="dup-modal-head">
+      <div class="dup-modal-handle"></div>
+      <div class="dup-modal-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffd60a" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Duplicate Contacts
+      </div>
+      <div class="dup-modal-sub" id="dupModalSub">Same number pe multiple contacts hain</div>
+      <div class="dup-modal-actions">
+        <button class="btn-dup-all" onclick="removeAllDuplicates()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          Saare Duplicates Hatao (Pehla Rakho)
+        </button>
+        <button class="btn-cancel" onclick="closeDupModal()">Close</button>
+      </div>
+    </div>
+    <div class="dup-modal-body" id="dupModalBody"></div>
   </div>
 </div>
 
@@ -504,6 +609,141 @@ service cloud.firestore {
 <div class="toast" id="toast"></div>
 
 <script>
+// ═══════════════════════════════════════════
+// DUPLICATE DETECTION
+// ═══════════════════════════════════════════
+
+function findDuplicateGroups(list){
+  const map=new Map();
+  list.forEach(c=>{
+    const key=(c.dialCode||'').replace(/\D/g,'')+(c.number||'').replace(/\D/g,'');
+    if(!key)return;
+    if(!map.has(key))map.set(key,[]);
+    map.get(key).push(c);
+  });
+  const groups=[];
+  map.forEach((arr)=>{if(arr.length>1)groups.push(arr);});
+  return groups;
+}
+
+function updateDupAlert(groups){
+  const alert=document.getElementById('dupAlert');
+  const text=document.getElementById('dupAlertText');
+  const totalDups=groups.reduce((s,g)=>s+(g.length-1),0);
+  if(groups.length>0){
+    alert.style.display='flex';
+    text.textContent=`⚠️ ${groups.length} duplicate number${groups.length>1?'s':''} mili — ${totalDups} extra contact${totalDups>1?'s':''} hai!`;
+  }else{
+    alert.style.display='none';
+  }
+}
+
+function openDupModal(){
+  const groups=findDuplicateGroups(contacts);
+  const sub=document.getElementById('dupModalSub');
+  const body=document.getElementById('dupModalBody');
+  const totalDups=groups.reduce((s,g)=>s+(g.length-1),0);
+  sub.textContent=`${groups.length} group mein ${totalDups} extra contact${totalDups>1?'s':''} hain. Pehla wala rakha jayega.`;
+  body.innerHTML=groups.map((group,gi)=>{
+    return `<div class="dup-group">
+      <div class="dup-group-head">
+        <div class="dup-group-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          📞 ${esc((group[0].dialCode||'')+' '+group[0].number)} · ${group.length} copies
+        </div>
+        <button class="btn-keep-first" onclick="keepFirstDeleteRest(${gi})">Pehla Rakho ✓</button>
+      </div>
+      ${group.map((c,ci)=>{
+        const isKeep=ci===0;
+        const [col1,col2]=avatarColor(c.name);
+        return `<div class="dup-item${isKeep?' is-keep':''}" id="dupitem_${c.id}">
+          <div class="dup-item-avatar" style="background:linear-gradient(135deg,${col1},${col2})">${esc(getInitials(c.name))}</div>
+          <div class="dup-item-info">
+            <div class="dup-item-name">${esc(c.name)}${isKeep?'<span class="keep-tag">✓ RAKHEIN</span>':''}</div>
+            <div class="dup-item-num">${esc(c.dialCode)} ${esc(c.number)}</div>
+            <div class="dup-item-plat">${esc(c.platform)||'—'}</div>
+          </div>
+          <div class="dup-item-btns">
+            ${!isKeep
+              ?`<button class="btn-del-dup" onclick="deleteDupContact('${c.id}')">✕ Hatao</button>`
+              :'<span style="font-size:10px;color:var(--accent)">✓</span>'}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }).join('');
+  window._dupGroups=groups;
+  document.getElementById('dupModal').classList.add('open');
+}
+
+function closeDupModal(){document.getElementById('dupModal').classList.remove('open');}
+
+async function deleteDupContact(id){
+  const{db,doc,deleteDoc}=window._fb;
+  const el=document.getElementById('dupitem_'+id);
+  if(el){el.style.opacity='.35';el.style.pointerEvents='none';}
+  try{
+    await deleteDoc(doc(db,'contacts',id));
+    showToast('✅ Duplicate contact delete ho gaya');
+    setTimeout(()=>{
+      const groups=findDuplicateGroups(contacts);
+      if(groups.length===0){closeDupModal();}
+      else{openDupModal();}
+    },700);
+  }catch(e){
+    if(el){el.style.opacity='1';el.style.pointerEvents='';}
+    showToast('Delete failed: '+e.message,true);
+    document.getElementById('rulesWarn').style.display='block';
+    closeDupModal();openSettings();
+  }
+}
+
+async function keepFirstDeleteRest(groupIdx){
+  const group=window._dupGroups[groupIdx];
+  if(!group||group.length<2)return;
+  const toDelete=group.slice(1);
+  if(!confirm(`Is group mein pehla contact "${group[0].name}" rakhein aur baaki ${toDelete.length} delete karein?`))return;
+  const{db,doc,writeBatch}=window._fb;
+  setSyncStatus('syncing');
+  try{
+    const batch=writeBatch(db);
+    toDelete.forEach(c=>batch.delete(doc(db,'contacts',c.id)));
+    await batch.commit();
+    showToast(`✅ ${toDelete.length} duplicate${toDelete.length>1?'s':''} delete ho gaye`);
+    setTimeout(()=>{
+      const groups=findDuplicateGroups(contacts);
+      if(groups.length===0){closeDupModal();}
+      else{openDupModal();}
+    },700);
+  }catch(e){
+    showToast('Delete failed: '+e.message,true);setSyncStatus('error');
+    document.getElementById('rulesWarn').style.display='block';
+  }
+}
+
+async function removeAllDuplicates(){
+  const groups=findDuplicateGroups(contacts);
+  if(!groups.length){showToast('Koi duplicate nahi hai!');return;}
+  const toDelete=groups.flatMap(g=>g.slice(1));
+  if(!confirm(`Saare ${toDelete.length} duplicate contacts delete karein? Har group ka pehla contact rakha jayega.`))return;
+  const{db,doc,writeBatch}=window._fb;
+  setSyncStatus('syncing');
+  const CHUNK=499;
+  try{
+    for(let i=0;i<toDelete.length;i+=CHUNK){
+      const batch=writeBatch(db);
+      toDelete.slice(i,i+CHUNK).forEach(c=>batch.delete(doc(db,'contacts',c.id)));
+      await batch.commit();
+    }
+    showToast(`✅ ${toDelete.length} duplicates ek saath delete ho gaye!`);
+    closeDupModal();
+  }catch(e){
+    showToast('Delete failed: '+e.message,true);setSyncStatus('error');
+    document.getElementById('rulesWarn').style.display='block';
+  }
+}
+
+// ═══════════════════════════════════════════
 const COUNTRIES=[
   {name:'India',code:'IN',dial:'+91',flag:'🇮🇳',tz:'Asia/Kolkata'},
   {name:'United States',code:'US',dial:'+1',flag:'🇺🇸',tz:'America/New_York'},
